@@ -19,6 +19,7 @@ local.properties
 servlet-context.xml
 MANIFEST.MF
 pom.properties
+pom.xml
 
 # External tool builders
 .externalToolBuilders/
