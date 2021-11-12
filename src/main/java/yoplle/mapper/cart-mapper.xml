@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle">
+
+	<select id="cartCheck" parameterType="java.util.HashMap" resultType="Integer"> <!-- 장바구니에 상품 유무 체크 -->
+		SELECT CART_QUAN FROM CART C, USERINFO U
+		WHERE USER_ID=#{user_id} AND ITEM_NO=#{item_no} AND C.USER_NO=U.USER_NO
+	</select>
+	
+	<update id="updateCart" parameterType="java.util.HashMap"> <!-- 동일 상품 있을 경우에 수량 업데이트 -->
+		UPDATE CART SET CART_QUAN=#{cart_quan}
+		WHERE CART_NO=(SELECT CART_NO FROM CART C,(SELECT USER_NO FROM USERINFO WHERE USER_ID=#{user_id})U
+        WHERE  U.USER_NO=C.USER_NO AND ITEM_NO=#{item_no})
+	</update>
+	
+	<insert id="insertCart" parameterType="java.util.HashMap"> <!-- 장바구니 담기  -->
+		<selectKey keyProperty="cart_no" resultType="int" order="BEFORE">
+	 		SELECT CART_SEQ.NEXTVAL FROM DUAL
+	 	</selectKey>
+		INSERT ALL INTO CART VALUES(#{cart_no}, user_no, #{item_no}, #{cart_quan})
+		SELECT USER_NO FROM USERINFO WHERE USER_ID=#{user_id}
+	</insert>
+		
+	<select id="selectCart" parameterType="String" resultType="yoplle.vo.CartVO"> <!-- 장바구니 출력 -->
+        SELECT CART_NO, C.USER_NO, C.ITEM_NO,ITEM_IMG, ITEM_PRICE, ITEM_NAME, CART_QUAN FROM CART C, ITEM I, USERINFO U
+		WHERE USER_ID=#{id} AND I.ITEM_NO=C.ITEM_NO AND U.USER_NO=C.USER_NO
+	</select>
+	
+	<delete id="selectDeleteCart" parameterType="int"> <!-- 장바구니 삭제 -->
+		DELETE FROM CART WHERE CART_NO=#{no}
+	</delete>
+	
+	<select id="selectCartTakeout" parameterType="hashmap" resultType="yoplle.vo.CartTakeVO"><!-- 카트에서 주문하기로 넘어갈 때 상품 select -->
+		SELECT * FROM
+		(SELECT ITEMNO.USER_NO, ITEMNO.USER_NAME, ITEMNO.USER_TEL, ITEMNO.USER_MAIL, ITEMNO.ITEM_NO, ITEMNO.CART_QUAN, I.ITEM_NAME, I.ITEM_CATEGORY, I.ITEM_PRICE
+		FROM
+		(SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL, C.ITEM_NO, C.CART_QUAN
+		FROM (SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL FROM USERINFO U WHERE U.USER_ID=#{id}) U, CART C
+		WHERE U.USER_NO=C.USER_NO) ITEMNO, ITEM I WHERE ITEMNO.ITEM_NO=I.ITEM_NO) A WHERE A.ITEM_NO IN
+		<foreach collection="no" item="item" index="idx" separator=","  open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<delete id="deleteCartSet" parameterType="hashmap">
+		DELETE FROM CART WHERE CART_NO IN (SELECT CART_NO FROM CART WHERE USER_NO=#{userNo} AND ITEM_NO IN 
+	  <foreach collection="itemNo" item="item" index="idx" separator=","  open="(" close="))">
+		#{item}
+	  </foreach>
+	</delete>
+	
+	<select id="countCart" parameterType="int" resultType="int"> 
+		SELECT *(COUNT) FROM CART WHERE USER_NO=#{no}
+	</select>
+	
+	<update id="updateCartQuan" parameterType="java.util.HashMap">
+		UPDATE CART SET CART_QUAN=#{quan}
+		WHERE CART_NO=#{cartno}
+	</update>
+	
+</mapper>

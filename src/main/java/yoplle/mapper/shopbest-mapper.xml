@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yoplle">
+
+	<select id="shopBestList" resultType="yoplle.vo.ShopBestVO">
+		select i.item_no, i.item_name, i.item_category, i.item_img, i.item_price from item i, 
+		(select o.item_no, sum(or_de_quan) totalsal
+		from order_de o
+		where o.item_no in (select item_no from order_de) 
+		group by o.item_no) a where i.item_no in (a.item_no) order by a.totalsal desc
+	</select>
+
+</mapper>

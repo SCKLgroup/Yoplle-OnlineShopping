@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yoplle">
+
+	<select id="listAll" resultType="yoplle.vo.NoticeVO">
+		SELECT 
+			NOTI_NO,
+			EMP_NO,
+			NOTI_TITLE,
+			NOTI_CONTENT,
+			NOTI_IMG,
+			NOTI_HIT,
+			NOTI_DATE
+		FROM
+			NOTICE
+		ORDER BY 
+			NOTI_NO DESC,
+			NOTI_DATE DESC
+	</select>
+
+	<insert id="insert">
+		INSERT INTO NOTICE(
+			NOTI_NO, 
+			EMP_NO, 
+			NOTI_TITLE, 
+			NOTI_CONTENT, 
+			NOTI_IMG, 
+			NOTI_HIT, 
+			NOTI_DATE
+		) VALUES (
+			(SELECT NVL(MAX(NOTI_NO)+1,1)FROM NOTICE),
+			#{EMP_NO}, 
+			#{NOTI_TITLE}, 
+			#{NOTI_CONTENT}, 
+			#{NOTI_IMG}, 
+			0, 
+			SYSDATE
+		)
+	</insert>
+
+	<select id="view" resultType="yoplle.vo.NoticeVO">
+		SELECT * FROM NOTICE
+		WHERE NOTI_NO=#{NOTI_NO}
+	</select>
+	
+	<update id="increaseViewcnt">
+		UPDATE NOTICE SET NOTI_HIT=NOTI_HIT+1
+		WHERE NOTI_NO=#{NOTI_NO}
+	</update>
+
+	<update id="updateArticle" parameterType="yoplle.vo.NoticeVO">
+		UPDATE NOTICE SET
+			NOTI_TITLE=#{NOTI_TITLE},
+			NOTI_CONTENT=#{NOTI_CONTENT},
+			EMP_NO=#{EMP_NO}
+		WHERE NOTI_NO=#{NOTI_NO}
+	</update>
+
+	<delete id="deleteArticle">
+		DELETE FROM NOTICE
+		WHERE NOTI_NO=#{NOTI_NO}
+	</delete>
+
+</mapper>
