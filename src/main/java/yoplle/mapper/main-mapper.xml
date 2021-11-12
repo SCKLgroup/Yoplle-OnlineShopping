@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle.vo">
+
+	<select id="selectAjaxMainList" resultType="item">
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+	</select>
+
+	<select id="mainItemBest" resultType="item"> <!-- 판매량순으로 수정해야됨 -->
+		select * from 
+		(SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE,
+		ROW_NUMBER() OVER(ORDER BY ITEM_PRICE ASC) as rnum
+		FROM ITEM)
+		where rnum between 1 and 10
+	</select>
+	
+	<select id="selectItemCategory" parameterType="String" resultType="item"> 
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+		WHERE ITEM_CATEGORY= #{value}
+	</select>  
+	
+</mapper>
