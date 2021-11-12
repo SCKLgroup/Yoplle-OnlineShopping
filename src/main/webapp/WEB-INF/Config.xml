@@ -12,8 +12,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="yoplle.vo.FaqListVO" alias="faqlist"/>
 	</typeAliases> 
     <!-- DB연동 -->
-    
+
 	<mappers>
+		
 		<mapper resource="yoplle/mapper/cart-mapper.xml"/>
 		<mapper resource="yoplle/mapper/item-mapper.xml"/>
 		<mapper resource="yoplle/mapper/main-mapper.xml"/>
@@ -24,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="yoplle/mapper/user-mapper.xml"/>
 		<mapper resource="yoplle/mapper/shopbest-mapper.xml"/>
 	</mappers> 
+	
 	
 	
 	

@@ -25,9 +25,8 @@ target/
 =======
 servlet-context.xml
 web.xml
-*.xml
 target/
-
+pom.xml
 
 >>>>>>> refs/heads/mirae
 

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,7 +60,7 @@ public class RecipeController {
 		return "yoplle/recipe-grid";
 	}
 	
-	@RequestMapping(value = "/yoplle/recipeInfo.do") //레시피 상세
+	@GetMapping(value = "/yoplle/recipeInfo.do") //레시피 상세
 	public String recipeInfoAction(int no, String job, Model model,HttpSession session) {
 		model.addAttribute("recipeInfoList", dao.selectInfoRecipe(no));
 		model.addAttribute("recipeHashList",dao.selectRecipeHash(no));
@@ -108,7 +110,7 @@ public class RecipeController {
 		return map;
 	}
 
-	@RequestMapping(value = "recipeInsert.do")
+	@PostMapping(value = "recipeInsert.do")
 	public String boardInsertAction(String id, Model model, RecipeIngrVO rivo, RecipeDeVO dvo, RecipeVO rvo,
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "files", required = false) List<MultipartFile> fileList,
