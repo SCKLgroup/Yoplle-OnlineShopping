@@ -1,0 +1,152 @@
+*{
+	font-size: 15px;
+}
+.replycontents {
+  outline: none;
+  border: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+  color: #555f77;
+  font-size:18px;
+}
+.reply-list{
+	margin-top:20px;
+}
+.like{
+	float:right;
+	margin-bottom: 10px;
+	margin-right:5px;
+}
+.replyStart{
+	margin-bottom:10px;
+}
+.card-item-title .like i:hover {
+  color:  rgb(86, 128, 175);
+}
+/* input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #sced2db;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #ced2db;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+  color: #ced2db;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #ced2db;
+}
+ */
+p {
+  line-height: 1.3125rem;
+}
+.num{
+	color: rgb(86, 128, 175);
+	font-size:23px;
+	font-weight: bold;
+	padding-left:13px;
+}
+#likenum{
+	padding-right:13px;
+}
+.comments {
+
+margin: auto auto 100px;
+  max-width: 850px;
+  padding: 0 1.25rem;
+ /*  background: rgb(86, 128, 175); */
+}
+
+.comment-wrap {
+  margin-bottom: 1.25rem;
+  display: table;
+  width: 100%;
+  min-height: 5.3125rem;
+}
+
+.photo {
+  padding-top: 0.625rem;
+  display: table-cell;
+  width: 3.5rem;
+}
+.photo .avatar {
+  height: 2.25rem;
+  width: 2.25rem;
+  border-radius: 50%;
+  background-size: contain;
+}
+.card-item-title.write{
+  margin-bottom:10px;
+}
+.comment-block {
+  padding: 1rem;
+  background-color: #fff;
+  display: table-cell;
+  vertical-align: top;
+  border-radius: 0.1875rem;
+  box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 8%);
+}
+
+.comment-block textarea {
+  width: 100%;
+  resize: none;
+}
+
+.comment-text {
+  margin-bottom: 1.25rem;
+}
+
+.bottom-comment {
+  color: #acb4c2;
+}
+
+.comment-date {
+	font-size:13px;
+  float: left;
+  padding-left: 10px;
+}
+.comment-writer{
+	font-size:13px;
+  float: left;
+  padding: 0 10px 0 5px;
+  border-right: 1px solid rgb(172, 173, 180);
+}
+.comment-actions {
+  float: right;
+}
+.comment-actions li {
+  display: inline;
+  cursor: pointer;
+}
+.comment-actions li.complain {
+  padding-right: 0.75rem;
+  border-right: 1px solid #e1e5eb;
+}
+.comment-actions li.reply {
+  padding-right: 1.3rem;
+  font-size: 15px;
+}
+#replyDelete{
+	color:black;
+  padding-right: 1.3rem;
+  font-size: 15px;
+}
+
+.comment-actions li:hover {
+  color:  rgb(86, 128, 175);
+}
+.btn-css{
+    border-radius: 1px;
+    background-color:  rgb(86, 128, 175);
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 10px 22px;
+    border: 0;
+    font-size:15px;
+    width:100px;
+    float:right;
+   
+}
