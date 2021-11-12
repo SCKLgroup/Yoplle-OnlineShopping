@@ -21,6 +21,7 @@ MANIFEST.MF
 pom.properties
 pom.xml
 target/
+.xml
 
 # External tool builders
 .externalToolBuilders/
