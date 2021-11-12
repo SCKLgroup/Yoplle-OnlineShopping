@@ -16,12 +16,20 @@ local.properties
 .recommenders
 .project
 .classpath
-servlet-context.xml
 MANIFEST.MF
 pom.properties
+<<<<<<< HEAD
 pom.xml
 target/
 .xml
+=======
+servlet-context.xml
+web.xml
+*.xml
+target/
+
+
+>>>>>>> refs/heads/mirae
 
 # External tool builders
 .externalToolBuilders/
@@ -158,3 +166,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,macos,windows
 /target/
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/heads/mirae
