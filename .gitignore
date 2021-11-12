@@ -20,6 +20,7 @@ servlet-context.xml
 MANIFEST.MF
 pom.properties
 pom.xml
+target/
 
 # External tool builders
 .externalToolBuilders/
