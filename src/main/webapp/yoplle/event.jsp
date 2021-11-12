@@ -64,7 +64,7 @@
 		
 </section>
 
-    <!-- Product Section End -->
+    <!-- Product Section Enzd -->
 
 	<jsp:include page="footer.jsp" />
 
