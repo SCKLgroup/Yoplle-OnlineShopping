@@ -201,7 +201,7 @@
    				"no":$("#btn-deleter").val()
    				}, 'json');
    		});
-   		
+   		//수정
    	
    	</script>
 
