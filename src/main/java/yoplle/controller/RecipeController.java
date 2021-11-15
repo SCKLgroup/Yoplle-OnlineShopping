@@ -162,7 +162,7 @@ public class RecipeController {
 
 			String safeFile = location + originFileName;
 			try {
-				mf.transferTo(new File(safeFile));
+				mf.transferTo(new File(safeFile));// multipartFile을 자바의 파일 객체 File로 변환하기 
 			} catch (IllegalStateException e) {
 
 				e.printStackTrace();
@@ -173,9 +173,9 @@ public class RecipeController {
 
 		}
 
-		for (int i = 0; i < rpe_de.length; i++) {
-			dvo.setRPE_DE_CONTENT(rpe_de[i]);
-			dvo.setRPE_DE_IMG(list.get(i));
+		for (int i = 0; i < rpe_de.length; i++) { //요리 순서 갯수만큼 for문 
+			dvo.setRPE_DE_CONTENT(rpe_de[i]); // 요리순서 
+			dvo.setRPE_DE_IMG(list.get(i)); //요리 순서에 맞는 이미지 (null허용되어있는상태)
 			dao.rpeDeInsert(dvo);
 		}
 
