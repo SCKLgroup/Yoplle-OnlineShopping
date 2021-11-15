@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>요리 플러스 레시피 | 요플레</title>
+<title>요리 플러스 레시피 | 요플레</title>
 <meta charset="UTF-8">
 <meta name="description" content="Ogani Template">
 <meta name="keywords" content="Ogani, unica, creative, html">
@@ -64,10 +64,13 @@
 							</div> -->
 
 
-							<img id="image_section" src="img/recipe/${list.rpe_img}" alt="your image" style="width: 100%; height: 100%" />
-								
+							<img id="image_section" src="img/recipe/${list.rpe_img}" alt="your image"
+								style="width: 100%; height: 100%" />
+
 							<label className="input-file-button" for="imgInput" style="text-align: center;">
-								이미지 선택 <input type='file' id="imgInput" name="file" value="${list.rpe_img}"> <!-- style="display: none;" -->
+								이미지 선택
+								<input type='file' id="imgInput" name="file" value="${list.rpe_img}">
+								<!-- style="display: none;" -->
 							</label>
 
 
@@ -232,6 +235,8 @@
 											name="RPE_DE_CONTENT">${i.RPE_DE_CONTENT }</textarea></td>
 									<td class="text-center"><input type="file" id="imgInput" name="files"
 											value="${i.RPE_DE_IMG }"></td>
+
+									<td><input type="text" value="${i.RPE_DE_NO}" id="deno" name="deno"></td>
 								</tr>
 							</tbody>
 						</c:forEach>
@@ -287,8 +292,11 @@
 <script type="text/javascript">
 	$(function() {
 		$("a#submit").click(function() {
-			var ingrnoArr=[];
-			ingrno=${"[name=ingrno]"}
+			var ingrnoArr = [];
+			ingrno = $
+			{
+				"[name=ingrno]"
+			}
 			$("form").submit();
 		});
 
@@ -366,7 +374,6 @@
 	$("#imgInput").change(function() {
 		readURL(this);
 	});
-	
 </script>
 
 

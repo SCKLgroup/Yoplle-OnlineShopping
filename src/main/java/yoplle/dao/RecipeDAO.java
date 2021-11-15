@@ -17,7 +17,6 @@ import yoplle.vo.RecipeDeVO;
 import yoplle.vo.RecipeHashVO;
 import yoplle.vo.RecipeIngrVO;
 import yoplle.vo.RecipeVO;
-import yoplle.vo.UserLikeVO;
 
 @Repository
 @ComponentScan(value = "yoplle.dao")
@@ -118,7 +117,7 @@ public class RecipeDAO extends SqlSessionDaoSupport {
 		this.getSqlSession().update("rpeIngrModify", vo);
 	}
 	
-	public void rpeDeModify(RecipeDeVO vo) {
+	public void rpeDeModify(RecipeDeVO vo,int deno) {
 		this.getSqlSession().update("rpeDeModify", vo);
 	}
 	
