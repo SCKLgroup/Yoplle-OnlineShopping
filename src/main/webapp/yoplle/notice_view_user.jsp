@@ -47,16 +47,15 @@
 		<div class="container">
 			<h2 class="noticeTitle">공지사항</h2>
 			<form name="form2" method="post">
-				
-					<div style="width: 100%;">
-						<strong  class="tableTextString">작성일자</strong> 
-						<span class="tableInDt3" style="margin:  0 12% 0 0; padding: 0 1.15% 0 1.15%">
-							<fmt:formatDate value="${dto.NOTI_DATE}"
-								pattern="yyyy-MM-dd a HH:mm:SS" />
-						</span>
-						<strong style=" margin: 0 10% 0 10%; ">조회수</strong> 
-						<span class="tableInDt4">${dto.NOTI_HIT}</span>
-					</div>
+
+				<div style="width: 100%;">
+					<strong class="tableTextString">작성일자</strong> <span
+						class="tableInDt3"
+						style="margin: 0 12% 0 0; padding: 0 1.15% 0 1.15%"> <fmt:formatDate
+							value="${dto.NOTI_DATE}" pattern="yyyy-MM-dd a HH:mm:SS" />
+					</span> <strong style="margin: 0 10% 0 10%;">조회수</strong> <span
+						class="tableInDt4">${dto.NOTI_HIT}</span>
+				</div>
 
 				<div class="tableIndexWidth" style="margin-top: 1.5%;">
 					<strong>제목</strong>
@@ -69,23 +68,29 @@
 				<div class="tableIndexWidth">
 					<strong>내용</strong>
 					<div class="tableIndexDt">
-						<textarea readonly  name="NOTI_CONTENT" id="content" rows="20" cols="80"
-							placeholder="내용을 입력해주세요" class="tableInDt">${dto.NOTI_CONTENT}</textarea>
+						<textarea readonly name="NOTI_CONTENT" id="content" rows="10"
+							cols="80" placeholder="내용을 입력해주세요" class="tableInDt">${dto.NOTI_CONTENT}</textarea>
 					</div>
 				</div>
 
 				<div style="width: 100%;">
-					<strong class="tableTextString">작성자</strong> 
-					<span class="tableInDt4">요플레</span>
-					<input type="hidden" name="EMP_NO"
+					<strong class="tableTextString">작성자</strong> <span
+						class="tableInDt4">요플레</span> <input type="hidden" name="EMP_NO"
 						id="writer" value="${dto.EMP_NO}" size="80" value="1"
 						class="tableInDt2">
 				</div>
 
-				<div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
-					<input type="hidden" name="NOTI_NO" value="${dto.NOTI_NO}"/>
-					<input type="hidden" id="btnUpdate" class="tableBtnSave"/>
-					<input type="hidden" id="btnDelete" class="tableBtnReset"/>
+				<div style="width: 100%; margin-top: 3%">
+					<span class="tableInDt4"> <img
+						src="${dto.NOTI_IMG}" style="width: 100%;height: auto;">
+					</span>
+				</div>
+
+				<div
+					style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
+					<input type="hidden" name="NOTI_NO" value="${dto.NOTI_NO}" /> <input
+						type="hidden" id="btnUpdate" class="tableBtnSave" /> <input
+						type="hidden" id="btnDelete" class="tableBtnReset" />
 				</div>
 
 			</form>

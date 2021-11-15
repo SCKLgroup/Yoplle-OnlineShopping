@@ -1,139 +1,85 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<%@taglib prefix="functions"
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="functions"
 	uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
 <!DOCTYPE html>
 
+
+
+<html>
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ogani | Template</title>
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
 
-<!-- Css Styles -->
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-<link rel="stylesheet" href="css/style.css" type="text/css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/util.css">
+
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+
+
+
+<!-- Bootstrap CSS -->
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+
+<title>요플레 | 상세 페이지 글 작성</title>
+
+<link rel="stylesheet" href="css/writer-page.css" type="text/css">
 </head>
-
-
 <body>
+	<div class="container container-jaeil-writer" role="main">
+		<h2>공지사항 상세</h2>
+		<form name="form2" method="post" enctype="multipart/form-data" autocomplete="off">
+			<div class="mb-3">
+				<label class="detail-title">작성일자</label> <span class="form-control"
+					style="margin: 0 12% 0 0; padding: 0 1.15% 0 1.15%"> <fmt:formatDate
+						value="${dto.NOTI_DATE}" pattern="yyyy-MM-dd a HH:mm:SS" />
+				</span>
+			</div>
 
-	<!-- Header Section End -->
-	<jsp:include page="header.jsp" />
-	<!-- Hero Section Begin -->
+			<div class="mb-3">
+				<label for="detail-title">조회수</label> <input type="text"
+					class="form-control" value="${dto.NOTI_HIT}">
+			</div>
 
+			<div class="mb-3">
+				<label for="detail-title">공지 제목</label> <input type="text"
+					class="form-control" name="NOTI_TITLE" id="title"
+					value="${dto.NOTI_TITLE}" placeholder="제목을 입력해주세요">
+			</div>
 
-
-	<!-- 테이블 -->
-	<div class="content">
-		<div class="container">
-			<h2 class="noticeTitle">공지사항</h2>
-			<form name="form2" method="post">
-				
-					<div style="width: 100%;">
-						<strong  class="tableTextString">작성일자</strong> 
-						<span class="tableInDt3" style="margin:  0 12% 0 0; padding: 0 1.15% 0 1.15%">
-							<fmt:formatDate value="${dto.NOTI_DATE}"
-								pattern="yyyy-MM-dd a HH:mm:SS" />
-						</span>
-						<strong style=" margin: 0 10% 0 10%; ">조회수</strong> 
-						<span class="tableInDt4">${dto.NOTI_HIT}</span>
-					</div>
-
-				<div class="tableIndexWidth" style="margin-top: 1.5%;">
-					<strong>제목</strong>
-					<div class="tableIndexDt">
-						<input class="tableInDt" name="NOTI_TITLE" id="title" size="80"
-							value="${dto.NOTI_TITLE}" placeholder="제목을 입력해주세요">
-					</div>
-				</div>
-
-				<div class="tableIndexWidth">
-					<strong>내용</strong>
-					<div class="tableIndexDt">
-						<textarea name="NOTI_CONTENT" id="content" rows="20" cols="80"
-							placeholder="내용을 입력해주세요" class="tableInDt">${dto.NOTI_CONTENT}</textarea>
-					</div>
-				</div>
-
-				<div style="width: 100%;">
-					<strong class="tableTextString">작성자</strong> 
-					<span class="tableInDt4">요플레</span>
-					<input type="hidden" name="EMP_NO"
-						id="writer" value="${dto.EMP_NO}" size="80" value="1"
-						class="tableInDt2">
-				</div>
-
-				<div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
-					<input type="hidden" name="NOTI_NO" value="${dto.NOTI_NO}">
-					<button type="button" id="btnUpdate" class="tableBtnSave">수정</button>
-					<button type="button" id="btnDelete" class="tableBtnReset">삭제</button>
-				</div>
-
-			</form>
-
-
-			<!--  -->
-			<!-- <br>
-			<div class="col-md-8">
-				<ul class="pagination">
-					<li><a href="#">&lt;</a></li>
-					<li><a href="#">1</a></li>
-					<li class="active"><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">...</a></li>
-					<li><a href="#">19</a></li>
-					<li><a href="#">&gt;</a></li>
-				</ul>
-			</div>-->
-			<br> <br> <br> <br>
-			<!--  -->
-		</div>
-
+			<div class="mb-3">
+				<label for="detail-origin">작성자</label> <input type="text"
+					class="form-control" value="요플레" disabled="disabled"> <input
+					type="hidden" name="EMP_NO" id="writer" value="${dto.EMP_NO}"
+					value="1">
+			</div>
+			<div class="mb-3">
+				<label for="content">공지내용</label>
+				<textarea class="form-control" rows="5" name="NOTI_CONTENT"
+					id="content" placeholder="내용을 입력해 주세요">${dto.NOTI_CONTENT}</textarea>
+			</div>
+			<div class="mb-3">
+				<label for="detail-imgfile">파일 업로드</label><br> <input
+					type="file" name="form-control" name="detail-file" id="detail-file">
+			</div>
+			<div class="detail-writer-btn">
+				<input type="hidden" name="NOTI_NO" value="${dto.NOTI_NO}">
+				<button type="button" class="btn btn-sm btn-primary" id="btnUpdate">수정</button>
+				<button type="button" class="btn btn-sm btn-primary" id="btnDelete">삭제</button>
+			</div>
+		</form>
 	</div>
 
-	<!--  -->
-
-	<!-- Footer Section Begin -->
-	<jsp:include page="footer.jsp"></jsp:include>
-	<!-- Footer Section End -->
-
-	<!-- íì´ë¸ -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
-	<!-- íì´ë¸ -->
-
-	<!-- ì ìë ê¸°ë³¸ë°°ê²½ -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
-	<script src="js/jquery-ui.min.js"></script>
-	<script src="js/jquery.slicknav.js"></script>
-	<script src="js/mixitup.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/main.js"></script>
-	<!-- ì ìë ê¸°ë³¸ë°°ê²½ -->
 	<script>
 		$(document).ready(function() {
 			$("#btnDelete").click(function() {
@@ -166,5 +112,7 @@
 			});
 		});
 	</script>
+
 </body>
 </html>
+

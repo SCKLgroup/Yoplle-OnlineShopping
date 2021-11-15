@@ -1,46 +1,48 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<%@taglib prefix="functions"
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="functions"
 	uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+	<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 
+
+
+<html>
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ogani | Template</title>
 
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
 
-<!-- Css Styles -->
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-<link rel="stylesheet" href="css/nice-select.css" type="text/css">
-<link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+
+<!-- jQuery -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+
+
+
+<!-- Bootstrap CSS -->
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+	integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+	crossorigin="anonymous">
+
+<title>요플레 | 상세 페이지 글 작성</title>
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/util.css">
+
+<link rel="stylesheet" href="css/writer-page.css" type="text/css">
 </head>
 <body>
-
-	<!-- Header Section End -->
-	<jsp:include page="header.jsp" />
-	<!-- Hero Section Begin -->
-	<!-- 테이블 -->
-	<div class="content">
+	<div class="container container-jaeil-writer" role="main">
+			<div class="content">
 		<div class="container">
-			<h2 class="noticeTitle">공지사항</h2>
+			<h2 class="noticeTitle">공지사항 List</h2>
 
 			<!-- 	<div style="text-align: right; margin-bottom: 20px;" id="delBtn"
 				class="delBtn">
@@ -104,30 +106,10 @@
 
 	</div>
 
-	<!--  -->
-
-	<!-- Footer Section Begin -->
-	<jsp:include page="footer.jsp"></jsp:include>
-	<!-- Footer Section End -->
-
-	<!-- íì´ë¸ -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/main.js"></script>
-	<!-- íì´ë¸ -->
-
-	<!-- ì ìë ê¸°ë³¸ë°°ê²½ -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.nice-select.min.js"></script>
-	<script src="js/jquery-ui.min.js"></script>
-	<script src="js/jquery.slicknav.js"></script>
-	<script src="js/mixitup.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/main.js"></script>
-	<!-- ì ìë ê¸°ë³¸ë°°ê²½ -->
-	<script>
+	</div>
+	
+	
+		<script>
 		$(document).ready(function() {
 			$("#btnWrite").click(function() {
 				location.href = "write.do"
@@ -176,4 +158,6 @@
 		});
 	</script>
 	
+</body>
 </html>
+
