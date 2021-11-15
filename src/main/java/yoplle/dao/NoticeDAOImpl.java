@@ -47,6 +47,7 @@ public class NoticeDAOImpl implements NoticeDAO{
 	}
 
 	//게시글 조회수 증가
+
 	@Override
 	public void increaseViewcnt(int bno) throws Exception {
 		SqlSession.update("increaseViewcnt",bno);

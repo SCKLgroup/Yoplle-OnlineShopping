@@ -10,6 +10,7 @@ public class NoticeVO {
 	public String NOTI_IMG;			//게시글 이미지
 	public int NOTI_HIT;			//게시글 조회수
 	public Date  NOTI_DATE;			//게시글 작성일자 util.Date
+
 	public NoticeVO() {
 		super();
 	}

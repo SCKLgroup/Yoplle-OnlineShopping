@@ -156,12 +156,12 @@
         $.getScript('js/main.js');
  	}
 
- 	$(document).on("click",'.pro-qty',function(){
+ 	$(document).on("click",'.pro-qty',function(){ //수정해야됨 
 		var cart_no=$(this).attr("id");
 		$("input[name="+cart_no+"]").val(parseInt($("input[name="+cart_no+"]").val()));
 		var cart_quan = $("input[name="+cart_no+"]").val();
-		var id='${id}';
-		ajaxDate('/web/quanUpdate.do', {"cart_no":cart_no, "cart_quan":cart_quan,"id":id}, 'json');
+
+		ajaxDate('/web/quanUpdate.do', {"cart_no":cart_no, "cart_quan":cart_quan,"id":'${id}'}, 'json');
 	});
  	
 	$('#allCheck').click(function(){ /* 전체 체크 */
@@ -172,35 +172,23 @@
  		}
  	});
 
- 	$('#allClear').click(function(){ /* 선택해서 삭제 */
- 		settingCheck();
- 	});
  	
- 	function settingCheck(){ /* 선택 삭제 쿼리 */
- 		var cnt=$("input[name=cart_no]").length;
+ 	$('#allClear').click(function(){ /* 선택해서 삭제 */
  		var list = new Array();
- 		var str =null;
+ 	
  		$("input[name=cart_no]").each(function(index, item){
- 			list.push($(item).attr('id'));
  			if($(item).is(":checked") == true){
-	 			if(str==null){
-	 				str=$(item).val();
-	 			}else{
-	 				str+='#'+$(item).val();
-	 			}
-		 		$("input[name=no]").val(str);
- 			}
- 			if(str!=null){
-		 		$("form#cartform").attr('action', "checkDelete.do");
-		 		$("#cartform").submit();
+ 				list.push($(item).val());
  			}
  		});
- 	};
+ 		ajaxDate('/web/cartDelete.do', {"id":'${id}',"no":list},'json');
+ 	});
 
 	$(document).on("click",'.icon_close',function(){/* 개별 삭제 버튼 눌렀을 때 삭제 */
- 		$("form#cartform").attr('action', "checkDelete.do");
- 		$("input[name=no]").val($(this).attr("id"));
- 		$("#cartform").submit();
+		var list = new Array();
+		list.push($(this).attr("id"));
+		
+		ajaxDate('/web/cartDelete.do', {"id":'${id}',"no":list},'json');
  	});
 	
  	$("#cart_take").click(function(){
@@ -230,18 +218,7 @@
  		});
  	});
 
-/*  	var result=0;
- 	$('.shoping__cart__total').each(function(){ 
- 		var resulttrim = $(this).text().trim();
- 		var deltrim = $("span#delCost").text().trim();
- 		
- 		result+=parseInt(resulttrim.split(" ")[0]);
- 		var del=parseInt(deltrim.split(" ")[0]);
- 		
- 		$("span#orderCost").text(result+'원');
- 		$("span#resultCost").text(result+del+'원');
- 	});
- 	 */ 
+
  	
 </script>
 

@@ -162,6 +162,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 UPDATE RECIPE_INGR SET INGR_NAME=#{INGR_NAME}, INGR_QUAN=#{INGR_QUAN}
 		 WHERE INGR_NO=#{INGR_NO}
 	</update>
+	
+	<update id="rpeDeModify">
+		 UPDATE RECIPE_DE SET RPE_DE_CONTENT=#{RPE_DE_CONTENT}
+		 WHERE RPE_DE_NO=#{RPE_DE_NO}
+	</update>
+	
 
 	<select id="getComRefSeq" resultType="Integer">
 		SELECT COM_REF_SEQ.NEXTVAL FROM DUAL
