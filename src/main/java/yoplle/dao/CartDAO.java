@@ -42,9 +42,9 @@ public class CartDAO extends SqlSessionDaoSupport {
 	public void selectDeleteCart(int no) {
 		this.getSqlSession().delete("selectDeleteCart", no);
 	}
-	public int countCart(int no) {
-		return this.getSqlSession().selectOne("countCart", no);
-	}
+//	public int countCart(int no) {
+//		return this.getSqlSession().selectOne("countCart", no);
+//	}
 	
 //	장바구니 수량 변경 업데이트
 	public void updateCartQuan(HashMap<String, Object>map) {

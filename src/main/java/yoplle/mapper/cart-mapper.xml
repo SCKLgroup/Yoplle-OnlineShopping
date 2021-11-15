@@ -52,9 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </foreach>
 	</delete>
 	
-	<select id="countCart" parameterType="int" resultType="int"> 
+<!-- 	<select id="countCart" parameterType="int" resultType="int"> 
 		SELECT *(COUNT) FROM CART WHERE USER_NO=#{no}
-	</select>
+	</select> -->
 	
 	<update id="updateCartQuan" parameterType="java.util.HashMap">
 		UPDATE CART SET CART_QUAN=#{quan}

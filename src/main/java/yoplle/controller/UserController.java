@@ -60,7 +60,7 @@ public class UserController {
 		return "redirect:mainPage.do";
 	}
 
-	@RequestMapping(value = "idCheck.do") // �븘�씠�뵒 以묐났泥댄겕
+	@RequestMapping(value = "idCheck.do") // 아이디 중복체크
 	@ResponseBody
 	public String userIdCheckAction(String user_id) {
 		int dbid = dao.idCheck(user_id);
@@ -70,9 +70,9 @@ public class UserController {
 		return "0";
 	}
 
-	@RequestMapping(value = "/yoplle/signup.do") // �쉶�썝 媛��엯
+	@RequestMapping(value = "/yoplle/signup.do") //회원 가입
 	public String userInsertAction(UserInfoVO vo) {
-		dao.insertUser(vo);
+		dao.insertUser(vo); //회원 정보 추가
 		return "yoplle/signup-success";
 	}
 
@@ -169,33 +169,33 @@ public class UserController {
 		return "redirect:/yoplle/mainPage.do";
 	}
 
-	@RequestMapping(value = "userList.do")
+	@RequestMapping(value = "userList.do") 
 	@ResponseBody
 	public HashMap<String, Object> selectUser(@RequestParam(value = "job", defaultValue = "user_no") String job,
-			@RequestParam(value = "sort", defaultValue = "asc") String sort) {
+			@RequestParam(value = "sort", defaultValue = "asc") String sort) { //회원 리스트 출력(관리자 페이지)
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("job", job);
-		map.put("sort", sort);
+		map.put("job", job); //정렬 기준 설정
+		map.put("sort", sort); 
 
-		map.put("countUser", dao.countUser());
-		map.put("userList", dao.selectUser(map));
+		map.put("countUser", dao.countUser()); //유저 수 카운트 
+		map.put("userList", dao.selectUser(map)); //정렬 기준에 따른 회원 리스트 출력 
 
 		return map;
 	}
 
 	@RequestMapping(value = "userDelete.do")
 	@ResponseBody
-	public HashMap<String, Object> deleteUser(int no, String job, String sort) {
-		dao.deleteUser(no);
+	public HashMap<String, Object> deleteUser(int no, String job, String sort) { //회원 삭제(관리자 페이지)
+		dao.deleteUser(no); //해당 유저 삭제
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("job", job);
+		map.put("job", job); //정렬 기준 설정
 		map.put("sort", sort);
 
-		map.put("countUser", dao.countUser());
-		map.put("userList", dao.selectUser(map));
+		map.put("countUser", dao.countUser()); //유저 수 카운트 
+		map.put("userList", dao.selectUser(map)); //정렬 기준에 따른 회원 리스트 출력 
 
-		return map;
+		return map; //회원 삭제 후 다시 회원 리스트 출력 
 	}
 
 	@RequestMapping(value = "/yoplle/mypagelist.do")

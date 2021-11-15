@@ -174,7 +174,7 @@ public class ItemController {
 	}
 	
 	
-	@RequestMapping(value="adminList.do") // 관리자 페이지에서 상품 뿌리기
+	@RequestMapping(value="adminList.do") // 관리자 페이지에서 상품 뿌리기  
 	@ResponseBody
 	public Map<String, Object> itemListAction(String job) {
 		System.out.println(job);
