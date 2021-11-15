@@ -455,7 +455,7 @@
 				success: function(v){
 				temp+="<form id=\"faqWriterform\" action=\"shopInfo.do?no=${iteminfo.item_no}&job=newFaq\" method=\"post\">";
 				temp+="<input type=\"text\" name=\"faq_title\" class=\"qinput q_inputTitle\" placeholder=\"제목을 입력해 주세요\">";
-				temp+="<input type=\"text\" name=\"faq_pw\" class=\"qinput q_inputPw\" placeholder=\"비밀번호 입력\">";
+				temp+="<input type=\"password\" name=\"faq_pw\" class=\"qinput q_inputPw\" placeholder=\"비밀번호 입력\">";
 				temp+="<input type=\"text\" hidden=\"hidden\" name=\"user_no\" class=\"qinput q_inputUserno\" value=\""+no+"\">";
 				temp+="<input type=\"text\" hidden=\"hidden\" name=\"item_no\" class=\"qinput q_inputItemno\" value=\"${iteminfo.item_no}\">";
 				temp+="<input type=\"text\" hidden=\"hidden\" name=\"faq_img\" class=\"qinput q_inputItemno\" value=\"${iteminfo.item_img}\">";
