@@ -23,6 +23,7 @@ servlet-context.xml
 web.xml
 target/
 root-context.xml
+log4j.xml
 
 
 # External tool builders
