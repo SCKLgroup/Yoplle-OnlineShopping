@@ -26,8 +26,8 @@ public class CartController {
 	@Autowired
 	private ItemDAO itemdao;
 	
-	@RequestMapping(value="/yoplle/rightNow.do") //상품바로구매 장바구니 담기
-	public String rightNowTake(int no, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id, String job) { // checkout에서 값 넘기려고 받아 옴
+	@RequestMapping(value="/yoplle/rightNow.do") 
+	public String rightNowTake(int no, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id, String job) { 
 		model.addAttribute("iteminfo", itemdao.selectInfoItem(no));
 		model.addAttribute("userinfo", userdao.userInfoSelect(id));
 		model.addAttribute("ea", ea);
