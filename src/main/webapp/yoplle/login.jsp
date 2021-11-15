@@ -14,7 +14,7 @@
 
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-   rel="stylesheet">
+	rel="stylesheet">
 
 <!-- Css Styles -->
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -31,108 +31,107 @@
 
 <body>
 
-   <jsp:include page="header.jsp"></jsp:include>
+	<jsp:include page="header.jsp"></jsp:include>
 
-   <!-- 로그인(Login) -->
+	<!-- 로그인(Login) -->
 
-   <section class="section confirmation">
-      <form name="loginFrm" method="post" action="login.do">
-         <div class="container">
-            <div class="row justify-content-center m-t-85 m-b-200">
-               <div class="col-lg-8">
-                  <div class="confirmation-content text-center">
-                     <span class="login100-form-title p-b-70"> LOGIN </span>
+	<section class="section confirmation">
+		<form name="loginFrm" method="post" action="login.do">
+			<div class="container">
+				<div class="row justify-content-center m-t-85 m-b-200">
+					<div class="col-lg-8">
+						<div class="confirmation-content text-center">
+							<span class="login100-form-title p-b-70"> LOGIN </span>
 
-                     <div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate="Enter username">
-                        <input class="input100" type="text" name="id" id="id">
-                        <span class="focus-input100" data-placeholder="Username"></span>
-                     </div>
+							<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate="Enter username">
+								<input class="input100" type="text" name="id" id="id">
+								<span class="focus-input100" data-placeholder="Username"></span>
+							</div>
 
-                     <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
-                        <input class="input100" type="password" name="password" id="password">
-                        <span class="focus-input100" data-placeholder="Password"></span>
-                     </div>
+							<div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+								<input class="input100" type="password" name="password" id="password">
+								<span class="focus-input100" data-placeholder="Password"></span>
+							</div>
 
-                     <div style="padding-bottom: 20px">
-                        <span style="color: red; font-weight: 550">${error}</span>
-                     </div>
+							<div style="padding-bottom: 20px">
+								<span style="color: red; font-weight: 550">${error}</span>
+							</div>
 
-                     <div class="container-login100-form-btn">
-                        <br> <span><input type="checkbox">아이디 저장 &nbsp;<input type="checkbox">보안접속</span>&nbsp;&nbsp;&nbsp;
-                        &nbsp; <span><a href="find_id_form.do">아이디 찾기</a> &nbsp; <a
-                              href="find_password_form.do">비밀번호 찾기</a></span> <br> <br> <br>
+							<div class="container-login100-form-btn">
+								<br> <span><input type="checkbox">아이디 저장 &nbsp;<input type="checkbox">보안접속</span>&nbsp;&nbsp;&nbsp;
+								&nbsp; <span><a href="find_id_form.do">아이디 찾기</a> &nbsp; <a
+										href="find_password_form.do">비밀번호 찾기</a></span> <br> <br> <br>
 
-                        <c:catch>
-                           <c:choose>
-                              <c:when test="${recipe eq null && cart eq null}">
-                                 <button class="login100-form-btn" id="signin">로그인</button>
-
-
-                              </c:when>
-
-                              <c:when test="${cart ne null}">
-                                 <button class="login100-form-btn" id="signin">로그인</button>
-                                 <input type="text" value="${cart}" hidden="hidden" name="cart">
-                                 <input type="text" value="${itemno }" hidden="hidden" name="itemno">
-                              </c:when>
-                              <c:otherwise>
-
-                                 <button class="login100-form-btn" id="signin">로그인</button>
-                                 <input type="text" value="${recipe}" hidden="hidden" name="recipe">
-
-                              </c:otherwise>
-                           </c:choose>
-                        </c:catch>
-
-                        <br> <br> <br>
-                        <button class="login100-form-btn">회원가입</button>
-                     </div>
-
-                  </div>
-               </div>
-            </div>
-         </div>
-      </form>
-   </section>
+								<c:catch>
+									<c:choose>
+										<c:when test="${recipe eq null && cart eq null}">
+											<button class="login100-form-btn" id="signin">로그인</button>
 
 
-   <!-- 로그인(Login) -->
+										</c:when>
+
+										<c:when test="${cart ne null}">
+											<button class="login100-form-btn" id="signin">로그인</button>
+											<input type="text" value="${cart}" hidden="hidden" name="cart">
+											<input type="text" value="${itemno }" hidden="hidden" name="itemno">
+										</c:when>
+										<c:otherwise>
+
+											<button class="login100-form-btn" id="signin">로그인</button>
+											<input type="text" value="${recipe}" hidden="hidden" name="recipe">
+
+										</c:otherwise>
+									</c:choose>
+								</c:catch>
+
+								<br> <br> <br>
+								<button class="login100-form-btn">회원가입</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
 
 
-   <!-- Footer Section Begin -->
-   <jsp:include page="footer.jsp"></jsp:include>
-   <!-- Footer Section End -->
+	<!-- 로그인(Login) -->
 
-   <!-- Js Plugins -->
-   <script src="js/jquery-3.3.1.min.js"></script>
-   <script src="js/bootstrap.min.js"></script>
-   <script src="js/jquery.nice-select.min.js"></script>
-   <script src="js/jquery-ui.min.js"></script>
-   <script src="js/jquery.slicknav.js"></script>
-   <script src="js/mixitup.min.js"></script>
-   <script src="js/owl.carousel.min.js"></script>
-   <script src="js/main.js"></script>
 
-   <script type="text/javascript">
-      $(function() {
-         $("button#signin").click(
-               //a태그안의  id='signin'을 클릭
-               function() {
-                  //alert($("input#id").val());
-                  if ($("input#password").val().length == 0
-                        || $("input#id").val().length == 0) {
-                     alert('ID OR PW 확인!!');
+	<!-- Footer Section Begin -->
+	<jsp:include page="footer.jsp"></jsp:include>
+	<!-- Footer Section End -->
 
-                     $("input#password").val('');
-                     $("input#id").val('');
+	<!-- Js Plugins -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.nice-select.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.slicknav.js"></script>
+	<script src="js/mixitup.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/main.js"></script>
 
-                     return false;
-                  }
+	<script type="text/javascript">
+		$(function() {
+			$("button#signin").click(
+					//a태그안의  id='signin'을 클릭
+					function() {
+						//alert($("input#id").val());
+						if ($("input#password").val().length == 0
+								|| $("input#id").val().length == 0) {
+							alert('ID OR PW 확인!!');
 
-                  $("form").submit();
-               });
-      });
-   </script>
+							$("input#password").val('');
+							$("input#id").val('');
+
+							return false;
+						}
+						$("form").submit();
+					});
+		});
+	</script>
 
 
 </body>
