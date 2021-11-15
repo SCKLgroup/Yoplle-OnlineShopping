@@ -1,7 +1,6 @@
 package yoplle.controller;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,36 +19,32 @@ import yoplle.dao.UserDAO;
 import yoplle.service.UserService;
 import yoplle.vo.UserInfoVO;
 
-
 @Controller
 public class UserController {
-	
+
 	@Autowired
 	private UserDAO dao;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private RecipeDAO rdao;
-	
-	@PostMapping(value = "/yoplle/login.do") 
-	public String logCheck(HttpSession session, HttpServletRequest request) {
-		String check2 = request.getParameter("recipe");
-		String check3 = request.getParameter("cart");
-		String check4 = request.getParameter("itemno");
-		boolean state = dao.signIn(request.getParameter("id"), request.getParameter("password"));
+
+	@PostMapping(value = "/yoplle/login.do")
+	public String logCheck(HttpSession session, String id, String password, String recipe, String cart, String itemno) {
+		boolean state = dao.signIn(id, password);
 
 		if (state) {
-			session.setAttribute("id", request.getParameter("id"));
-			String userNo = String.valueOf(dao.idTonumber(request.getParameter("id")));
+			session.setAttribute("id", id);
+			String userNo = String.valueOf(dao.idTonumber(id));
 			session.setAttribute("no", userNo);
 			session.setMaxInactiveInterval(6000);
 		}
 
 		if (state == true) {
-			if (check2 != null) {
+			if (recipe != null) {
 				return "redirect:recipeMake.jsp";
-			} else if (check3 != null) {
-				return "redirect:shopInfo.do?no=" + check4 + "&job=iteminfo";
+			} else if (cart != null) {
+				return "redirect:shopInfo.do?no=" + itemno + "&job=iteminfo";
 			}
 			return "redirect:mainPage.do";
 		} else {
@@ -59,88 +54,85 @@ public class UserController {
 		}
 	}
 
-	
-	@RequestMapping(value = "/yoplle/logout.do") //濡쒓렇�븘�썐
-	   public String logout(HttpSession session) {
-	      session.invalidate();
-	      return "redirect:mainPage.do";
+	@RequestMapping(value = "/yoplle/logout.do") // 濡쒓렇�븘�썐
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:mainPage.do";
 	}
 
-	@RequestMapping(value="idCheck.do") //�븘�씠�뵒 以묐났泥댄겕
+	@RequestMapping(value = "idCheck.do") // �븘�씠�뵒 以묐났泥댄겕
 	@ResponseBody
 	public String userIdCheckAction(String user_id) {
 		int dbid = dao.idCheck(user_id);
-		if(dbid!=0) {
+		if (dbid != 0) {
 			return "1";
 		}
 		return "0";
 	}
-	
-	@RequestMapping(value="/yoplle/signup.do") //�쉶�썝 媛��엯
+
+	@RequestMapping(value = "/yoplle/signup.do") // �쉶�썝 媛��엯
 	public String userInsertAction(UserInfoVO vo) {
 		dao.insertUser(vo);
 		return "yoplle/signup-success";
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-    // 아이디 찾기 페이지 이동
-	@RequestMapping(value="/yoplle/find_id_form.do")
+	// 아이디 찾기 페이지 이동
+	@RequestMapping(value = "/yoplle/find_id_form.do")
 	public String findIdView() {
 		return "yoplle/idFind";
 	}
-	
-    // 아이디 찾기 실행
-	@RequestMapping(value="/yoplle/find_id.do", method=RequestMethod.POST)
+
+	// 아이디 찾기 실행
+	@RequestMapping(value = "/yoplle/find_id.do", method = RequestMethod.POST)
 	public String findIdAction(UserInfoVO vo, Model model) {
 		UserInfoVO user = userService.findId(vo);
-		
-		if(user == null) { 
+
+		if (user == null) {
 			model.addAttribute("check", 1);
-		} else { 
+		} else {
 			model.addAttribute("check", 0);
 			model.addAttribute("fid", user.getUser_id());
 		}
-		
+
 		return "yoplle/idFind";
 	}
-	
-    // 비밀번호 찾기 페이지로 이동
-	@RequestMapping(value="yoplle/find_password_form.do")
+
+	// 비밀번호 찾기 페이지로 이동
+	@RequestMapping(value = "yoplle/find_password_form.do")
 	public String findPasswordView() {
 		return "yoplle/passFind";
 	}
-	
-    // 비밀번호 찾기 실행
-	@RequestMapping(value="/yoplle/find_password.do", method=RequestMethod.POST)
+
+	// 비밀번호 찾기 실행
+	@RequestMapping(value = "/yoplle/find_password.do", method = RequestMethod.POST)
 	public String findPasswordAction(UserInfoVO vo, Model model) {
 		UserInfoVO user = userService.findPassword(vo);
-		if(user == null) { 
+		if (user == null) {
 			model.addAttribute("check", 1);
-		} else { 
+		} else {
 			model.addAttribute("check", 0);
 			model.addAttribute("updateid", user.getUser_id());
 		}
-		
+
 		return "yoplle/passFind";
 	}
-	
-    // 비밀번호 바꾸기 실행
-	@RequestMapping(value="/yoplle/update_password.do", method=RequestMethod.POST)
-	public String updatePasswordAction(@RequestParam(value="updateid", defaultValue="", required=false) String id,
+
+	// 비밀번호 바꾸기 실행
+	@RequestMapping(value = "/yoplle/update_password.do", method = RequestMethod.POST)
+	public String updatePasswordAction(@RequestParam(value = "updateid", defaultValue = "", required = false) String id,
 			UserInfoVO vo) {
 		vo.setUser_id(id);
 		System.out.println(vo);
 		userService.updatePassword(vo);
 		return "yoplle/passFind_success";
 	}
-	
+
 	@RequestMapping(value = "/yoplle/adminPage.do")
-	   public String adminPageAction(String id,String no) {
+	public String adminPageAction(String id, String no) {
 
-	      return "yoplle/admin-user-management";
-	   }
-	
-
+		return "yoplle/admin-user-management";
+	}
 
 	@RequestMapping(value = "/yoplle/recipelogin.do")
 	public String recipelogin(HttpServletRequest request, HttpSession session) {
@@ -160,51 +152,49 @@ public class UserController {
 
 	}
 
-
-
-
 	@RequestMapping(value = "/yoplle/mypage.do")
-		public String mypageAction(Model model, String id) {
-			model.addAttribute("userinfo", dao.userInfoSelect(id));
-			return "/yoplle/personal-inform";
+	public String mypageAction(Model model, String id) {
+		model.addAttribute("userinfo", dao.userInfoSelect(id));
+		return "/yoplle/personal-inform";
 	}
 
 	@RequestMapping(value = "/yoplle/mypageModify.do", method = RequestMethod.POST)
 	public String mypageModifyAction(UserInfoVO vo, HttpServletRequest request, Model model) {
 		// model.addAttribute("user_id", request.getParameter("user_id"));
 		int no = Integer.parseInt(request.getParameter("userNo"));
-		
+
 		vo.setUser_no(no);
 		dao.userModify(vo, no);
 
 		return "redirect:/yoplle/mainPage.do";
 	}
-	
-	@RequestMapping(value="userList.do") 
+
+	@RequestMapping(value = "userList.do")
 	@ResponseBody
-	public HashMap<String, Object> selectUser( @RequestParam(value="job",defaultValue="user_no")String job, @RequestParam(value="sort",defaultValue="asc") String sort) {
-		HashMap<String, Object> map =new HashMap<String, Object>();
-		map.put("job",job);
-		map.put("sort",sort);
-		
-		map.put("countUser",dao.countUser());
+	public HashMap<String, Object> selectUser(@RequestParam(value = "job", defaultValue = "user_no") String job,
+			@RequestParam(value = "sort", defaultValue = "asc") String sort) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("job", job);
+		map.put("sort", sort);
+
+		map.put("countUser", dao.countUser());
 		map.put("userList", dao.selectUser(map));
-		
+
 		return map;
-	}	
-	
-	@RequestMapping(value="userDelete.do") 
+	}
+
+	@RequestMapping(value = "userDelete.do")
 	@ResponseBody
-	public HashMap<String, Object>  deleteUser(int no,String job,String sort) {
+	public HashMap<String, Object> deleteUser(int no, String job, String sort) {
 		dao.deleteUser(no);
-		
-		HashMap<String, Object> map =new HashMap<String, Object>();
-		map.put("job",job);
-		map.put("sort",sort);
-		
-		map.put("countUser",dao.countUser());
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("job", job);
+		map.put("sort", sort);
+
+		map.put("countUser", dao.countUser());
 		map.put("userList", dao.selectUser(map));
-		
+
 		return map;
 	}
 
@@ -221,8 +211,5 @@ public class UserController {
 	public String myrecipeAction(int rpe_no) {
 		return "redirect:/yoplle/recipeInfo.do?no=" + rpe_no + "&job=recipeinfo";
 	}
-
-
-
 
 }
