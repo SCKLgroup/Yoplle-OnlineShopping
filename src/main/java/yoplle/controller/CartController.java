@@ -51,27 +51,12 @@ public class CartController {
 		
 	}
 	
-//	@RequestMapping(value="/yoplle/cart.do") 
-//	public String cartInsert(Model model, int itemno, @RequestParam(value="ea",defaultValue="1") int ea, String id) { 
-//		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno));
-//		model.addAttribute("userinfo", userdao.userInfoSelect(id));
-//		model.addAttribute("ea", ea);
-//
-//		HashMap<String, Object> map =new HashMap<String, Object>();
-//		map.put("user_id", id);
-//		map.put("item_no", itemno);
-//		
-//		Integer quan=cartdao.cartCheckAction(map);
-//		if(quan==null) {
-//			map.put("cart_quan", ea);
-//			cartdao.insertCartAction(map);
-//		}else {
-//			map.put("cart_quan", ea+quan);
-//			cartdao.updateCartAction(map);
-//		}
-//		return "forward:cart.do";
-//	}
-	
+	@RequestMapping(value="cartInsert.do")
+	public String insertCartAction(String id) { //장바구니 출력
+		
+		return "yoplle/shopping-cart";
+	}
+
 	@RequestMapping(value="cartSelect.do")
 	@ResponseBody
 	public List<CartVO> selectCartAction(String id) { //장바구니 출력
