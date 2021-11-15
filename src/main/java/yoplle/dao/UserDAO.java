@@ -33,11 +33,11 @@ public class UserDAO extends SqlSessionDaoSupport {
 		return dbPass != null && dbPass.equals(password);
 	}
 
-	public int idCheck(String id) { //�븘�씠�뵒 以묐났泥댄겕
+	public int idCheck(String id) { //아이디 중복 체크
 		return this.getSqlSession().selectOne("idCheck",id);
 	}
 	
-	public void insertUser(UserInfoVO vo) { //�쉶�썝媛��엯
+	public void insertUser(UserInfoVO vo) { //회원 정보 추가
 		this.getSqlSession().insert("insertUser",vo);
 	}
 	
@@ -73,14 +73,14 @@ public class UserDAO extends SqlSessionDaoSupport {
 			this.getSqlSession().update("userModify", vo);
 	}
 	
-	public List<UserInfoVO> selectUser(HashMap<String, Object> map){
+	public List<UserInfoVO> selectUser(HashMap<String, Object> map){ //회원 리스트 출력
 		return this.getSqlSession().selectList("selectUser",map);
 	}
 	
-	public void deleteUser(int no){
+	public void deleteUser(int no){ //회원 삭제
 		this.getSqlSession().delete("deleteUser", no);
 	}
-	public int countUser() {
+	public int countUser() { //회원수 카운트
 		return this.getSqlSession().selectOne("countUser");
 	}
 
