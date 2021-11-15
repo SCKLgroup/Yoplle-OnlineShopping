@@ -112,7 +112,7 @@ public class RecipeController {
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "files", required = false) List<MultipartFile> fileList,
 			MultipartHttpServletRequest request, int userNo) { // httpservlet
-		String location = "/Users/m/eclipse-spring/springWeb/src/main/webapp/yoplle/img/recipe/";
+		String location = "C:\\Users\\wjchu\\git\\yoplleProject\\src\\main\\webapp\\yoplle\\img\\recipe\\";
 		FileOutputStream fos = null;
 		String fileName = file.getOriginalFilename(); // 업로드 된 파일의 고유 이름을 fileName에 저장
 
@@ -145,14 +145,14 @@ public class RecipeController {
 		dvo.setRPE_DE_NO(dao.getRpeDeSequence()); // rpe_de 테이블 시퀀스 삽입
 		dao.rpeInsert(rvo, userNo);
 
-		for (int i = 0; i < ingr.length; i++) {//재료가 들어온 수 만큼 for문
-			rivo.setINGR_NAME(ingr[i]);	//i번째 재료값을 name에 set
-			rivo.setINGR_QUAN(quan[i]);	//i번째 수량값을 quan에 set
+		for (int i = 0; i < ingr.length; i++) {// 재료가 들어온 수 만큼 for문
+			rivo.setINGR_NAME(ingr[i]); // i번째 재료값을 name에 set
+			rivo.setINGR_QUAN(quan[i]); // i번째 수량값을 quan에 set
 
-			dao.rpeIngrInsert(rivo); //i번째 재료와 수량에 set이 된 값을 재료테이블에 insert
+			dao.rpeIngrInsert(rivo); // i번째 재료와 수량에 set이 된 값을 재료테이블에 insert
 		}
 
-		fileList = request.getFiles("files"); //files에서 받아온 이미지 리스트
+		fileList = request.getFiles("files"); // files에서 받아온 이미지 리스트
 		ArrayList<String> list = new ArrayList<String>();
 		for (MultipartFile mf : fileList) {
 			String originFileName = mf.getOriginalFilename(); // 원본 파일 명
@@ -162,7 +162,7 @@ public class RecipeController {
 
 			String safeFile = location + originFileName;
 			try {
-				mf.transferTo(new File(safeFile));// multipartFile을 자바의 파일 객체 File로 변환하기 
+				mf.transferTo(new File(safeFile));// multipartFile을 자바의 파일 객체 File로 변환하기
 			} catch (IllegalStateException e) {
 
 				e.printStackTrace();
@@ -173,9 +173,9 @@ public class RecipeController {
 
 		}
 
-		for (int i = 0; i < rpe_de.length; i++) { //요리 순서 갯수만큼 for문 
-			dvo.setRPE_DE_CONTENT(rpe_de[i]); // 요리순서 
-			dvo.setRPE_DE_IMG(list.get(i)); //요리 순서에 맞는 이미지 (null허용되어있는상태)
+		for (int i = 0; i < rpe_de.length; i++) { // 요리 순서 갯수만큼 for문
+			dvo.setRPE_DE_CONTENT(rpe_de[i]); // 요리순서
+			dvo.setRPE_DE_IMG(list.get(i)); // 요리 순서에 맞는 이미지 (null허용되어있는상태)
 			dao.rpeDeInsert(dvo);
 		}
 
@@ -201,15 +201,15 @@ public class RecipeController {
 	public String modifyRecipeAction(String id, Model model, RecipeIngrVO rivo, RecipeDeVO dvo, RecipeVO rvo,
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "files", required = false) List<MultipartFile> fileList,
-			MultipartHttpServletRequest request, int rpeno, int[] ingrno) {
+			MultipartHttpServletRequest request, int rpeno, int[] ingrno, int[] deno) {
 
-		String location = "C:\\dev\\se_workspace\\springLesson1\\web\\src\\main\\webapp\\upload\\";
+		String location = "C:\\Users\\wjchu\\git\\yoplleProject\\src\\main\\webapp\\yoplle\\img\\recipe\\";
 		FileOutputStream fos = null;
 		String fileName = file.getOriginalFilename();
 
 		if (fileName.length() > 0) {
 			try {
-				fos = new FileOutputStream(location.concat(fileName)); // 寃쎈줈 뿉 뙆 씪 꽕 엫 遺숈씠湲
+				fos = new FileOutputStream(location.concat(fileName));
 				fos.write(file.getBytes());
 				rvo.setRpe_img(fileName);
 
@@ -234,6 +234,7 @@ public class RecipeController {
 		}
 		String ingr[] = rivo.getINGR_NAME().split(",");
 		String quan[] = rivo.getINGR_QUAN().split(",");
+		String de[] = dvo.getRPE_DE_CONTENT().split(",");
 
 		for (int i = 0; i < ingr.length; i++) {
 			System.out.println(ingr[i]);
@@ -243,25 +244,38 @@ public class RecipeController {
 			rivo.setINGR_NO(ingrno[i]);
 			dao.rpeIngrModify(rivo, ingrno[i]);
 		}
-
-		fileList = request.getFiles("files");
-		ArrayList<String> list = new ArrayList<String>();
-		for (MultipartFile mf : fileList) {
-			String originFileName = mf.getOriginalFilename(); // 썝蹂 뙆 씪 紐
-			list.add(originFileName);
-
-			String safeFile = location + originFileName;
-			try {
-				mf.transferTo(new File(safeFile));
-			} catch (IllegalStateException e) {
-
-				e.printStackTrace();
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
-
+		
+		System.out.println("de부분");
+		
+		for (int i = 0; i < deno.length; i++) {
+			System.out.println(deno[i]);
 		}
+
+		for (int i = 0; i < de.length; i++) {
+			System.out.println(de[i]);
+			dvo.setRPE_DE_CONTENT(de[i]);
+			dvo.setRPE_DE_NO(deno[i]);
+			dao.rpeDeModify(dvo, deno[i]);
+			
+		}
+//		fileList = request.getFiles("files");
+//		ArrayList<String> list = new ArrayList<String>();
+//		for (MultipartFile mf : fileList) {
+//			String originFileName = mf.getOriginalFilename(); // 썝蹂 뙆 씪 紐
+//			list.add(originFileName);
+//
+//			String safeFile = location + originFileName;
+//			try {
+//				mf.transferTo(new File(safeFile));
+//			} catch (IllegalStateException e) {
+//
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//
+//				e.printStackTrace();
+//			}
+//
+//		}
 
 		return "redirect:/yoplle/recipeList.do?page=1&sort=lastest";
 	}
