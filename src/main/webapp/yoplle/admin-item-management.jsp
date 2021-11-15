@@ -202,7 +202,7 @@
    				list.push(itemNo);
    				ajaxDate('/web/deleteItem.do', {
    	   				"job":$(".selectpicker option:selected").val(),
-   	   				"no":list 
+   	   				"no":list
    	   				}, 'json');
 		   	    }else { //취소
 		   	         return false;

@@ -174,14 +174,6 @@ public class ItemController {
 		
 	}
 	
-//	@RequestMapping(value="cartDelete.do")
-//	@ResponseBody
-//	public List<CartVO> selectDeleteCart(@RequestParam(value="no[]")List<String> no, Model model,String id) {
-//		for(String s :no) {
-//			cartdao.selectDeleteCart(Integer.parseInt(s));
-//		}
-//		return cartdao.selectCartAction(id);
-//	}
 	
 	@RequestMapping(value="adminList.do") // 관리자 페이지에서 상품 뿌리기
 	@ResponseBody
