@@ -37,7 +37,7 @@
 <body>
 	<div class="container container-jaeil-writer" role="main">
 		<h2>공지사항 작성</h2>
-		<form name="form1" method="post" action="/yoplle/insert.do" enctype="multipart/form-data" autocomplete="off">
+		<form name="form1" method="post" action="insert.do" >
 			<div class="mb-3">
 				<label for="detail-title">공지 제목</label> <input type="text"
 					class="form-control" name="NOTI_TITLE" id="title"

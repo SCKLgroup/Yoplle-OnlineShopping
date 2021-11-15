@@ -30,7 +30,7 @@ public class NoticeController {
 		List<NoticeVO>list=noticeservice.listAll();
 		//ModelAndView - 모델과 뷰 선언
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("yoplle/notice_list");//뷰를 list.jsp로 설정
+		mav.setViewName("yoplle/admin-notice-management");//뷰를 list.jsp로 설정
 		mav.addObject("list",list);//데이터를 저장
 		return mav;//list.jsp로 List가 전달된다.
 	}
@@ -78,7 +78,7 @@ public class NoticeController {
 	}
 	
 	//게시글 작성처리
-	@RequestMapping(value="yoplle/insert.do", method=RequestMethod.POST)
+	@RequestMapping(value="insert.do", method=RequestMethod.POST)
 	public String insert(@ModelAttribute NoticeVO vo)throws Exception{
 		noticeservice.create(vo);
 		return "redirect:list.do";
