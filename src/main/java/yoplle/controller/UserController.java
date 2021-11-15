@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	private RecipeDAO rdao;
 
-	@PostMapping(value = "/yoplle/login.do")
+	@PostMapping(value = "/yoplle/login.do") 
 	public String logCheck(HttpSession session, String id, String password, String recipe, String cart, String itemno) {
 		boolean state = dao.signIn(id, password);
 
