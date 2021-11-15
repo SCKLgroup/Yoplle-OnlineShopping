@@ -16,107 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID=#{VALUE}
 	</select>
 
-<<<<<<< HEAD
-	<select id="idCheck" parameterType="java.lang.String"
-		resultType="Integer"> <!-- 아이디 중복체크 -->
-	SELECT count(*) FROM USERINFO WHERE USER_ID=#{value}
-	</select>
-
-	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO"> <!-- 회원가입 -->
-		<selectKey keyProperty="user_no" resultType="int"
-			order="BEFORE">
-			SELECT USERINFO_SEQ.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO
-		USERINFO(USER_NO,USER_ID,USER_PW,USER_NAME,USER_TEL,USER_MAIL,USER_DATE,USER_BIRTH,
-		USER_GENDER,USER_ADDRESS,USER_POSTCODE)
-		VALUES(#{user_no},#{user_id},#{user_pw},#{user_name},#{user_tel},#{user_mail},SYSDATE,#{user_birth},
-		#{user_gender},#{user_address},#{user_postcode})
-	</insert>
-
-	<select id="userInfoSelect" parameterType="String"
-		resultType="yoplle.vo.UserInfoVO"><!-- ADMIN_CHECK추가 -->
-		SELECT USER_NO, USER_ID, USER_NAME, USER_TEL, USER_MAIL, USER_DATE,
-		USER_BIRTH, USER_GENDER, USER_ADDRESS, USER_POSTCODE, ADMIN_CHECK
-		FROM USERINFO WHERE USER_ID=#{id}
-	</select>
-
-	<select id="findId" resultType="yoplle.vo.UserInfoVO">
-		SELECT * FROM USERINFO WHERE
-		USER_NAME=#{user_name} AND USER_TEL=#{user_tel}
-	</select>
-
-	<select id="findPassword" resultType="yoplle.vo.UserInfoVO">
-		SELECT * FROM USERINFO WHERE
-		USER_ID=#{user_id} AND USER_NAME=#{user_name} AND USER_TEL=#{user_tel}
-	</select>
-
-	<update id="updatePassword">
-		UPDATE USERINFO SET USER_PW=#{user_pw} WHERE USER_ID=#{user_id}
-	</update>
-	
-	<update id="userModify" parameterType="yoplle.vo.UserInfoVO">
-			update userinfo set
-			user_pw=#{user_pw},
-			user_name=#{user_name},user_tel=#{user_tel},user_mail=#{user_mail},user_birth=#{user_birth},user_address=#{user_address},user_postcode=#{user_postcode}
-			where user_no=#{user_no}
-	</update>
-
-	<select id="selectUser" parameterType="java.util.HashMap" resultType="yoplle.vo.UserInfoVO">
-		select USER_NO, USER_ID, USER_PW, USER_PRO_IMG, USER_NAME, USER_TEL, USER_MAIL, TO_CHAR(USER_DATE,'YYYY-MM-DD')USER_DATE, USER_BIRTH, USER_GENDER, USER_ADDRESS 
-		 from userinfo
-		 <choose>
-	        <when test='job.equals("user_no") and sort.equals("asc")'>
-			 	order by user_no asc
-			 </when>
-	        <when test='job.equals("user_no") and sort.equals("desc")'>
-			 	order by user_no desc
-			 </when>
-	        <when test='job.equals("user_id") and sort.equals("asc")'>
-			 	order by user_id asc
-			 </when>
-	        <when test='job.equals("user_id") and sort.equals("desc")'>
-			 	order by user_id desc
-			 </when>
-	        <when test='job.equals("user_name") and sort.equals("asc")'>
-			 	order by user_name asc
-			 </when>
-	        <when test='job.equals("user_name") and sort.equals("desc")'>
-			 	order by user_name desc
-			 </when>
-	        <when test='job.equals("user_gender") and sort.equals("asc")'>
-			 	order by user_gender asc
-			 </when>
-	        <when test='job.equals("user_gender") and sort.equals("desc")'>
-			 	order by user_gender desc
-			 </when>
-	        <when test='job.equals("user_birth") and sort.equals("asc")'>
-			 	order by user_birth asc
-			 </when>
-	        <when test='job.equals("user_birth") and sort.equals("desc")'>
-			 	order by user_birth desc
-			 </when>
-	        <when test='job.equals("user_date") and sort.equals("asc")'>
-			 	order by user_date asc
-			 </when>
-			 <otherwise>
-			 	order by user_date desc
-			 </otherwise>
-		 </choose>
-	</select>
-	
-	<delete id="deleteUser" parameterType="int">
-		DELETE FROM USERINFO
-		WHERE
-		USER_NO=#{value}	
-	</delete>
-	
-	<select id="countUser" resultType="int">
-		select count(*) from userinfo
-	</select>
-	
-	
-=======
 	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> <!-- 아이디 중복체크 -->
 		SELECT COUNT(*) FROM USERINFO WHERE USER_ID=#{value}
 	</select>
@@ -213,7 +112,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_NO=#{value}	
 	</delete>
 
->>>>>>> branch 'master' of https://github.com/lmrae0624/yoplleProject.git
 	
 	
 </mapper>

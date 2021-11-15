@@ -3,7 +3,6 @@ package yoplle.vo;
 import java.util.Date;
 
 public class NoticeVO {
-<<<<<<< HEAD
 	public int NOTI_NO;				//게시글 번호
 	public int EMP_NO;				//관리자 번호
 	public String NOTI_TITLE;		//게시글 제목
@@ -11,15 +10,7 @@ public class NoticeVO {
 	public String NOTI_IMG;			//게시글 이미지
 	public int NOTI_HIT;			//게시글 조회수
 	public Date  NOTI_DATE;			//게시글 작성일자 util.Date
-=======
-	public int NOTI_NO;
-	public int EMP_NO;
-	public String NOTI_TITLE;
-	public String NOTI_CONTENT;
-	public String NOTI_IMG;
-	public int NOTI_HIT;
-	public Date  NOTI_DATE;
->>>>>>> branch 'master' of https://github.com/lmrae0624/yoplleProject.git
+
 	public NoticeVO() {
 		super();
 	}

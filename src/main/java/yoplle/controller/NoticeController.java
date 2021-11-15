@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import yoplle.service.NoticeService;
 import yoplle.vo.NoticeVO;
 
-<<<<<<< HEAD
 @Controller		// 현재 클래스를 컨트롤러 빈(bean)으로 등록한다.
 @RequestMapping("/yoplle/*")
 public class NoticeController {
@@ -94,69 +93,6 @@ public class NoticeController {
 	}
 	
 	//게시글을 삭제해준다.
-=======
-@Controller
-@RequestMapping("/yoplle/*")
-public class NoticeController {
-
-	@Inject
-	NoticeService noticeservice;
-	
-	@RequestMapping("list.do")//������
-	public ModelAndView list() throws Exception{
-		List<NoticeVO>list=noticeservice.listAll();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("yoplle/notice_list");
-		mav.addObject("list",list);
-		return mav;
-	}
-	
-	
-	@RequestMapping("list2.do")//����
-	public ModelAndView list2() throws Exception{
-		List<NoticeVO>list=noticeservice.listAll();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("yoplle/notice");
-		mav.addObject("list",list);
-		return mav;
-	}
-	
-	@RequestMapping(value="yoplle/view2.do",method=RequestMethod.GET)
-	public ModelAndView view2(@RequestParam int bno, HttpSession session)throws Exception{
-		noticeservice.increaseViewcnt(bno,session);
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("yoplle/notice_view_user");
-		mav.addObject("dto",noticeservice.read(bno));
-		return mav;
-	}
-	
-	@RequestMapping(value="yoplle/view.do",method=RequestMethod.GET)
-	public ModelAndView view(@RequestParam int bno, HttpSession session)throws Exception{
-		noticeservice.increaseViewcnt(bno,session);
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("yoplle/notice_view");
-		mav.addObject("dto",noticeservice.read(bno));
-		return mav;
-	}
-	
-	@RequestMapping(value="write.do", method=RequestMethod.GET)
-	public String write() {
-		return "/yoplle/notice_Write";
-	}
-	
-	@RequestMapping(value="yoplle/insert.do", method=RequestMethod.POST)
-	public String insert(@ModelAttribute NoticeVO vo)throws Exception{
-		noticeservice.create(vo);
-		return "redirect:list.do";
-	}
-	
-	@RequestMapping(value="update.do",method=RequestMethod.POST)
-	public String delete(@ModelAttribute NoticeVO vo)throws Exception{
-		noticeservice.update(vo);
-		return"redirect:list.do";
-	}
-	
->>>>>>> branch 'master' of https://github.com/lmrae0624/yoplleProject.git
 	@RequestMapping("delete.do")
 	public String delete(@RequestParam int NOTI_NO)throws Exception{
 		noticeservice.delete(NOTI_NO);
