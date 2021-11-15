@@ -195,7 +195,7 @@ public class UserController {
 		map.put("countUser", dao.countUser()); //유저 수 카운트 
 		map.put("userList", dao.selectUser(map)); //정렬 기준에 따른 회원 리스트 출력 
 
-		return map; //회원 삭제 후 다시 회원 리스트 출력
+		return map; //회원 삭제 후 다시 회원 리스트 출력 
 	}
 
 	@RequestMapping(value = "/yoplle/mypagelist.do")
