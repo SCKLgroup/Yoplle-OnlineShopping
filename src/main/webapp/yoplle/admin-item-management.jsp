@@ -66,7 +66,7 @@
 							<form action="#" method="post">
 								<input type="button" name="btn-primary update-jaeil" value="상품추가">
 								<input type="button" name="btn-primary all-stop-jaeil" value="중지">
-								<input type="button" name="btn-primary all-delete-jaeil" value="삭제">
+								<input type="button" name="btn-primary all-delete-jaeil" id="allclear" value="삭제">
 							</form>
 						</div>
 					</div>
@@ -174,18 +174,19 @@
    			error:function(e){
    				alert('error!!'+e);
    			}
-   		});  
+   		});
    	 }
    		
    		function adminList(v){ // ajax로 해당 카테고리별 상품 리스트 출력하는 함수
    			var temp="";
    			$.each(v.item, function(index, dom){
    				temp+="<tr class=\"center-tr\">";
-   				temp+="<th scope=\"row\"><input type=\"checkbox\" name=\"check-btn\"></th>";
+   				temp+="<th scope=\"row\"><input type=\"checkbox\" name=\"check-btn\" class=\"checkitemset\" id=\""+dom.item_no+"\"></th>";
 				temp+="<td><img src=\""+dom.item_img+"\" width=\"100px\" height=\"100px\"></td>";
 				temp+="<td>["+dom.item_category+"]</td><td width=\"300px\">["+dom.item_category+"]"+dom.item_name+"</td><td>"+dom.item_date+"</td><td>"+dom.item_stock+"</td><td>";
 				temp+="<button type=\"button\" class=\"btn btn-sm btn-primary jaeil-detail-re-btn\" id=\"btn-rewriter\">수정</button>";
-				temp+="<button type=\"button\" class=\"btn btn-sm btn-primary jaeil-detail-re-btn\" id=\"btn-deleter\" value=\""+dom.item_no+"\">삭제</button>";
+				temp+="<button type=\"button\" class=\"btn btn-sm btn-primary jaeil-detail-re-btn\" id=\"btn-deleter\" onclick=\"itemDel("+dom.item_no+")\">삭제</button>";
+				
 				temp+="</td>";
 				temp+="<td>";
 				temp+="<button type=\"button\" class=\"btn btn-sm btn-primary jaeil-detail-re-btn\" id=\"btn-sell-start\">시작</button>";
@@ -195,14 +196,45 @@
    			$(".category-number").text('전체 상품 수 : '+v.count);
    		}
    		
-   		$(document).on("click","#btn-deleter",function(v){
-   			ajaxDate('/web/deleteItem.do', {
-   				"job":$(".selectpicker option:selected").val(),
-   				"no":$("#btn-deleter").val()
-   				}, 'json');
+   		function itemDel(itemNo){ // 단일 상품을 삭제할 시, 이미 ajax로 생성된 버튼을 클릭함
+   			var list=new Array();
+   			if(confirm("상품을 삭제하시겠습니까?") == true){
+   				list.push(itemNo);
+   				ajaxDate('/web/deleteItem.do', {
+   	   				"job":$(".selectpicker option:selected").val(),
+   	   				"no":list 
+   	   				}, 'json');
+		   	    }else { //취소
+		   	         return false;
+		   	    }
+   		}
+   		
+   		$("#allcheckItem").click(function(){ // 전체 선택, 전체 선택 해제
+   			
+   			if($(this).is(":checked")){ 
+   		    	$("input[type=checkbox]").prop("checked", true);
+   		    }else{ 
+   		    	$("input[type=checkbox]").prop("checked", false);
+   		    }
    		});
-   		//수정
-   	
+   		
+   		$('#allclear').click(function(){ // 선택 삭제 버튼을 클릭할 시,
+   			var list=new Array();
+   			$(".checkitemset").each(function(index, item){
+   				if($(item).is(":checked")==true){ // 체크 상태인 item_no를 받음
+   					list.push($(item).attr("id")); // list에 아이템 넘버 추가
+   				}
+   			});
+   			if(confirm("상품을 삭제하시겠습니까?") == true){
+   				ajaxDate('/web/deleteItem.do', {
+   	   				"job":$(".selectpicker option:selected").val(),
+   	   				"no":list // list에 추가된 아이템 넘버를 넘겨줌
+   	   				}, 'json');
+		   	    }else { //취소
+		   	         return false;
+		   	    }
+   		});
+   		
    	</script>
 
 </body>

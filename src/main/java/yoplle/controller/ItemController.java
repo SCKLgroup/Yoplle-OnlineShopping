@@ -1,6 +1,7 @@
 package yoplle.controller;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,32 +70,19 @@ public class ItemController {
 			
 			return "yoplle/shop-grid";
 		}
-	@RequestMapping(value = "/yoplle/shopInfo.do")
+	@RequestMapping(value = "/yoplle/shopInfo.do") // 상품 페이지 출력
 	public String shopInfoAction(int no, String job, Model model, FaqListVO vo, ReviewVO rvo, String id, ShopDeRecipeVO sdr) {
-		model.addAttribute("faqList", reviewdao.selectFaqList(no));
-		model.addAttribute("iteminfo", itemdao.selectInfoItem(no));
-		model.addAttribute("reviewList", reviewdao.selectReviewList(no));
-		model.addAttribute("recipeMatch", itemdao.selectShopDeRecipe(no));
+		model.addAttribute("faqList", reviewdao.selectFaqList(no)); // 아이템 넘버에 따라 해당 문의 출력
+		model.addAttribute("iteminfo", itemdao.selectInfoItem(no)); // 아이템 넘버에 따라 해당 아이템 정보 출력
+		model.addAttribute("reviewList", reviewdao.selectReviewList(no)); // 아이템 넘버에 따라 해당 리뷰 출력
+		model.addAttribute("recipeMatch", itemdao.selectShopDeRecipe(no)); // 해당 아이템의 넘버로 레시피 테이블과 연계해 레시피 추천
 		
 		
-		if (job.equals("iteminfo")) {
-			return "yoplle/shop-details";
-		} else if(job.equals("newFaq")) {
-			vo.setFaq_no(reviewdao.getFaqSequence());
-			reviewdao.insertFaq(vo);
-			return "redirect:/yoplle/shopInfo.do?no="+no+"&job=iteminfo";
-		} else if(job.equals("newreview")) {
-			rvo.setReview_no(reviewdao.getReviewSequence());
-			Map<String, Object>map=new HashMap();
-			map.put("id", id);
-			map.put("no", no);
-			int checkV = reviewdao.checkOrderUser(map);
-			if(checkV>0) {
-				System.out.println(checkV);
-				
-				reviewdao.insertReview(rvo);
-			}
-			
+		if (job.equals("iteminfo")) { // job에 따라 if문으로 기능을 나누어 줌
+			return "yoplle/shop-details"; 
+		} else if(job.equals("newFaq")) { // 문의 작성 버튼을 클릭하였을 때
+			vo.setFaq_no(reviewdao.getFaqSequence()); // 새로 생성할 데이터의 번호를 중복되지 않게 하기 위하여 시퀀스 넘버를 받아 삽입
+			reviewdao.insertFaq(vo); // JSP에서 받아 온 값을 테이블에 삽입
 			return "redirect:/yoplle/shopInfo.do?no="+no+"&job=iteminfo";
 		}
 		else {
@@ -161,17 +149,20 @@ public class ItemController {
 		return "yoplle/mainPage";
 	}
 
+	// 관리자 페이지에서 상품을 삭제할 경우 삭제 후 ResponseBody로 값을 반환해 줌
 	@RequestMapping(value="deleteItem.do")
 	@ResponseBody
-	public Map<String, Object> deleteItemAction(String job, int no[]){
+	public Map<String, Object> deleteItemAction(String job, @RequestParam(value="no[]")List<Integer> no){ // 아이템 넘버를 배열로 받아 연쇄 삭제함
+		System.out.println(no);
 		HashMap<String, Object> jobs=new HashMap<String, Object>();
 		jobs.put("job", job);
 		HashMap<String, Object> nos=new HashMap<String, Object>();
 		nos.put("no", no);
-		itemdao.deleteItemAction(nos);
+		
+		itemdao.deleteItemAction(nos); // 삭제할 아이템 넘버를 map으로 넘겨 in 구문으로 동시 삭제함
 		
 		Map<String, Object> map=new HashMap<String, Object>();
-		if(!job.equals("default")) {
+		if(!job.equals("default")) { // 디폴트가 아닐 경우에는 jobs으로 넘겨받은 카테고리 값으로 출력
 			map.put("item", itemdao.selectItemAdminCate(jobs));
 			map.put("count", itemdao.countItemAction(jobs));
 			return map;
@@ -182,6 +173,15 @@ public class ItemController {
 		}
 		
 	}
+	
+//	@RequestMapping(value="cartDelete.do")
+//	@ResponseBody
+//	public List<CartVO> selectDeleteCart(@RequestParam(value="no[]")List<String> no, Model model,String id) {
+//		for(String s :no) {
+//			cartdao.selectDeleteCart(Integer.parseInt(s));
+//		}
+//		return cartdao.selectCartAction(id);
+//	}
 	
 	@RequestMapping(value="adminList.do") // 관리자 페이지에서 상품 뿌리기
 	@ResponseBody
