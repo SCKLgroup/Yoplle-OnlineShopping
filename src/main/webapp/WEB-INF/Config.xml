@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
 PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
@@ -26,3 +27,78 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 
 </configuration>
+=======
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!-- DB설정(Connection) -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases><!-- vo객체의 별칭을 모아서 관리 -->
+
+		<typeAlias type="yoplle.vo.ItemVO" alias="item"/>
+		<typeAlias type="yoplle.vo.FaqListVO" alias="faqlist"/>
+
+
+		<typeAlias type="yoplle.vo.RecipeVO" alias="recipe" />
+		<typeAlias alias="faqlist" type="yoplle.vo.FaqListVO" />
+
+		<!-- <typeAlias type="sist.com.vo.NoticeVO"/> -->
+
+	</typeAliases>
+	<mappers>
+		
+		<mapper resource="yoplle/mapper/cart-mapper.xml"/>
+		<mapper resource="yoplle/mapper/item-mapper.xml"/>
+		<mapper resource="yoplle/mapper/main-mapper.xml"/>
+		<mapper resource="yoplle/mapper/notice-mapper.xml"/>
+		<mapper resource="yoplle/mapper/order-mapper.xml"/>
+		<mapper resource="yoplle/mapper/recipe-mapper.xml"/>
+		<mapper resource="yoplle/mapper/review-mapper.xml"/>
+		<mapper resource="yoplle/mapper/user-mapper.xml"/>
+		<mapper resource="yoplle/mapper/shopbest-mapper.xml"/>
+<!-- 		<mapper resource="yoplle/dao/yoplle-mapper.xml" /> -->
+
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration><!-- DB설정(Connection) -->
+	<typeAliases>
+		
+		<typeAlias type="yoplle.vo.ItemVO" alias="item"/>
+		<typeAlias type="yoplle.vo.FaqListVO" alias="faqlist"/>
+	</typeAliases> 
+    <!-- DB연동 -->
+	<mappers>
+		
+		
+		<mapper resource="yoplle/mapper/cart-mapper.xml"/>
+		<mapper resource="yoplle/mapper/shopbest-mapper.xml"/>
+		<mapper resource="yoplle/mapper/item-mapper.xml"/>
+		<mapper resource="yoplle/mapper/main-mapper.xml"/>
+		<mapper resource="yoplle/mapper/notice-mapper.xml"/>
+		<mapper resource="yoplle/mapper/order-mapper.xml"/>
+		<mapper resource="yoplle/mapper/recipe-mapper.xml"/>
+		<mapper resource="yoplle/mapper/review-mapper.xml"/>
+		<mapper resource="yoplle/mapper/user-mapper.xml"/>
+	</mappers> 
+	
+	
+</configuration>
+>>>>>>> branch 'master' of https://github.com/lmrae0624/yoplleProject.git
+>>>>>>> branch 'master' of https://github.com/lmrae0624/yoplleProject.git
