@@ -108,8 +108,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">공지사항</h6>
-                        <a class="collapse-item" href="#">공지사항 관리</a>
-                        <a class="collapse-item" href="#">공지사항 작성</a>
+                        <a class="collapse-item" href="admin-notice-management.jsp">공지사항 관리</a>
+                        <a class="collapse-item" href="admin-notice-write.jsp">공지사항 작성</a>
                         <h6 class="collapse-header">이벤트</h6>
                         <a class="collapse-item" href="#">이벤트 관리</a>
                         <a class="collapse-item" href="#">이벤트 작성</a>

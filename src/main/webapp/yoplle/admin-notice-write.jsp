@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="functions"
 	uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,49 +51,40 @@
 				<div class="container-fluid">
 
 					<div class="container container-jaeil-datail-control">
-						<h2 class="noticeTitle">공지사항 List</h2>
+						<h2>공지사항 작성</h2>
+						<form name="form1" method="post" action="insert.do">
+							<div class="mb-3">
+								<label for="detail-title">공지 제목</label> <input type="text"
+									class="form-control" name="NOTI_TITLE" id="title"
+									placeholder="제목을 입력해주세요">
+							</div>
 
-						<!-- 	<div style="text-align: right; margin-bottom: 20px;" id="delBtn"
-				class="delBtn">
-				<button type="button" class="primary-btn selectDelete_btn">삭제</button>
-			</div> -->
+							<div class="mb-3">
+								<label for="detail-origin">작성자</label> <input type="text"
+									class="form-control" value="요플레" disabled="disabled"> <input
+									type="hidden" name="EMP_NO" id="writer" value="1">
+							</div>
+							<div class="mb-3">
+								<label for="content">공지내용</label>
+								<textarea class="form-control" rows="5" name="NOTI_CONTENT"
+									id="content" placeholder="내용을 입력해 주세요"></textarea>
+							</div>
+							<div class="mb-3">
+								<label for="detail-imgfile">파일 업로드</label><BR> <input
+									type="file" name="NOTI_IMG" id="file"
+									style="margin-bottom: 20px" />
+								<div class="select_img">
+									<img src="" />
+								</div>
+								<%=request.getRealPath("/")%>
 
-						<div style="text-align: right; margin-bottom: 20px;">
-							<button type="button" id="btnWrite" class="primary-btn">공지작성</button>
-						</div>
-
-						<div class="table-responsive">
-							<table class="table custom-table">
-								<thead>
-									<tr>
-										<th scope="col"><label for="allCheck"
-											class="control control--checkbox"></label><input
-											type="checkbox" name="allCheck" id="allCheck"
-											class="js-check-all tableTextPos" /></th>
-										<th scope="col" class="il-tableno">번호</th>
-										<th scope="col" class="il-tabletitle">제목</th>
-										<th scope="col" class="il-tablename">작성자</th>
-										<th scope="col" class="il-tabledate">작성일</th>
-										<th scope="col" class="il-tablehit">조회수</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach var='row' items="${list}">
-										<tr class="tableTextPos">
-											<td><input type="checkbox" id="chBox"
-												class="js-check-all chBox" data-noticeNom="${row.NOTI_NO}" /></td>
-											<td>${row.NOTI_NO}</td>
-											<td><a href="/yoplle/view.do?bno=${row.NOTI_NO}">${row.NOTI_TITLE}</a></td>
-											<td><input value="${row.EMP_NO}" type="hidden">요플레</td>
-											<td><fmt:formatDate value="${row.NOTI_DATE}"
-													pattern="yyyy-MM-dd HH:mm:ss" /></td>
-											<td>${row.NOTI_HIT}</td>
-										</tr>
-									</c:forEach>
-
-								</tbody>
-							</table>
-						</div>
+							</div>
+							<div class="detail-writer-btn">
+								<button type="button" class="btn btn-sm btn-primary"
+									id="btnSave">저장</button>
+								<button type="reset" class="btn btn-sm btn-primary">취소(다시작성)</button>
+							</div>
+						</form>
 					</div>
 				</div>
 
@@ -164,53 +154,45 @@
 	<!-- Page level custom scripts -->
 	<script src="js/datatables-demo.js"></script>
 
-	<script>
+	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#btnWrite").click(function() {
-				location.href = "write.do"
+			$("#btnSave").click(function() {
+				var title = $("#title").val();
+				var content = $("#content").val();
+				var writer = $("#writer").val();
+				if (title == "") {
+					alert("제목을 입력하세요");
+					document.form1.title.focus();
+					return;
+				}
+				if (content == "") {
+					alert("내용을 입력하세요");
+					document.form1.content.focus();
+					return;
+				}
+				if (writer == "") {
+					alert("작성자를 입력하세요");
+					document.form1.writer.focus();
+					return;
+				}
+				document.form1.submit();
+				console.log("작성확인 완료");
 			});
 		});
 	</script>
-
-	<!-- CheckBox -->
 	<script>
-		$("#allCheck").click(function() {
-			var chk = $("#allCheck").prop("checked");
-			if (chk) {
-				$(".chBox").prop("checked", true);
-			} else {
-				$(".chBox").prop("checked", false);
-			}
-		});
-	</script>
-	<script>
-		$(".chBox").click(function() {
-			$("#allCheck").prop("checked", false);
-		});
-	</script>
-	<!-- CheckBox -->
-
-	<script>
-		$(".selectDelete_btn").click(function() {
-			var confirm_val = confirm("정말 삭제하시겠습니까?");
-			if (confirm_val) {
-				var checkArr = new Array();
-				$("input[id='chBox']:checked").each(function() {
-					alert("3");
-					checkArr.push($(this).attr("data-noticeNom"));
-				});
-				jax({
-					url : "delete.do",
-					type : "post",
-					data : {
-						chbox : checkArr
-					},
-					success : function() {
-						location.href = "list.do";
-					}
-				});
-			}
-		});
+		$("#file")
+				.change(
+						function() {
+							if (this.files && this.files[0]) {
+								var reader = new FileReader;
+								reader.onload = function(data) {
+									$(".select_img img").attr("src",
+											data.target.result).width(500);
+								}
+								reader.readAsDataURL(this.files[0]);
+							}
+						});
 	</script>
 </body>
 
