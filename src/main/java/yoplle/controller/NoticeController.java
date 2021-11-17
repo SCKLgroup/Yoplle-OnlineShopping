@@ -74,7 +74,7 @@ public class NoticeController {
 	//게시글 작성화면
 	@RequestMapping(value="write.do", method=RequestMethod.GET)//method="전송방식"
 	public String write() {
-		return "/yoplle/notice_Write";//notice_Write.jsp로 이동
+		return "/yoplle/admin-notice-write";//notice_Write.jsp로 이동
 	}
 	
 	//게시글 작성처리
