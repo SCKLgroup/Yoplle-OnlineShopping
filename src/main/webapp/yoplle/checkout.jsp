@@ -181,38 +181,30 @@
 	<script src="js/main.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
+	/* 우편번호와 주소 API */
 	$(function(){
 		$('#zip-set').click(function(){
 			 new daum.Postcode({
 			        oncomplete: function(data) {
-			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-			            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
 			            document.getElementById("zipcode").value=data.zonecode;
 			            document.getElementById("main_addr").value=data.address; // 주소 넣기
 			            document.querySelector("input#detail_addr").focus(); //상세입력 포커싱
-			            
 			        }
 			    }).open();
-		
 		});
-		
 		$(".checkout__input__add").click(function(){
 		    new daum.Postcode({
 		        oncomplete: function(data) {
-		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-		            // 예제를 참고하여 다양한 활용법을 확인해 보세요.
 		            document.getElementById("zipcode").value=data.zonecode;
 		            document.getElementById("main_addr").value=data.address; // 주소 넣기
-		            document.querySelector("input#detail_addr").focus(); //상세입력 포커싱
-		            
+		            document.querySelector("input#detail_addr").focus(); //상세입력 포커싱 
 		        }
 		    }).open();
-			
 		});
 	});
 	</script>
 	<script type="text/javascript">
-		
+		/* 제약사항 */
 		$(function(){
 			$("input[name=order_rec_name]").blur(function(){
 				if($("input[name=order_rec_name]").val().length>=5 || $("input[name=order_rec_name]").val().length<=1){
@@ -255,7 +247,7 @@
 				}
 
 			});
-
+			/* 필수 체크 항목 확인 */
 			$("button#checkOutBtn").click(function(){
 				if($("#acc-or").prop("checked") && $("#order_dv_addr").val()!=null && $("input[name=order_rec_tel]").val()!=null && $("input[name=order_rec_name]").val()!=null && check==true){
 					$("form#checkSuc").submit();
@@ -263,11 +255,12 @@
 					alert('다시 입력해 주세요');
 				}
 			});
-			
+			/* addr에서 값 작성 후 포커스 상실 시 넘겨 주는 form 안의 input에 값 넘김 */
 			$("#detail_addr").blur(function(){
 				document.getElementById("order_dv_addr").value=$("input#main_addr").val()+' '+$("input#detail_addr").val();
 			});
 			
+			/* 결제 수단 체크 */
 			var arrPayType=$("input[name=paytype]");
 			var check=false;
 			
@@ -276,11 +269,8 @@
 					if(arrPayType[i].checked){
 						check = true;
 					}
-					
 				}
 			});
-			
-		
 		});
 	</script>
 

@@ -22,9 +22,10 @@ public class OrderController {
 	@Autowired
 	private OrderDAO dao;
 
+	
 	@RequestMapping(value="/yoplle/cartTake.do")
 	public String cartTakeout(String no, String id, Model model){
-		String num[]=no.split("#");
+		String num[]=no.split("#"); // view에서 상품 번호를 받을 때 #을 구분자로 사용하였기 때문에 나누어 줌
 		
 		List<Integer> nums = new ArrayList<Integer>();
 		for(int i=0; i<num.length; i++) {
@@ -70,8 +71,6 @@ public class OrderController {
 	@RequestMapping(value="/yoplle/checkSucCart.do") // 추가 장바구니에서 여러 개 돌릴 때 사용
 	public String checkSucCart(int[] itemno, OrderInfoVO oivo, OrderDeCartVO odvo) {
 		
-		System.out.println(oivo);
-		System.out.println(odvo);
 		List<Integer> nums = new ArrayList<Integer>();
 		for(int i=0; i<itemno.length; i++) {
 			nums.add(itemno[i]);
