@@ -29,34 +29,34 @@ public class UserController {
 	@Autowired
 	private RecipeDAO rdao;
 
-	@PostMapping(value = "/yoplle/login.do")
+	@PostMapping(value = "/yoplle/login.do") // login.jsp에서 id,password 값을 받아옴
 	public String logCheck(HttpSession session, String id, String password, String recipe, String cart, String itemno) {
 		boolean state = dao.signIn(id, password);
 
 		if (state) {
 			session.setAttribute("id", id);
-			String userNo = String.valueOf(dao.idTonumber(id));
-			session.setAttribute("no", userNo);
-			session.setMaxInactiveInterval(6000);
+			String userNo = String.valueOf(dao.idTonumber(id)); // id에 맞는 userNo값을 저장.
+			session.setAttribute("no", userNo); // 후에 userno를 사용해야하니 세션화
+			session.setMaxInactiveInterval(6000); // 6000초 세션
 		}
 
 		if (state == true) {
-			if (recipe != null) {
+			if (recipe != null) { //레시피작성할때 필요한 로그인일시
 				return "redirect:recipeMake.jsp";
-			} else if (cart != null) {
+			} else if (cart != null) { //카트에서 장바구니에 담을때 필요한 로그인일시
 				return "redirect:shopInfo.do?no=" + itemno + "&job=iteminfo";
 			}
 			return "redirect:mainPage.do";
 		} else {
-			session.setAttribute("error", "ID 혹은 PASSWORD가 맞지 않습니다. 다시 입력해주세요.");
+			session.setAttribute("error", "ID 혹은 PASSWORD가 맞지 않습니다. 다시 입력해주세요."); //비밀번호나 아이디가 틀렸을때 에러문구 반환
 			session.setMaxInactiveInterval(1);
 			return "redirect:login.jsp";
 		}
 	}
 
-	@RequestMapping(value = "/yoplle/logout.do") // 濡쒓렇�븘�썐
+	@RequestMapping(value = "/yoplle/logout.do") //로그아웃
 	public String logout(HttpSession session) {
-		session.invalidate();
+		session.invalidate(); //세션 소멸
 		return "redirect:mainPage.do";
 	}
 
@@ -70,9 +70,9 @@ public class UserController {
 		return "0";
 	}
 
-	@RequestMapping(value = "/yoplle/signup.do") //회원 가입
+	@RequestMapping(value = "/yoplle/signup.do") // 회원 가입
 	public String userInsertAction(UserInfoVO vo) {
-		dao.insertUser(vo); //회원 정보 추가
+		dao.insertUser(vo); // 회원 정보 추가
 		return "yoplle/signup-success";
 	}
 
@@ -130,31 +130,30 @@ public class UserController {
 
 	@RequestMapping(value = "/yoplle/adminPage.do")
 	public String adminPageAction(String id, String no) {
-
 		return "yoplle/admin-user-management";
 	}
 
-	@RequestMapping(value = "/yoplle/recipelogin.do")
+	@RequestMapping(value = "/yoplle/recipelogin.do") //레시피작성 시 필요한 로그인 요청이 들어왔을때.
 	public String recipelogin(HttpServletRequest request, HttpSession session) {
-		session.setAttribute("recipe", "recipemake");
+		session.setAttribute("recipe", "recipemake"); //레시피로그인이라는 걸 알려주기 위한 반환값
 		session.setMaxInactiveInterval(2);
 		return "redirect:login.jsp";
 
 	}
 
-	@RequestMapping(value = "/yoplle/cartlogin.do", method = RequestMethod.POST)
-	public String cartlogin(HttpServletRequest request, HttpSession session) {
-		String no = request.getParameter("itemno");
-		session.setAttribute("itemno", request.getParameter("itemno"));
-		session.setAttribute("cart", "cart");
+	@RequestMapping(value = "/yoplle/cartlogin.do", method = RequestMethod.POST) //카트 장바구니 담을때 필요한 로그인요청
+	public String cartlogin(HttpServletRequest request, HttpSession session,int itemno) {
+		
+		session.setAttribute("itemno", itemno); //상품의 고유번호를 세션화 해서 넘겨줌
+		session.setAttribute("cart", "cart"); //카트에서 로그인했음을 알려주는 반환값
 		session.setMaxInactiveInterval(20);
 		return "redirect:login.jsp";
 
 	}
 
-	@RequestMapping(value = "/yoplle/mypage.do")
+	@RequestMapping(value = "/yoplle/mypage.do") //마이페이지
 	public String mypageAction(Model model, String id) {
-		model.addAttribute("userinfo", dao.userInfoSelect(id));
+		model.addAttribute("userinfo", dao.userInfoSelect(id)); //아이디와 일치하는 유저의 정보를 
 		return "/yoplle/personal-inform";
 	}
 
@@ -169,45 +168,44 @@ public class UserController {
 		return "redirect:/yoplle/mainPage.do";
 	}
 
-	@RequestMapping(value = "userList.do") 
+	@RequestMapping(value = "userList.do")
 	@ResponseBody
 	public HashMap<String, Object> selectUser(@RequestParam(value = "job", defaultValue = "user_no") String job,
-			@RequestParam(value = "sort", defaultValue = "asc") String sort) { //회원 리스트 출력(관리자 페이지)
+			@RequestParam(value = "sort", defaultValue = "asc") String sort) { // 회원 리스트 출력(관리자 페이지)
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("job", job); //정렬 기준 설정
-		map.put("sort", sort); 
+		map.put("job", job); // 정렬 기준 설정
+		map.put("sort", sort);
 
-		map.put("countUser", dao.countUser()); //유저 수 카운트 
-		map.put("userList", dao.selectUser(map)); //정렬 기준에 따른 회원 리스트 출력 
+		map.put("countUser", dao.countUser()); // 유저 수 카운트
+		map.put("userList", dao.selectUser(map)); // 정렬 기준에 따른 회원 리스트 출력
 
 		return map;
 	}
 
 	@RequestMapping(value = "userDelete.do")
 	@ResponseBody
-	public HashMap<String, Object> deleteUser(int no, String job, String sort) { //회원 삭제(관리자 페이지)
-		dao.deleteUser(no); //해당 유저 삭제
+	public HashMap<String, Object> deleteUser(int no, String job, String sort) { // 회원 삭제(관리자 페이지)
+		dao.deleteUser(no); // 해당 유저 삭제
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("job", job); //정렬 기준 설정
+		map.put("job", job); // 정렬 기준 설정
 		map.put("sort", sort);
 
-		map.put("countUser", dao.countUser()); //유저 수 카운트 
-		map.put("userList", dao.selectUser(map)); //정렬 기준에 따른 회원 리스트 출력 
+		map.put("countUser", dao.countUser()); // 유저 수 카운트
+		map.put("userList", dao.selectUser(map)); // 정렬 기준에 따른 회원 리스트 출력
 
-		return map; //회원 삭제 후 다시 회원 리스트 출력 
+		return map; // 회원 삭제 후 다시 회원 리스트 출력
 	}
 
-	@RequestMapping(value = "/yoplle/mypagelist.do")
+	@RequestMapping(value = "/yoplle/mypagelist.do") //마이페이지에서 레시피 리스트
 	public String mypagelistAction(String id, int userNo, Model model) {
-		System.out.println("마이페이지 리스트 두 실행");
-		System.out.println(userNo);
+
 		model.addAttribute("recipe", rdao.selectMypageList(userNo));
 
 		return "/yoplle/personal-mylist";
 	}
 
-	@RequestMapping(value = "/yoplle/myrecipe.do")
+	@RequestMapping(value = "/yoplle/myrecipe.do") //마이페이지 레시피에서 각 링크별로 이동하는 루트
 	public String myrecipeAction(int rpe_no) {
 		return "redirect:/yoplle/recipeInfo.do?no=" + rpe_no + "&job=recipeinfo";
 	}

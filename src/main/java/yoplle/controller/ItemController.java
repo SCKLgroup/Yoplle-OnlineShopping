@@ -97,12 +97,12 @@ public class ItemController {
 	}
 	
 
-	@RequestMapping(value = "/yoplle/insertItem.do")
-	public String insertItemAction(ItemVO vo, @RequestParam(value = "files", required = false) MultipartFile file,
-			@RequestParam(value = "file", required = false) MultipartFile file2) {
+	@RequestMapping(value = "/yoplle/insertItem.do") //상품 등록
+	public String insertItemAction(ItemVO vo, @RequestParam(value = "thumbnail", required = false) MultipartFile file,
+			@RequestParam(value = "detail", required = false) MultipartFile file2) {
 
-		String location = "C:\\dev\\se_workspace\\springLesson1\\web\\src\\main\\webapp\\yoplle\\img\\item\\";
-		FileOutputStream fos = null;
+		String location = "C:\\Users\\wjchu\\git\\yoplleProject\\src\\main\\webapp\\yoplle\\img\\item\\";
+		FileOutputStream fos = null; 
 		String item_img = file.getOriginalFilename();
 		String item_de_content = file2.getOriginalFilename();
 		if (item_img.length() > 0) {

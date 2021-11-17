@@ -68,7 +68,7 @@
                                        <a href="logout.do" style="width: 90px; padding: 5px"> 로그아웃 </a>
                                        <a href="#" style="width: 90px; padding: 5px" onclick="mypage()" id="mypage">
                                           <input type="text" value="${id}" hidden="hidden" name="id">
-                                          마이페이지
+                                          	마이페이지
                                        </a>
                                        <a href="list.do" style="width: 90px; padding: 5px"> 고객센터 </a>
                                     </form>
