@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import yoplle.dao.BestDAO;
 import yoplle.dao.ItemDAO;
-import yoplle.dao.MainDAO;
 import yoplle.dao.RecipeDAO;
 import yoplle.vo.ItemVO;
 

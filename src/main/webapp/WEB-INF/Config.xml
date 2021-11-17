@@ -15,7 +15,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="yoplle/mapper/cart-mapper.xml"/>
 		<mapper resource="yoplle/mapper/shopbest-mapper.xml"/>
 		<mapper resource="yoplle/mapper/item-mapper.xml"/>
-		<mapper resource="yoplle/mapper/main-mapper.xml"/>
 		<mapper resource="yoplle/mapper/notice-mapper.xml"/>
 		<mapper resource="yoplle/mapper/order-mapper.xml"/>
 		<mapper resource="yoplle/mapper/recipe-mapper.xml"/>
