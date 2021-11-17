@@ -70,15 +70,7 @@
             </div>
             <div class="row">
                  <div class="col-lg-6">
-                    <!-- div class="shoping__continue">
-                        <div class="shoping__discount">
-                            <h5>프로모션 코드</h5>
-                            <form action="#">
-                                <input type="text" placeholder="쿠폰을 입력해 주세요">
-                                <button type="submit" class="site-btn">쿠폰 등록</button>
-                            </form>
-                        </div>
-                    </div> -->
+                   
                 </div> 
                 <div class="col-lg-6">
                     <div class="shoping__checkout">

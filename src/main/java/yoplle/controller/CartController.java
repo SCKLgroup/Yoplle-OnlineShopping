@@ -29,49 +29,42 @@ public class CartController {
 	
 	@RequestMapping(value="/yoplle/rightNow.do") 
 	public String rightNowTake(int no, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id, String job) { 
-		model.addAttribute("iteminfo", itemdao.selectInfoItem(no));
-		model.addAttribute("userinfo", userdao.userInfoSelect(id));
-		model.addAttribute("ea", ea);
+		model.addAttribute("iteminfo", itemdao.selectInfoItem(no)); //상품 정보
+		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
+		model.addAttribute("ea", ea); //장바구니에 담을 상품 개수 
 
-		if(job.equals("buy")) {
+		if(job.equals("buy")) { //바로 구매 버튼 눌렀을 때
 			return "yoplle/checkout";
-		}else {
+		}else { //장바구니 버튼 눌렀을 때
 			HashMap<String, Object> map =new HashMap<String, Object>();
 			map.put("user_id", id);
 			map.put("item_no", no);
-			Integer quan=cartdao.cartCheckAction(map);
-			if(quan==null) {
+			
+			CartVO cart=cartdao.cartCheckAction(map);
+			
+			if(cart==null) { //기존 장바구니에 해당 상품이 없을 경우
 				map.put("cart_quan", ea);
 				cartdao.insertCartAction(map);
-			}else {
-				map.put("cart_quan", ea+quan);
-				cartdao.updateCartAction(map);
+			}else { //기존 장바구니에 해당 상품이 있을 경우 개수 업데이트 
+				map.put("cart_quan", ea+cart.getCart_quan());
+				map.put("cart_no", cart.getCart_no());
+				cartdao.updateCartQuan(map);
 			}
 			return "yoplle/shopping-cart";
 		}
 		
 	}
 	
-	@RequestMapping(value="cartInsert.do")
-	public String insertCartAction(String id) { //장바구니 출력
-		
-		return "yoplle/shopping-cart";
-	}
-
 	@RequestMapping(value="cartSelect.do")
 	@ResponseBody
 	public List<CartVO> selectCartAction(String id) { //장바구니 출력
 		return cartdao.selectCartAction(id);
 	}
 
-	@RequestMapping(value="/yoplle/cart.do")
-	public String selectCartAction(Model model,String id) { 
-		return "yoplle/shopping-cart";
-	}
 	
 	@RequestMapping(value="cartDelete.do")
 	@ResponseBody
-	public List<CartVO> selectDeleteCart(@RequestParam(value="no[]")List<String> no, Model model,String id) {
+	public List<CartVO> selectDeleteCart(@RequestParam(value="no[]")List<String> no, Model model,String id) {//장바구니 상품 삭제
 		for(String s :no) {
 			cartdao.selectDeleteCart(Integer.parseInt(s));
 		}
@@ -80,17 +73,25 @@ public class CartController {
 	
 	@RequestMapping(value="quanUpdate.do")
 	@ResponseBody
-	public List<CartVO> quanUpdateAction(String cart_no, String cart_quan, String id) {
+	public List<CartVO> quanUpdateAction(String cart_no, String cart_quan, String id) { //장바구니 상품 수 업데이트
 		HashMap<String, Object> map=new HashMap<String, Object>();
-		map.put("cartno", cart_no);
-		map.put("quan", cart_quan);
+		map.put("cart_no", cart_no);
+		map.put("cart_quan", cart_quan);
 		
 		cartdao.updateCartQuan(map);
 	
 		return cartdao.selectCartAction(id);
 	}
 
-
+//	@RequestMapping(value="/yoplle/cart.do")
+//	public String selectCartAction(Model model,String id) { 
+//		return "yoplle/shopping-cart";
+//	}
+	
+//	@RequestMapping(value="cartInsert.do")
+//	public String insertCartAction(String id) { //장바구니 출력
+//		return "yoplle/shopping-cart";
+//	}
 
 }
 

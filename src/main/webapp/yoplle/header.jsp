@@ -153,7 +153,7 @@
                               <c:catch>
                                  <c:choose>
                                     <c:when test="${id != null }">
-                                       <li><a href="cart.do?id=${id}">
+                                       <li><a href="shopping-cart.jsp">
                                              <i class="fa fa-shopping-bag fa-2x"></i>
                                           </a></li>
                                     </c:when>
