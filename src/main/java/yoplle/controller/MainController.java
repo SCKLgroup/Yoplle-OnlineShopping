@@ -30,7 +30,6 @@ public class MainController {
 	@RequestMapping(value="mainPageCategory.do") //메인페이지 카테고리
 	public List<ItemVO> mainCategoryAjax(String category) {
 		return itemdao.selectItemCategory(category);
-		
 	}
 	
 	@RequestMapping(value = "/yoplle/mainPage.do")

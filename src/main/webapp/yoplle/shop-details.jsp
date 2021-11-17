@@ -67,7 +67,7 @@
 							</div>
 							
 						</div>
-						
+						<!-- 해당 페이지에서 단일 상품 결제 혹은 장바구니에 상품 담을 시 넘길 값 -->
 						<form id="idCheckSet" method="post" action="rightNow.do">
 							<input type="text" name="id" hidden="hidden" value="${id}">
 							<input type="text" name="no" hidden="hidden" value="${iteminfo.item_no}">
@@ -88,7 +88,7 @@
 						<div id="btns">
 							<c:catch>
 								<c:choose>
-									<c:when test="${id eq null}">
+									<c:when test="${id eq null}"> <!-- 로그인을 하지 않았을 경우 로그인 페이지로 이동 -->
 									   <a href="#" class="round-black-btn" id="sendlogin">
 									      <form id="sendlogin" method="POST" action="cartlogin.do">
 									         <input type="text" value="${iteminfo.item_no}" hidden="hidden" name="itemno">
@@ -102,7 +102,7 @@
 									      </form>
 									   </a>
 									</c:when>
-									<c:otherwise>
+									<c:otherwise> <!-- 로그인 상태 -->
 										<div class="round-black-btn" id="rightNowTake">바로 구매</div>
 										<a href="#" class="round-black-btn" id="cartIn">장바구니</a>
 									</c:otherwise>
@@ -310,12 +310,12 @@
 															<li class="q-table-inner-item"><fmt:parseDate value="${fl.faq_date}" var="faq_date" pattern="yy-MM-dd"/>
 												<fmt:formatDate value="${faq_date}" pattern="yy-MM-dd" /></li>
 													<c:choose>
-													<c:when test="${fl.emp_no eq 1}">
+													<c:when test="${fl.emp_no eq 1}"> <!-- 관리자 번호는 1번이므로 관리자가 배치되었다면 답변이 완료된 상태 -->
 															<li class="q-table-inner-item">답변 완료</li>
 													</c:when>
 						
 													
-													<c:when test="${fl.emp_no eq 0}">
+													<c:when test="${fl.emp_no eq 0}"> <!-- 관리자 번호는 1번이므로 관리자가 배치되지 않았다면 답변 대기 상태 -->
 															<li class="q-table-inner-item">답변 대기</li>
 													</c:when>
 													</c:choose>
@@ -333,7 +333,7 @@
 														</ul>
 														<div class="q-table-page-anwser">
 															<!-- 메뉴 눌렀을 때 페이지 -->
-											<c:if test="${fl.emp_no eq 1}">
+											<c:if test="${fl.emp_no eq 1}"> <!-- 답변이 완료된 상태라면 답변도 함께 짝지어 출력 -->
 															<ul class="q-table-page-titleNstate">
 																<li class="q-table-page-item-title">답변 : re:${fl.faq_title}</li>
 																<li class="q-table-page-item-state">답변 완료</li>
@@ -341,6 +341,7 @@
 															<ul class="q-table-page-ul">
 																<li class="q-table-page-item">${fl.ans_content}</li>
 															</ul>
+															
 											</c:if>
 														</div>
 													</div>
