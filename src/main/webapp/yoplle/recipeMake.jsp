@@ -292,6 +292,38 @@ textarea {
 <script type="text/javascript">
 	$(function() {
 		$("a#submit").click(function() {
+			
+			if($("input[name='rpe_title']").val()==""){
+				alert('제목을 입력해주세요');
+				return false;
+			}
+			
+			if($("input[name='file']").val()==""){
+				alert('썸네일 이미지를 넣어주세요');
+				return false;
+			}
+			
+			if($("textarea[name='rpe_content']").val()==""){
+				alert('요리 소개를 입력해주세요');
+				return false;
+			}
+			
+			if($("input[name='rpe_time']").val()==""){
+				alert('소요 시간을 입력해주세요');
+				return false;
+			}
+			
+			if($("input[name='INGR_NAME']").val()=="" || $("input[name='INGR_QUAN']").val()==""){
+				alert('재료와 수량을 최소 1개 이상 입력해주세요');
+				return false;
+			}
+			
+			if($("textarea[name='RPE_DE_CONTENT']").val()==""){
+				alert('요리 순서를 최소 1개 이상 입력해주세요');
+				return false;
+			}
+		
+			
 			$("form").submit();
 		});
 
@@ -371,6 +403,8 @@ textarea {
 	$("#imgInput").change(function() {
 		readURL(this);
 	});
+	
+	
 </script>
 
 
