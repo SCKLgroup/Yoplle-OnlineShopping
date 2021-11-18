@@ -23,6 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM DUAL
 	</select>
 	
+	<select id="getRpeSequence" resultType="java.lang.Integer">
+		SELECT RECIPE_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+	
 	<select id="getTotalRecipe" resultType="int"> <!-- 레시피 수  -->
   		SELECT COUNT(*) FROM RECIPE
   	</select>
