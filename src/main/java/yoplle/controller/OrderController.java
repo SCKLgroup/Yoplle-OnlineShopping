@@ -42,30 +42,22 @@ public class OrderController {
 
 
 	@RequestMapping(value="/yoplle/checkSuc.do") // 단일 주문
-	public String checkcSuccess(int no, int ea, OrderInfoVO oivo, OrderDeVO odvo, String job) {
-		
-		if(job.equals("onetake")) {
-			Map<String, Object> sda=new HashMap<String, Object>();
-			int i=dao.stockCheck(no)-ea;
-			System.out.println(i);
-			sda.put("ea", i);
-			sda.put("no", no);
-			int orderNo=dao.getOrderInfoSequence();
-			oivo.setOrder_no(orderNo);
-			odvo.setOrder_no(orderNo);
-			odvo.setOr_de_no(dao.getOrderDeSequence());
-			odvo.setItem_no(no);
-			odvo.setOr_de_price(dao.getItemPrice(no)*ea);
-			dao.insertOrderInfo(oivo);
-			dao.insertOrderDe(odvo);
-			dao.stockDownAction(sda);
-			return "yoplle/shopping-success";
-		}else {
-			System.out.println(oivo);
-			System.out.println(odvo);
-			return "yoplle/shopping-success";
-		}
-		
+	public String checkcSuccess(int no, int ea, OrderInfoVO oivo, OrderDeVO odvo) {
+		Map<String, Object> sda = new HashMap<String, Object>();
+		int i = dao.stockCheck(no) - ea;
+		System.out.println(i);
+		sda.put("ea", i);
+		sda.put("no", no);
+		int orderNo = dao.getOrderInfoSequence();
+		oivo.setOrder_no(orderNo);
+		odvo.setOrder_no(orderNo);
+		odvo.setOr_de_no(dao.getOrderDeSequence());
+		odvo.setItem_no(no);
+		odvo.setOr_de_price(dao.getItemPrice(no) * ea);
+		dao.insertOrderInfo(oivo);
+		dao.insertOrderDe(odvo);
+		dao.stockDownAction(sda);
+		return "yoplle/shopping-success";
 	}
 
 	@RequestMapping(value="/yoplle/checkSucCart.do") // 추가 장바구니에서 여러 개 돌릴 때 사용
@@ -75,13 +67,9 @@ public class OrderController {
 		for(int i=0; i<itemno.length; i++) {
 			nums.add(itemno[i]);
 		}
-
 		HashMap<String, Object>map=new HashMap<String, Object>();
-		
 		map.put("userNo", oivo.getUser_no());
 		map.put("itemNo", nums);
-		System.out.println(map);
-		
 		int x =odvo.getItem_noV().length;
 		int orderNo=dao.getOrderInfoSequence();
 		oivo.setOrder_no(orderNo);
@@ -96,19 +84,12 @@ public class OrderController {
 			odvo.setOr_de_back("n");
 			odvo.setOr_de_price(odvo.getOr_de_priceV()[y]);
 			odvo.setOr_de_quan(odvo.getOr_de_quanV()[y]);
-			
 			odvo.setItem_no(odvo.getItem_noV()[y]);
 			dao.insertOrderDe(odvo);
 			dao.stockDownAction(sda);
-			
 		}
 		dao.deleteCartSet(map);
-		
-		
 		return "yoplle/shopping-success";
 	}
-
-	
-
 }
 
