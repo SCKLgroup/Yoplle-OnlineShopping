@@ -27,32 +27,38 @@ public class CartController {
 	@Autowired
 	private ItemDAO itemdao;
 	
-	@RequestMapping(value="/yoplle/rightNow.do") 
-	public String rightNowTake(int no, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id, String job) { 
-		model.addAttribute("iteminfo", itemdao.selectInfoItem(no)); //상품 정보
+	@RequestMapping(value="/yoplle/cartIn.do") 
+	public String cartInsert(Object itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
+		System.out.println(itemno);
+		
+		//model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
 		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
 		model.addAttribute("ea", ea); //장바구니에 담을 상품 개수 
 
-		if(job.equals("buy")) { //바로 구매 버튼 눌렀을 때
-			return "yoplle/checkout";
-		}else { //장바구니 버튼 눌렀을 때
-			HashMap<String, Object> map =new HashMap<String, Object>();
-			map.put("user_id", id);
-			map.put("item_no", no);
-			
-			CartVO cart=cartdao.cartCheckAction(map);
-			
-			if(cart==null) { //기존 장바구니에 해당 상품이 없을 경우
-				map.put("cart_quan", ea);
-				cartdao.insertCartAction(map);
-			}else { //기존 장바구니에 해당 상품이 있을 경우 개수 업데이트 
-				map.put("cart_quan", ea+cart.getCart_quan());
-				map.put("cart_no", cart.getCart_no());
-				cartdao.updateCartQuan(map);
-			}
-			return "yoplle/shopping-cart";
-		}
+		HashMap<String, Object> map =new HashMap<String, Object>();
+		map.put("user_id", id);
+		map.put("item_no", itemno);
 		
+		CartVO cart=cartdao.cartCheckAction(map);
+		
+		if(cart==null) { //기존 장바구니에 해당 상품이 없을 경우
+			map.put("cart_quan", ea);
+			cartdao.insertCartAction(map);
+		}else { //기존 장바구니에 해당 상품이 있을 경우 개수 업데이트 
+			map.put("cart_quan", ea+cart.getCart_quan());
+			map.put("cart_no", cart.getCart_no());
+			cartdao.updateCartQuan(map);
+		}
+		return "yoplle/shopping-cart";
+	}
+
+	@RequestMapping(value="/yoplle/itemOrder.do") 
+	public String itemOrder(int itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
+		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
+		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
+		model.addAttribute("ea", ea); //장바구니에 담을 상품 개수 
+		
+		return "yoplle/checkout";
 	}
 	
 	@RequestMapping(value="cartSelect.do")
