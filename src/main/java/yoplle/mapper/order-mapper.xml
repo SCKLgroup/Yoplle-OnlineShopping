@@ -44,5 +44,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select item_stock from item where item_no=#{no}
 	</select>
 	
+	<select id="selectCartTakeout" parameterType="java.util.HashMap" resultType="yoplle.vo.CartTakeVO"><!-- 카트에서 주문하기로 넘어갈 때 상품 select -->
+		SELECT * FROM
+		(SELECT ITEMNO.USER_NO, ITEMNO.USER_NAME, ITEMNO.USER_TEL, ITEMNO.USER_MAIL, ITEMNO.ITEM_NO, ITEMNO.CART_QUAN, I.ITEM_NAME, I.ITEM_CATEGORY, I.ITEM_PRICE
+		FROM
+		(SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL, C.ITEM_NO, C.CART_QUAN
+		FROM (SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL FROM USERINFO U WHERE U.USER_ID=#{id}) U, CART C
+		WHERE U.USER_NO=C.USER_NO) ITEMNO, ITEM I WHERE ITEMNO.ITEM_NO=I.ITEM_NO) A WHERE A.ITEM_NO IN
+		<foreach collection="no" item="item" index="idx" separator=","  open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
 
 </mapper>
