@@ -135,7 +135,7 @@
 									<li><div id="nameTag">[${iteminfo.item_category}] ${iteminfo.item_name}</div> <span id="prices">${iteminfo.item_price*ea} 원</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
-									상품 총 금액 <span><c:out value="${priceSet}"/> 원</span>
+									상품 총 금액 <span><c:out value="${iteminfo.item_price*ea}"/> 원</span>
 								</div>
 								<div class="checkout__order__send">
 									배송 금액 <span id="dvPrice">3,000원</span>
