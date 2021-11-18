@@ -1,18 +1,16 @@
 package yoplle.service;
 
-import java.util.List;
-
-
 import yoplle.vo.UserInfoVO;
 
 public interface UserService {
 
-//	UserInfoVO loginUser(UserInfoVO vo);
-	
+	//findId dao 호출
 	UserInfoVO findId(UserInfoVO vo);
 	
+	//findPassword dao 호출
 	UserInfoVO findPassword(UserInfoVO vo);
 	
+	//updatePassword dao 호출
 	void updatePassword(UserInfoVO vo);
 
 }
