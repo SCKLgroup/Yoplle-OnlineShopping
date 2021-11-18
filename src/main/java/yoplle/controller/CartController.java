@@ -49,15 +49,6 @@ public class CartController {
 		}
 		return "yoplle/shopping-cart";
 	}
-
-	@RequestMapping(value="/yoplle/itemOrder.do") 
-	public String itemOrder(int itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
-		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
-		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
-		model.addAttribute("ea", ea); //구매할 상품 개수 
-		
-		return "yoplle/checkout";
-	}
 	
 	@RequestMapping(value="cartSelect.do")
 	@ResponseBody

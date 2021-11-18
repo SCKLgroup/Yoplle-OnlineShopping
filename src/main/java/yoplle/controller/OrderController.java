@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import yoplle.dao.ItemDAO;
 import yoplle.dao.OrderDAO;
+import yoplle.dao.UserDAO;
 import yoplle.vo.OrderDeCartVO;
 import yoplle.vo.OrderDeVO;
 import yoplle.vo.OrderInfoVO;
@@ -21,6 +24,10 @@ public class OrderController {
 	
 	@Autowired
 	private OrderDAO dao;
+	@Autowired
+	private UserDAO userdao;
+	@Autowired
+	private ItemDAO itemdao;
 
 	
 	@RequestMapping(value="/yoplle/cartTake.do")
@@ -40,6 +47,14 @@ public class OrderController {
 		return "/yoplle/cart-checkout";
 	}
 
+	@RequestMapping(value="/yoplle/itemOrder.do") 
+	public String itemOrder(int itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
+		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
+		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
+		model.addAttribute("ea", ea); //구매할 상품 개수 
+		
+		return "yoplle/checkout";
+	}
 
 	@RequestMapping(value="/yoplle/checkSuc.do") // 단일 주문
 	public String checkcSuccess(int no, int ea, OrderInfoVO oivo, OrderDeVO odvo) {
