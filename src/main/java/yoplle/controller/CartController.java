@@ -28,10 +28,8 @@ public class CartController {
 	private ItemDAO itemdao;
 	
 	@RequestMapping(value="/yoplle/cartIn.do") 
-	public String cartInsert(Object itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
-		System.out.println(itemno);
-		
-		//model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
+	public String cartInsert(int itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
+		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
 		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
 		model.addAttribute("ea", ea); //장바구니에 담을 상품 개수 
 
@@ -56,7 +54,7 @@ public class CartController {
 	public String itemOrder(int itemno, @RequestParam(value="ea",defaultValue="1") int ea, Model model, String id) { 
 		model.addAttribute("iteminfo", itemdao.selectInfoItem(itemno)); //상품 정보
 		model.addAttribute("userinfo", userdao.userInfoSelect(id)); //회원 정보
-		model.addAttribute("ea", ea); //장바구니에 담을 상품 개수 
+		model.addAttribute("ea", ea); //구매할 상품 개수 
 		
 		return "yoplle/checkout";
 	}

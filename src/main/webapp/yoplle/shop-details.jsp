@@ -71,7 +71,7 @@
 						<!-- 해당 페이지에서 단일 상품 결제 혹은 장바구니에 상품 담을 시 넘길 값 -->
 						<form id="idCheckSet" method="post" action="">
 							<input type="text" name="id" hidden="hidden" value="${id}">
-							<input type="text" name="itemno" hidden="hidden" value="${iteminfo}">
+							<input type="text" name="itemno" hidden="hidden" value="${iteminfo.item_no}">
 							<input type="text" name="ea" id="eaInput" hidden="hidden" value="">
 							<input type="text" name="userno" id="userno"  hidden="hidden" value="${no}">
 						</form>
@@ -103,7 +103,6 @@
 									   </a>
 									</c:when>
 									<c:otherwise> <!-- 로그인 상태 -->
-										<!-- <div class="round-black-btn" id="rightNowTake">바로 구매</div> -->
 										<a href="#" class="round-black-btn" id="itemOrder">바로 구매<</a>
 										<a href="#" class="round-black-btn" id="cartIn">장바구니</a>
 									</c:otherwise>
@@ -479,7 +478,7 @@
 				$("form#faqWriterform").submit();
 			});
 			
-			$("a#itemOrder").click(function(){
+			$("a#itemOrder").click(function(){ 
 				$("#idCheckSet").attr("action", "itemOrder.do");
 				$("#eaInput").val($('#qty').val());
 				$("form#idCheckSet").submit();
