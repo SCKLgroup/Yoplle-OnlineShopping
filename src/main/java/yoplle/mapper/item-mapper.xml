@@ -74,24 +74,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="insertItem" parameterType="yoplle.vo.ItemVO">
 		INSERT INTO
-		ITEM(item_no,emp_no,item_name,item_category,item_de_content,item_img,item_price,item_origin,item_ea,item_stock,item_date,item_ca_de)
+		ITEM(ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,ITEM_DATE,ITEM_CA_DE)
 		VALUES(item_seq.nextval,1,#{item_name},#{item_category},#{item_de_content},#{item_img},#{item_price},#{item_origin},#{item_ea},#{item_stock},SYSDATE,#{item_ca_de})
 	</insert>
 	<!-- 관리자 페이지에서 수량 count -->
 	<select id="countItemAction" parameterType="HashMap" resultType="int">
 		<choose>
 			<when test='job neq "default".toString()'>
- 		select count(*) from item
-			where item_category=#{job}
+ 		SELECT COUNT(*) FROM ITEM
+			WHERE ITEM_CATEGORY=#{job}
 			</when>
  		<otherwise>
-		select count(*) from item
+		SELECT COUNT(*) FROM ITEM
 		</otherwise>
 		</choose>
 	</select>
 	<!-- 관리자 페이지에서 아이템 삭제 -->
 	<delete id="deleteItemAction" parameterType="HashMap">
-		delete from item where item_no in
+		DELETE FROM ITEM WHERE ITEM_NO IN
 		<foreach collection="no" item="no" open="(" close=")" separator=",">
 		 	#{no}
 		</foreach>
