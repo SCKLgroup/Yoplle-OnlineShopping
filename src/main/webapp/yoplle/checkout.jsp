@@ -65,7 +65,7 @@
 			</div>
 			<div class="checkout__form">
 				<h4>주문 내역</h4>
-						<form id="checkSuc" action="checkSuc.do?job=onetake" method="POST">
+						<form id="checkSuc" action="checkSuc.do" method="POST">
 			
 					<div class="row">
 						<div class="col-lg-8 col-md-6">
