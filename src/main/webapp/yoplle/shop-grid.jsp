@@ -90,7 +90,7 @@
                         </div>
                        </c:forEach>
 
-                       	<form id="idCheckSet" method="post" action="rightNow.do">
+                       	<form id="idCheckSet" method="post" action="cartIn.do">
 							<input type="text" name="id" hidden="hidden" value="${id}">
 							<input type="text" name="no" id="no" hidden="hidden" value="">
 							<input type="text" name="job" id="job"  hidden="hidden" value="">

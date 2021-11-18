@@ -122,85 +122,85 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
-			$("button#addrsearch").click(function(){
+			$("button#addrsearch").click(function(){ //다음 오픈api(주소) 열기
 				adrr();
 			});
 			
-			$("input#user_postcode").click(function(){
+			$("input#user_postcode").click(function(){ //다음 오픈api(주소) 열기
 				adrr();
 			});
 			
-			function adrr(){
+			function adrr(){ //다음 오픈api(주소)
 			    new daum.Postcode({
 			        oncomplete: function(data) { //선택시 입력값 세팅
 			            document.getElementById("user_postcode").value = data.zonecode; // 우편번호 넣기
-			            document.getElementById("addr").value = data.address; // 주소 넣기
+			            document.getElementById("addr").value = data.address; //주소 넣기
 			            document.querySelector("input[name=addrDetail]").focus(); //상세입력 포커싱
 			        }
 			    }).open();
 			}
 
-			$("button#join").click(function(){
+			$("button#join").click(function(){ //회원 가입 버튼 클릭 시
 				if($("input#user_id").val()=="" || $("input#user_pw").val()=="" ||$("input#pwCheck").val()=="" ||
 						$("input#user_name").val()=="" ||$("input#user_tel").val()=="" ||$("input#user_mail").val()=="" ||
 						$("input#user_postcode").val()=="" ||$("input#addr").val()=="" ||$("input#user_birth").val()==""){
+					//회원 가입 필수 조건 작성 여부 확인 
 					alert('필수사항을 확인해주세요');
 					return false;
 				}
-				if(dup==0){
+				if(dup==0){ //아이디 중복 체크 1회 이상 필수 
 					alert('아이디 중복 확인이 필요합니다');
 					return false;
 				}
-				$("input#user_address").val($("input#addr").val()+','+$("input#addrDetail").val());
+				$("input#user_address").val($("input#addr").val()+','+$("input#addrDetail").val()); 
 				$("form").submit();
 			});
 			
-			var dup=0;
-			$("input[name='user_id']").click(function(){ //아이디 재입력시 중복체크 다시 0으로 리셋
-				dup=0;
-			});
+	
 			
-			$("button#duplCheck").click(function(){ //중복 체크
-				var idRegExp = /^[a-z0-9]{6,20}$/;
-				if(idval>0){
-				dup+=1;
-				 $.ajax({
-			          url:'/web/idCheck.do',
-			          type:'post',
-			          data: {"user_id":$("#user_id").val()},
-			          dataType:'json',              
-			          success:function(v){
-			            if(v=="1"){
-							$("div#validId").text("중복된 아이디가 존재합니다");
-							$("input#user_id").val('');
-							return false;
-			            }else if(!idRegExp.test($("input[name='user_id']").val())){
-							$("div#validId").text("6~20자의 영문 소문자와 숫자만 가능합니다");
-							$(this).val('');            
-				            return false;
-						}
-			            else {
-							$("div#validId").text("사용 가능한 아이디입니다");
-			            }
-			          },
-			          error:function(e){
-			             alert('error'+e);
-			          }
-			       });
-				}
-			});
-			
-			var idval=0;
+			var idval; //아이디 유효성 여부 체크
 			$("input[name='user_id']").blur(function(){ //아이디 유효성 검사
-				idval+=1;
 				var idRegExp = /^[a-z0-9]{6,20}$/; //6~20자 영문소문자, 숫자 사용가능
-				if(!idRegExp.test($(this).val())){
+				idval=0;
+				if(!idRegExp.test($(this).val())){ //아이디가 유효하지 않을 때
+					idval+=1;  
 					$("div#validId").text("6~20자의 영문 소문자와 숫자만 가능합니다");
 					$(this).val('');            
 		            return false;
 				}
 				$("div#validId").text("");
 		    });
+			
+			var dup;
+			$("button#duplCheck").click(function(){ //중복 체크
+				//var idRegExp = /^[a-z0-9]{6,20}$/;
+				if(idval==0){
+					dup+=1;
+					$.ajax({
+				          url:'/web/idCheck.do',
+				          type:'post',
+				          data: {"user_id":$("#user_id").val()},
+				          dataType:'json',              
+				          success:function(v){
+				            if(v=="1"){ //중복 아이디 존재 
+								$("div#validId").text("중복된 아이디가 존재합니다");
+								$("input#user_id").val('');
+								return false;
+				            }else {
+								$("div#validId").text("사용 가능한 아이디입니다");
+				            }
+				          },
+				          error:function(e){
+				             alert('error'+e);
+				          }
+				    });
+				}
+			});
+		
+			$("input[name='user_id']").click(function(){ //아이디 재입력시 중복체크 다시 0으로 리셋
+				dup=0;
+			});
+			
 			
 			$("input#user_pw").blur(function(){ //비밀번호 유효성 검사
 				var pwRegExp = /^[a-z0-9]{4,20}$/;
@@ -209,7 +209,7 @@
 					$(this).val('');          
 		            return false;
 				}
-				if ($("input[name='user_id']").val() == $(this).val()) {
+				if ($("input[name='user_id']").val() == $(this).val()) { 
 					$("div#validPw").text("아이디와 비밀번호를 다르게 설정해주세요");
 					$(this).val('');          
 			        return false;
@@ -217,7 +217,7 @@
 				$("div#validPw").text("");
 			});
 			
-			$("input#pwCheck").blur(function(){
+			$("input#pwCheck").blur(function(){ //비밀번호 확인 유효성 검사 
 		        if($("input#user_pw").val()!=$("input#pwCheck").val()){
 					$("div#validPwCheck").text("비밀번호가 일치하지 않습니다");
 		        	$(this).val('');
@@ -243,23 +243,20 @@
 					$(this).val('');            
 		            return false;
 				}
-				else{
-					  $("input#add").val($("input[name='tel1']").val())
-				}
 				$("div#validMail").text("");
 		    });
 			
 			$("input[name='user_birth']").blur(function(){ //생년월일 유효성 검사
+				var date=new Date($(this).val())
 				var today=new Date();
-				var year = today.getFullYear();
-				
+			
 				var birthRegExp = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 				if(!birthRegExp.test($(this).val())){
 					$("div#validBirth").text("생년월일을 확인해주세요");
 					$(this).val('');            
 			        return false;
 				}
-				if(($(this).val()).substr(0,4)<=1900 || ($(this).val()).substr(0,4)>year){
+				if(today<=date){
 					$("div#validBirth").text("생년월일을 확인해주세요");
 					$(this).val('');            
 			        return false;
