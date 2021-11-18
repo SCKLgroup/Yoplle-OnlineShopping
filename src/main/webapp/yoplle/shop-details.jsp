@@ -401,6 +401,7 @@
 	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
 	<script type="text/javascript">
 	var no=$("input#userno").val();
+	/* 클릭하는 버튼에 따른 tag로 이동 */
       function fnMove(seq){
           var offset = $(seq+'tapp').offset();
           
@@ -417,6 +418,7 @@
 				}
 			});
 			
+			/* 상품 수량 감소 */
 			$("div.downEa").click(function(){
 				if($('#qty').val()>1){
 				$.ajax({
@@ -430,6 +432,8 @@
 				});
 				}
 			});
+			
+			/* 상품 수량 추가 */
 			$("div.upEa").click(function(){
 				$.ajax({
 					url:window.location.href,
@@ -443,13 +447,14 @@
 				
 			});
 			
-			
 			var temp="";
+			/* 로그인 검증 */
 			$("button#q-btn").click(function(){
 				if($("input#userno").val()==""){
 					alert('로그인이 필요합니다');
 					return false;
 				}
+				/* faqWriterform이라는 태그가 없을 시에 태그를 추가함 (중복 생성되지 않기 위함) */
 				if(!document.getElementById('faqWriterform')){
 				$.ajax({
 				url:window.location.href,
@@ -468,15 +473,16 @@
 				});
 				}
 				});
-			
+			/* q-writer-btn을 클릭하였을 때 form으로 값을 넘김 */
 			$(document).on("click", ".q-writer-btn", function(){
 				$("form#faqWriterform").submit();
 			});
 			
+			/* rightNow.do로 값을 넘김 */
 			$("div#rightNowTake").click(function(){
 				
 				$("#idCheckSet").attr("action", "rightNow.do");
-				$("input#job").val('buy');
+				$("input#job").val('buy'); /* 단일 구매 */
 				$("#eaInput").val($('#qty').val());
 				$("form#idCheckSet").submit();
 			});
