@@ -269,7 +269,7 @@
 		        		loadScript('js/jquery.slicknav.js');
 		        		loadScript('js/main.js');
 		        		 
-		        		//$("div#delslide").load(location.href + 'div#delslide');
+		        		// $("div#delslide").load(location.href + 'div#delslide');
 		       		 	/* $.getScript('js/jquery-3.3.1.min.js');
 		        		$.getScript('js/owl.carousel.min.js');
 		        		$.getScript('js/jquery.slicknav.js');

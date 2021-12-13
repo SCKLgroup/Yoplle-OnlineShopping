@@ -61,13 +61,14 @@
 
 							<div class="mb-3">
 								<label for="detail-origin">작성자</label> <input type="text"
-									class="form-control" value="요플레" disabled="disabled"> <input
-									type="hidden" name="EMP_NO" id="writer" value="1">
+									class="form-control" value="요플레" disabled="disabled"></input> <input
+									type="hidden" name="EMP_NO" id="writer" value="1"></input>
 							</div>
+
 							<div class="mb-3">
-								<label for="content">공지내용</label>
+								<label for="contents">공지내용</label>
 								<textarea class="form-control" rows="5" name="NOTI_CONTENT"
-									id="content" placeholder="내용을 입력해 주세요"></textarea>
+									id="contents" placeholder="내용을 입력해 주세요"></textarea>
 							</div>
 							<div class="mb-3">
 								<label for="detail-imgfile">파일 업로드</label><BR> <input
@@ -77,13 +78,13 @@
 									<img src="" />
 								</div>
 								<%=request.getRealPath("/")%>
-
 							</div>
 							<div class="detail-writer-btn">
 								<button type="button" class="btn btn-sm btn-primary"
 									id="btnSave">저장</button>
 								<button type="reset" class="btn btn-sm btn-primary">취소(다시작성)</button>
 							</div>
+
 						</form>
 					</div>
 				</div>
@@ -158,7 +159,7 @@
 		$(document).ready(function() {
 			$("#btnSave").click(function() {
 				var title = $("#title").val();
-				var content = $("#content").val();
+				var content = $("#contentY").val();
 				var writer = $("#writer").val();
 				if (title == "") {
 					alert("제목을 입력하세요");
@@ -180,20 +181,7 @@
 			});
 		});
 	</script>
-	<script>
-		$("#file")
-				.change(
-						function() {
-							if (this.files && this.files[0]) {
-								var reader = new FileReader;
-								reader.onload = function(data) {
-									$(".select_img img").attr("src",
-											data.target.result).width(500);
-								}
-								reader.readAsDataURL(this.files[0]);
-							}
-						});
-	</script>
+
 </body>
 
 </html>

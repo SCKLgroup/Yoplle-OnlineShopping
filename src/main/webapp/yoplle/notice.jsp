@@ -56,7 +56,7 @@
 						<c:forEach var='row' items="${list}">
 							<tr class="tableTextPos">
 								<td>${row.NOTI_NO}</td>
-								<td><a href="/yoplle/view2.do?bno=${row.NOTI_NO}">${row.NOTI_TITLE}</a></td>
+								<td><a href="/web/yoplle/view2.do?bno=${row.NOTI_NO}">${row.NOTI_TITLE}</a></td>
 								<td><input value="${row.EMP_NO}" type="hidden"> 요플레</td>
 								<td><fmt:formatDate value="${row.NOTI_DATE}"
 										pattern="yyyy-MM-dd HH:mm:ss" /></td>

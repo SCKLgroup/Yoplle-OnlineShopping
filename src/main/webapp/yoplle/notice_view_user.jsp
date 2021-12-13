@@ -80,7 +80,7 @@
 						class="tableInDt2">
 				</div>
 
-				<div style="width: 100%; margin-top: 3%">
+				<div style="width: 100%; margin-top: 3%; display: none;">
 					<span class="tableInDt4"> <img
 						src="${dto.NOTI_IMG}" style="width: 100%;height: auto;">
 					</span>

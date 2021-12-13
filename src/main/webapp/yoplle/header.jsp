@@ -53,7 +53,7 @@
                                  <c:when test="${id eq null}">
                                     <a href="login.jsp" style="width: 90px; padding: 5px"> 로그인 </a>
                                     <a href="signup.jsp" style="width: 90px; padding: 5px"> 회원가입 </a>
-                                    <a href="list.do" style="width: 90px; padding: 5px"> 고객센터 </a>
+                                    <a href="list2.do" style="width: 90px; padding: 5px"> 고객센터 </a>
                                  </c:when>
 
                                  <c:when test="${id eq 'admin'}">
@@ -70,7 +70,7 @@
                                           <input type="text" value="${id}" hidden="hidden" name="id">
                                           	마이페이지
                                        </a>
-                                       <a href="list.do" style="width: 90px; padding: 5px"> 고객센터 </a>
+                                       <a href="list2.do" style="width: 90px; padding: 5px"> 고객센터 </a>
                                     </form>
                                  </c:otherwise>
                               </c:choose>

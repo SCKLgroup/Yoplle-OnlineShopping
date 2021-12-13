@@ -36,9 +36,9 @@
 <link rel="stylesheet" href="css/writer-page.css" type="text/css">
 </head>
 <body>
-	<div class="container container-jaeil-writer" role="main">
+	<div class="container container-jaeil-writer" role="main">	
 		<h2>공지사항 상세</h2>
-		<form name="form2" method="post" enctype="multipart/form-data" autocomplete="off">
+		<form name="form2" method="post">
 			<div class="mb-3">
 				<label class="detail-title">작성일자</label> <span class="form-control"
 					style="margin: 0 12% 0 0; padding: 0 1.15% 0 1.15%"> <fmt:formatDate
@@ -84,7 +84,7 @@
 		$(document).ready(function() {
 			$("#btnDelete").click(function() {
 				if (confirm("삭제하시겠습니까?")) {
-					document.form2.action = "/yoplle/delete.do";
+					document.form2.action = "/web/yoplle/delete.do";
 					document.form2.submit();
 				}
 			});
@@ -107,7 +107,7 @@
 					document.form2.writer.focus();
 					return;
 				}
-				document.form2.action = "/yoplle/update.do";
+				document.form2.action = "/web/yoplle/update.do";
 				document.form2.submit();
 			});
 		});

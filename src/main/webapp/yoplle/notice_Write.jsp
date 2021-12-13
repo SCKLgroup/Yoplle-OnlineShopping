@@ -61,7 +61,6 @@
 					<img src="" />
 				</div>
 				<%=request.getRealPath("/") %>
-
 			</div>
 			<div class="detail-writer-btn">
 				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>

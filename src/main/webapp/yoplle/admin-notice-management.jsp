@@ -84,7 +84,7 @@
 											<td><input type="checkbox" id="chBox"
 												class="js-check-all chBox" data-noticeNom="${row.NOTI_NO}" /></td>
 											<td>${row.NOTI_NO}</td>
-											<td><a href="/yoplle/view.do?bno=${row.NOTI_NO}">${row.NOTI_TITLE}</a></td>
+											<td><a href="/web/yoplle/view.do?bno=${row.NOTI_NO}">${row.NOTI_TITLE}</a></td>
 											<td><input value="${row.EMP_NO}" type="hidden">요플레</td>
 											<td><fmt:formatDate value="${row.NOTI_DATE}"
 													pattern="yyyy-MM-dd HH:mm:ss" /></td>
