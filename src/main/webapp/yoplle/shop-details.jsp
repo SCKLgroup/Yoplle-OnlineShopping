@@ -103,7 +103,7 @@
 									   </a>
 									</c:when>
 									<c:otherwise> <!-- 로그인 상태 -->
-										<a href="#" class="round-black-btn" id="itemOrder">바로 구매<</a>
+										<a href="#" class="round-black-btn" id="itemOrder">바로 구매</a>
 										<a href="#" class="round-black-btn" id="cartIn">장바구니</a>
 									</c:otherwise>
 								</c:choose>

@@ -28,7 +28,7 @@ public class UserDAO extends SqlSessionDaoSupport {
 		return this.getSqlSession().selectOne("userNo", id);
 	}
 	
-	public boolean signIn(String id, String password) { //濡쒓렇�씤
+	public boolean signIn(String id, String password) { //로그인 체크
 		String dbPass = this.getSqlSession().selectOne("signIn", id);
 		return dbPass != null && dbPass.equals(password);
 	}
