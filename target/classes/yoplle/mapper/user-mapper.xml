@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle">
+
+	<select id="userNo" parameterType="String" resultType="int">
+		SELECT
+		USER_NO FROM USERINFO
+		WHERE USER_ID=#{VALUE}
+	</select>
+
+	<select id="signIn" parameterType="String" resultType="String"> <!-- 로그인 -->
+		SELECT USER_PW FROM USERINFO
+		WHERE USER_ID=#{VALUE}
+	</select>
+
+	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> <!-- 아이디 중복체크 -->
+		SELECT COUNT(*) FROM USERINFO WHERE USER_ID=#{value}
+	</select>
+
+	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO"> <!-- 회원가입 -->
+		<selectKey keyProperty="user_no" resultType="int" order="BEFORE">
+			SELECT USERINFO_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO USERINFO
+		(USER_NO,USER_ID,USER_PW,USER_NAME,USER_TEL,USER_MAIL,USER_DATE,
+			USER_BIRTH,USER_GENDER,USER_ADDRESS,USER_POSTCODE)
+		VALUES(#{user_no},#{user_id},#{user_pw},#{user_name},#{user_tel},#{user_mail},SYSDATE,
+			#{user_birth},#{user_gender},#{user_address},#{user_postcode})
+	</insert>
+
+	<select id="userInfoSelect" parameterType="String" resultType="yoplle.vo.UserInfoVO"><!-- ADMIN_CHECK추가 -->
+		SELECT USER_NO, USER_ID, USER_NAME, USER_TEL, USER_MAIL, USER_DATE,
+		USER_BIRTH, USER_GENDER, USER_ADDRESS, USER_POSTCODE, ADMIN_CHECK
+		FROM USERINFO WHERE USER_ID=#{id}
+	</select>
+
+	<select id="findId" resultType="yoplle.vo.UserInfoVO">
+		SELECT * FROM USERINFO WHERE
+		USER_NAME=#{user_name} AND USER_TEL=#{user_tel}
+	</select>
+
+	<select id="findPassword" resultType="yoplle.vo.UserInfoVO">
+		SELECT * FROM USERINFO WHERE
+		USER_ID=#{user_id} AND USER_NAME=#{user_name} AND USER_TEL=#{user_tel}
+	</select>
+
+	<update id="updatePassword">
+		UPDATE USERINFO SET USER_PW=#{user_pw} WHERE USER_ID=#{user_id}
+	</update>
+	
+	<update id="userModify" parameterType="yoplle.vo.UserInfoVO">
+			update userinfo set
+			user_pw=#{user_pw},
+			user_name=#{user_name},user_tel=#{user_tel},user_mail=#{user_mail},user_birth=#{user_birth},user_address=#{user_address},user_postcode=#{user_postcode}
+			where user_no=#{user_no}
+	</update>
+
+	
+	<select id="countUser" resultType="int"> <!--  회원수 카운트 -->
+		SELECT COUNT(*) FROM USERINFO
+	</select>
+	
+	<select id="selectUser" parameterType="java.util.HashMap" resultType="yoplle.vo.UserInfoVO"> <!-- 회원 리스트 출력(관리자) -->
+		SELECT USER_NO, USER_ID, USER_PW, USER_PRO_IMG, USER_NAME, USER_TEL, USER_MAIL,
+			TO_CHAR(USER_DATE,'YYYY-MM-DD')USER_DATE, USER_BIRTH, USER_GENDER, USER_ADDRESS 
+		FROM USERINFO
+		 <choose>
+	        <when test='job.equals("user_no") and sort.equals("asc")'>
+			 	ORDER BY USER_NO ASC
+			 </when>
+	        <when test='job.equals("user_no") and sort.equals("desc")'>
+			 	ORDER BY USER_NO DESC
+			 </when>
+	        <when test='job.equals("user_id") and sort.equals("asc")'>
+			 	ORDER BY USER_ID ASC
+			 </when>
+	        <when test='job.equals("user_id") and sort.equals("desc")'>
+			 	ORDER BY USER_ID DESC
+			 </when>
+	        <when test='job.equals("user_name") and sort.equals("asc")'>
+			 	ORDER BY USER_NAME ASC
+			 </when>
+	        <when test='job.equals("user_name") and sort.equals("desc")'>
+			 	ORDER BY USER_NAME DESC
+			 </when>
+	        <when test='job.equals("user_gender") and sort.equals("asc")'>
+			 	ORDER BY USER_GENDER ASC
+			 </when>
+	        <when test='job.equals("user_gender") and sort.equals("desc")'>
+			 	ORDER BY USER_GENDER DESC
+			 </when>
+	        <when test='job.equals("user_birth") and sort.equals("asc")'>
+			 	ORDER BY USER_BIRTH ASC
+			 </when>
+	        <when test='job.equals("user_birth") and sort.equals("desc")'>
+			 	ORDER BY USER_BIRTH DESC
+			 </when>
+	        <when test='job.equals("user_date") and sort.equals("asc")'>
+			 	ORDER BY USER_DATE ASC
+			 </when>
+			 <otherwise>
+			 	ORDER BY USER_DATE DESC
+			 </otherwise>
+		 </choose>
+	</select>
+	
+	<delete id="deleteUser" parameterType="int"> <!--  회원 삭제(관리자) -->
+		DELETE FROM USERINFO
+		WHERE USER_NO=#{value}	
+	</delete>
+
+	
+	
+</mapper>

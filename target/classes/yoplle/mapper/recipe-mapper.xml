@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle">
+
+	<select id="getRpeIngrSequence" resultType="java.lang.Integer">
+		SELECT
+		RECIPE_INGR_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<select id="getRpeDeSequence" resultType="java.lang.Integer">
+		SELECT
+		RECIPE_DE_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<select id="getRpeDeSeSequence" resultType="java.lang.Integer">
+		SELECT
+		RECIPE_DE_SE.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<select id="getRpeSequence" resultType="java.lang.Integer">
+		SELECT RECIPE_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+	
+	<select id="getTotalRecipe" resultType="int"> <!-- 레시피 수  -->
+  		SELECT COUNT(*) FROM RECIPE
+  	</select>
+
+	<select id="selectRecipeList" parameterType="HashMap" resultType="yoplle.vo.RecipeVO"> <!-- 레시피 리스트 -->
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, LIST.* FROM(
+				SELECT RPE_NO, R.USER_NO, USER_ID, RPE_TITLE, RPE_CONTENT, RPE_IMG, RPE_CATEGORY, RPE_TIME, 
+					RPE_QUAN, RPE_DIFF, RPE_LIKE,TO_CHAR(RPE_DATE,'YYYY-MM-DD')REGDATE, RPE_DATE, RPE_HIT
+				FROM RECIPE R, USERINFO U
+        		WHERE R.USER_NO = U.USER_NO
+			    ORDER BY ${dbsort} DESC) LIST)
+		WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+
+	<select id="selectInfoRecipe" parameterType="int" resultType="yoplle.vo.RecipeVO"> <!-- 레시피 상세 -->
+		SELECT
+		RPE_NO, R.USER_NO, USER_ID, RPE_TITLE, RPE_CONTENT, RPE_IMG, RPE_CATEGORY, RPE_TIME, 
+			RPE_QUAN, RPE_DIFF, RPE_LIKE, TO_CHAR(RPE_DATE,'YYYY/MM/DD')RPE_DATE, RPE_HIT
+		FROM RECIPE R, USERINFO U
+        WHERE R.USER_NO = U.USER_NO 
+        AND RPE_NO=#{USER_NO}
+	</select>
+	
+	<select id="selectRecipeHash" parameterType="int" resultType="yoplle.vo.RecipeHashVO"> <!-- 레시피 해시태그 -->
+		SELECT RPE_HASH_NO, RPE_NO, RPE_HASH_TAG
+		FROM RECIPE_HASH
+		WHERE RPE_NO=#{value}
+	</select>
+	
+	<select id="selectRecipeIngr" parameterType="int" resultType="yoplle.vo.RecipeIngrVO"> <!-- 레시피 재료 -->
+		SELECT INGR_NO, RPE_NO, INGR_NAME, INGR_MAIN_CHECK, INGR_QUAN
+		FROM RECIPE_INGR
+		WHERE RPE_NO=#{value}
+	</select>
+	
+	<select id="selectRecipeDe" parameterType="int" resultType="yoplle.vo.RecipeDeVO"> <!-- 레시피 과정  -->
+		SELECT RPE_DE_NO, RPE_NO, RPE_DE_CONTENT, RPE_DE_IMG, RRE_DE_SE
+		FROM RECIPE_DE
+		WHERE RPE_NO=#{value}
+		ORDER BY RRE_DE_SE ASC
+	</select>
+	
+	<select id="selectRecipeIngrMain" parameterType="int" resultType="String"> <!-- 주재료 찾기 -->
+		SELECT INGR_NAME
+		FROM RECIPE_INGR
+		WHERE RPE_NO=#{value} and  INGR_MAIN_CHECK =0
+	</select>
+	
+	<select id="selectRecipeItem" parameterType="java.util.HashMap" resultType="yoplle.vo.ItemVO"> <!-- 레시피에서 상품 추천 -->
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM 
+		WHERE ITEM_CA_DE 
+		<foreach collection="searchItem" item="value" index="i" open="LIKE '%'||" close="||'%'" separator="||'%' or ITEM_CA_DE LIKE '%'||">
+			#{value}
+		</foreach>
+	</select>
+	
+	<update id="updateRecipeHit" parameterType="int"> <!-- 레시피 조회수 업데이트 -->
+		UPDATE RECIPE SET RPE_HIT=RPE_HIT+1
+		WHERE RPE_NO=#{no}
+	</update>
+	
+	<insert id="recipeInsert" parameterType="yoplle.vo.RecipeVO"> <!-- 레시피 작성 -->
+		INSERT INTO
+		RECIPE(RPE_NO,USER_NO,RPE_TITLE,RPE_CONTENT,RPE_IMG,RPE_CATEGORY,
+		RPE_TIME,RPE_QUAN,RPE_DIFF,RPE_LIKE,RPE_DATE,RPE_HIT)
+		VALUES(recipe_seq.nextval,#{user_no},#{rpe_title},#{rpe_content},
+		#{rpe_img},#{rpe_category},#{rpe_time},#{rpe_quan},#{rpe_diff},0,SYSDATE,0)
+	</insert>
+	
+	<insert id="recipeIngrInsert"
+		parameterType="yoplle.vo.RecipeIngrVO">
+		<selectKey keyProperty="rpe_no" resultType="int"
+			order="BEFORE">
+			SELECT RECIPE_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT INTO
+		RECIPE_INGR(INGR_NO,RPE_NO,INGR_NAME,INGR_MAIN_CHECK,INGR_QUAN)
+		VALUES(recipe_ingr_seq.nextval,#{rpe_no},#{INGR_NAME},0,#{INGR_QUAN})
+	</insert>
+	
+	<insert id="rpeDeInsert" parameterType="yoplle.vo.RecipeDeVO">
+		<selectKey keyProperty="rpe_no" resultType="int"
+			order="BEFORE">
+			SELECT RECIPE_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT INTO
+		RECIPE_DE(RPE_DE_NO,RPE_NO,RPE_DE_CONTENT,RPE_DE_IMG,RRE_DE_SE)
+		VALUES(recipe_de_seq.nextval,#{rpe_no},#{RPE_DE_CONTENT},#{RPE_DE_IMG},recipe_de_se.nextval)
+	</insert>
+
+	<delete id="recipeDelete" parameterType="int"> <!-- 레시피 삭제 -->
+		DELETE FROM RECIPE
+		WHERE
+		RPE_NO=#{value}
+	</delete>
+	
+	
+	<insert id="insertUserLikeList" parameterType="java.util.HashMap">
+		<selectKey keyProperty="like_no" resultType="int"
+			order="BEFORE">
+			SELECT  USERLIKE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO USERLIKE
+		VALUES(#{like_no},#{userNo},#{rpeNo})
+	</insert>
+	
+	<update id="updateRecipeLike" parameterType="java.util.HashMap"> <!-- 레시피 좋아요수 업데이트 -->
+		UPDATE RECIPE SET 
+		<choose>
+			<when test="action eq 0">
+				RPE_LIKE=RPE_LIKE+1
+			</when>
+			<otherwise>
+				RPE_LIKE=RPE_LIKE-1
+			</otherwise>
+		</choose>
+		WHERE RPE_NO=#{rpeNo}
+	</update>
+	
+	<delete id="deleteUserLikeList" parameterType="java.util.HashMap"> <!-- 회원이 좋아요한 레시피 삭제 -->
+		DELETE FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
+	</delete>
+ 
+	<select id="selectLikeList" parameterType="java.util.HashMap" resultType="Integer"> <!-- 회원이 좋아요한 레시피 출력 -->
+		SELECT LIKE_NO FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
+	</select>
+	
+	<update id="rpeModify" parameterType="yoplle.vo.RecipeVO">
+	  UPDATE RECIPE SET RPE_TITLE=#{rpe_title},RPE_CONTENT=#{rpe_content},RPE_CATEGORY=#{rpe_category}
+	  WHERE RPE_NO=#{rpe_no}
+	</update>
+	   
+	<update id="rpeIngrModify">
+		 UPDATE RECIPE_INGR SET INGR_NAME=#{INGR_NAME}, INGR_QUAN=#{INGR_QUAN}
+		 WHERE INGR_NO=#{INGR_NO}
+	</update>
+	
+	<update id="rpeDeModify">
+		 UPDATE RECIPE_DE SET RPE_DE_CONTENT=#{RPE_DE_CONTENT}
+		 WHERE RPE_DE_NO=#{RPE_DE_NO}
+	</update>
+	
+
+	<select id="getComRefSeq" resultType="Integer">
+		SELECT COM_REF_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="inserRecipeReply" parameterType="yoplle.vo.RecipeComVO">
+		<selectKey keyProperty="com_no" resultType="int" order="BEFORE">
+			SELECT RECIPE_COM_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO RECIPE_COM 
+		VALUES(#{com_no},#{rpe_no},#{user_no},#{com_content},#{com_pnum},#{com_step},#{com_lev},#{com_ref},0,#{com_job},sysdate)
+	</insert>
+	
+	<select id="selectRecipeReply" parameterType="int" resultType="yoplle.vo.RecipeComVO">
+		SELECT COM_NO,RPE_NO, C.USER_NO, USER_ID,COM_CONTENT,COM_PNUM,COM_STEP,COM_LEV,COM_REF,COM_REPLY,COM_JOB,COM_DATE
+		FROM RECIPE_COM C, USERINFO U
+		WHERE C.USER_NO = U.USER_NO AND RPE_NO=#{rpe_no}
+		ORDER BY COM_REF DESC
+	</select>
+	
+	<select id="countRecipeReply" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM RECIPE_COM WHERE RPE_NO=#{rpe_no}
+	</select>
+	
+	<delete id="deleteRecipeReply" parameterType="int">
+		DELETE FROM RECIPE_COM WHERE COM_NO=#{no}
+	</delete>
+
+
+	<select id="MypageList" parameterType="int"
+		resultType="yoplle.vo.RecipeVO">
+		SELECT RPE_NO,RPE_IMG,RPE_TITLE,RPE_LIKE,RPE_HIT,
+		TO_CHAR(RPE_DATE,'YYYY/MM/DD')RPE_DATE FROM RECIPE WHERE
+		USER_NO=#{value}
+	</select>
+</mapper>

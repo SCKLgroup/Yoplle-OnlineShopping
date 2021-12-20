@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yoplle">
+	<!-- order_de의 시퀀스 번호 -->
+	<select id="getOrderDeSequence" resultType="int">
+		SELECT ORDERINFO_SEQ.NEXTVAL FROM DUAL
+	</select>
+	<!-- orderinfo의 시퀀스 번호 -->
+	<select id="getOrderInfoSequence" resultType="int">
+		SELECT ORDERINFO_SEQ.NEXTVAL FROM DUAL
+	</select>
+	<!-- 결제 시 orderinfo 데이터 추가 -->
+	<insert id="insertOrderInfo" parameterType="yoplle.vo.OrderInfoVO">
+		INSERT INTO 
+		ORDERINFO(ORDER_NO, USER_NO, ORDER_REC_NAME, ORDER_REC_TEL, ORDER_DATE, ORDER_DV_STS, ORDER_DV_ADDR, ORDER_DV_ZIPCODE)
+		VALUES(#{order_no}, #{user_no}, #{order_rec_name}, #{order_rec_tel}, sysdate, #{order_dv_sts}, #{order_dv_addr}, #{order_dv_zipcode})
+	</insert>
+	<!-- 결제 시 orderinfo 내의 각각의 상품마다 order_de에 데이터 추가 -->
+	<insert id="insertOrderDe" parameterType="yoplle.vo.OrderDeVO">
+		INSERT INTO ORDER_DE(OR_DE_NO, ORDER_NO, ITEM_NO, OR_DE_PRICE, OR_DE_QUAN, OR_DE_BACK)
+		VALUES(#{or_de_no}, #{order_no}, #{item_no}, #{or_de_price}, #{or_de_quan}, #{or_de_back})
+	</insert>
+	
+	<!-- 상품 가격 -->
+	<select id="getItemPrice" parameterType="int" resultType="int">
+		SELECT ITEM_PRICE FROM ITEM WHERE ITEM_NO=#{itemNo}
+	</select>
+	
+	<!-- 결제 시 orderinfo 내의 각각의 상품마다 order_de에 데이터 추가 -->
+	<insert id="insertOrderCartDe" parameterType="yoplle.vo.OrderDeCartVO">
+		INSERT INTO ORDER_DE(OR_DE_NO, ORDER_NO, ITEM_NO, OR_DE_PRICE, OR_DE_QUAN, OR_DE_BACK)
+		VALUES(#{or_de_no}, #{order_no}, #{item_no}, #{or_de_price}, #{or_de_quan}, #{or_de_back})
+	</insert>
+	
+	<!-- 아이템 자체의 상품 재고를 구매한 수량만큼 감소 -->
+	<update id="stockDownAction" parameterType="HashMap">
+		UPDATE ITEM SET ITEM_STOCK=#{ea} WHERE item_no=#{no} 
+	</update>
+	
+	<!-- 현재 아이템의 상품 재고 확인 -->
+	<select id="stockCheck" parameterType="int" resultType="int">
+		select item_stock from item where item_no=#{no}
+	</select>
+	
+	<select id="selectCartTakeout" parameterType="java.util.HashMap" resultType="yoplle.vo.CartTakeVO"><!-- 카트에서 주문하기로 넘어갈 때 상품 select -->
+		SELECT * FROM
+		(SELECT ITEMNO.USER_NO, ITEMNO.USER_NAME, ITEMNO.USER_TEL, ITEMNO.USER_MAIL, ITEMNO.ITEM_NO, ITEMNO.CART_QUAN, I.ITEM_NAME, I.ITEM_CATEGORY, I.ITEM_PRICE
+		FROM
+		(SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL, C.ITEM_NO, C.CART_QUAN
+		FROM (SELECT U.USER_NO, U.USER_NAME, U.USER_TEL, U.USER_MAIL FROM USERINFO U WHERE U.USER_ID=#{id}) U, CART C
+		WHERE U.USER_NO=C.USER_NO) ITEMNO, ITEM I WHERE ITEMNO.ITEM_NO=I.ITEM_NO) A WHERE A.ITEM_NO IN
+		<foreach collection="no" item="item" index="idx" separator=","  open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+
+</mapper>
