@@ -28,7 +28,7 @@ public class UserDAO extends SqlSessionDaoSupport {
 		return this.getSqlSession().selectOne("userNo", id);
 	}
 	
-	public boolean signIn(String id, String password) { //濡쒓렇�씤
+	public boolean signIn(String id, String password) { //로그인 체크
 		String dbPass = this.getSqlSession().selectOne("signIn", id);
 		return dbPass != null && dbPass.equals(password);
 	}
@@ -50,18 +50,18 @@ public class UserDAO extends SqlSessionDaoSupport {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 
+	//findId() mapper호출
 	public UserInfoVO findId(UserInfoVO vo) {
-		System.out.println("==> Mybatis로 findId() 기능 처리");
 		return mybatis.selectOne("yoplle.findId", vo);
 	}
 
+	//findPassword() mapper호출
 	public UserInfoVO findPassword(UserInfoVO vo) {
-		System.out.println("==> Mybatis로 findPassword() 기능 처리");
 		return mybatis.selectOne("yoplle.findPassword", vo);
 	}
 
+	//updatePassword() mapper호출
 	public void updatePassword(UserInfoVO vo) {
-		System.out.println("==> Mybatis로 updatePassword() 기능 처리");
 		mybatis.update("yoplle.updatePassword", vo);
 	}
 //	public List<ItemVO> selectmainlist() {
