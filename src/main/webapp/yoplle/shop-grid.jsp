@@ -75,8 +75,6 @@
 												</c:when>
 												<c:otherwise>
 													<input type="text" id="inputNo" hidden="hidden" value="${i.item_no }">
-			                                        <li><a href="#" id="wish"><i class="fa fa-heart"></i></a></li>
-			                                        <li><a href="#" id="cartIn"><i class="fa fa-shopping-cart"></i></a></li>
 												</c:otherwise>
 											</c:choose>
 										</c:catch>
@@ -156,26 +154,10 @@ $(function(){
 			return false;
 		}
 	});
-	$("a#wish").click(function(){
-		$("input#job").val('wish');
-		$("#input#no").val($().val());
-		$("form#idCheckSet").submit();
-	});
-
-	$("a#cartIn").click(function(){
-		//var comSubmit = new ComSubmit();
-
-		//comSubmit.addParam("no", obj.parent().find(("#inputNo").val()));
-		
-		//console.log($("input#inputNo").val());
-		
-		$("input#job").val('cart');
-		//$("input#no").val($().val());
-		//$("form#idCheckSet").submit();
-	});
 
 	
 });
+
 </script>
 
 
