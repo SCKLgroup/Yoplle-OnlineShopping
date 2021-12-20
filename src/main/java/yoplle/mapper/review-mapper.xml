@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle.vo">
+	<!-- 문의 -->
+	<select id="getFaqSequence" resultType="Integer">
+		SELECT FAQ_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectFaqList" parameterType="int" resultType="faqlist"> <!-- 문의 리스트 -->
+		SELECT * FROM USERINFO U, 
+		(SELECT B.FAQ_NO, B.ITEM_NO, B.USER_NO, B.FAQ_TITLE, B.FAQ_CONTENT, B.FAQ_IMG, B.FAQ_PW, B.FAQ_DATE, FS.EMP_NO, FS.ANS_CONTENT, FS.ANS_DATE
+		FROM FAQ_ANS FS RIGHT OUTER JOIN (SELECT * FROM FAQ WHERE ITEM_NO=#{no}) B ON FS.FAQ_NO=B.FAQ_NO) I WHERE U.USER_NO=I.USER_NO
+	</select>
+
+	<insert id="insertFaqList" parameterType="faqlist"> <!-- 문의 입력 -->
+		INSERT INTO FAQ(faq_no, item_no, user_no, faq_title, faq_content, faq_img, faq_pw, faq_date)
+		VALUES(#{faq_no}, #{item_no}, #{user_no}, #{faq_title}, #{faq_content}, #{faq_img}, #{faq_pw}, SYSDATE)
+	</insert>
+
+	
+	<!-- 리뷰 -->
+	<select id="getReviewSequence" resultType="Integer">
+		SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectReview" parameterType="int" resultType="yoplle.vo.ReviewVO"> <!-- review 리스트 출력 -->
+		SELECT R.REVIEW_NO, R.OR_DE_NO, R.REVIEW_TITLE, R.REVIEW_CONTENT, R.REVIEW_DATE, O.USER_ID FROM REVIEW R, (SELECT * FROM USERINFO U, 
+		(SELECT B.OR_DE_NO, A.USER_NO FROM ORDERINFO A, (SELECT OR_DE_NO, ORDER_NO, ITEM_NO FROM ORDER_DE WHERE ITEM_NO=#{no}) B WHERE A.ORDER_NO=B.ORDER_NO)
+		K WHERE U.USER_NO=K.USER_NO) O WHERE R.OR_DE_NO=O.OR_DE_NO
+
+	</select>
+	
+	<insert id="insertReview" parameterType="yoplle.vo.ReviewVO"> <!-- 작성한 데이터 리뷰 테이블로 삽입 -->
+		INSERT INTO REVIEW VALUES(#{review_no}, #{or_de_no}, #{review_title}, #{review_content}, #{review_hit}, sysdate)
+	</insert>
+	
+	<select id="checkOrderUser" parameterType="hashMap" resultType="int"> <!-- 리뷰 작성 전 구매했는지 아이디로 체크 -->
+		SELECT count(*)
+		FROM ORDERINFO A, ORDER_DE B, USERINFO C 
+		WHERE A.ORDER_NO=B.ORDER_NO AND C.USER_NO=A.USER_NO AND B.ITEM_NO=#{no} AND C.USER_ID=#{id};
+	</select>
+	
+	
+
+
+</mapper>

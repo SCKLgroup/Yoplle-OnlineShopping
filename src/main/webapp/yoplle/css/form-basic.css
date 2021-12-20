@@ -1,0 +1,232 @@
+
+.validCheck{
+	width: 300px;
+	margin-left:185px;
+	margin-bottom: 15px;
+	font-size:12px;
+	font-weight: 550;
+	color: rgb(145, 0, 0);
+}
+#validPost, #validAddr{
+	margin-bottom: 5px;
+}
+#addrDetail{
+	margin-bottom:30px;
+}
+.form-basic{
+    max-width: 700px;
+    padding: 55px;
+    box-sizing: border-box;
+
+    background-color:  #ffffff;
+    box-shadow: 0px 0px 5px 1px rgb(0 0 0 / 10%);
+
+    font: bold 14px sans-serif;
+    text-align: center;
+}
+.main-content{
+	margin:auto;
+	width: 80%;
+	border-top: 1px solid #ebebeb;
+
+}
+.form-basic.signup{
+	margin: 60px auto;
+	
+}
+
+.form-basic .form-row{
+    text-align: left;
+}
+.form-basic .form-submit{
+    text-align: left;
+    margin-top: 35px;
+}
+
+.form-basic .form-title-row{
+    text-align: center;
+	margin-bottom: 40px;
+}
+
+/* The form title */
+
+.form-basic h1{
+    display: inline-block;
+    box-sizing: border-box;
+    color:  #4c565e;
+    font-size: 24px;
+    padding: 0 10px 15px;
+    border-bottom: 2px solid #6bbbff;
+    margin: 0;
+}
+
+.form-basic .form-row .title{
+    display: inline-block;
+    box-sizing: border-box;
+    color: #5F5F5F;
+    width: 180px;
+    text-align: right;
+    vertical-align: top;
+    padding: 12px 10px;
+}
+.form-basic .form-row .titlegen{
+    display: inline-block;
+    box-sizing: border-box;
+    color: #5F5F5F;
+    width: 184px;
+    text-align: right;
+    vertical-align: top;
+    padding: 12px 25px;
+}
+
+.form-basic input{
+    color:  #5f5f5f;
+    box-sizing: border-box;
+    width: 240px;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+}
+
+
+
+.form-basic select{
+    background-color: #ffffff;
+    color:  #5f5f5f;
+    box-sizing: border-box;
+    max-width: 240px;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 9px 4px;
+    border: 1px solid #dbdbdb;
+}
+
+.form-basic .form-radio-buttons{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.form-basic .form-radio-buttons > div{
+    margin-top: 10px;
+}
+
+.form-basic .form-radio-buttons label span{
+    margin-left: 8px;
+    color: #5f5f5f;
+    font-weight: normal;
+}
+
+.form-basic .form-radio-buttons input{
+    width: auto;
+}
+
+.btn-submit{
+    display: block;
+    border-radius: 2px;
+    background-color:  #6bbbff;
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 14px 22px;
+    border: 0;
+    margin: auto;
+}
+
+.btn-css{
+    border-radius: 1px;
+    background-color:  #6bbbff;
+    color: #ffffff;
+    font-weight: bold;
+    box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+    padding: 10px 22px;
+    border: 0;
+   
+}
+
+.form-radio input{
+    width: 120px;
+}
+
+.form-radio:first-child {
+    margin-right: 10px;
+}
+.form-radio{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0;
+    position: relative;
+    height: 60px;
+}
+
+.form-radio label {
+	display: block;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    padding: 0 18px;
+    background: #e5e5e5;
+    color: #666;
+    font-size: 13px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.form-radio input:checked+label, .form-radio input:checked~label {
+    background: #A7CDFA;
+    color: #fff;
+}
+.rqd{
+	text-align:right;
+	margin-right: 10px;
+    margin-bottom: 20px;
+}
+.rqdchar{
+	color: rgb(145, 0, 0);
+}
+
+/*	Making the form responsive. Remove this media query
+    if you don't need the form to work on mobile devices. */
+
+@media (max-width: 600px) {
+
+    .form-basic{
+        padding: 30px;
+        max-width: 480px;
+    }
+
+    .form-basic .form-row{
+        max-width: 300px;
+        margin: 25px auto;
+        text-align: left;
+    }
+
+    .form-basic .form-title-row{
+        margin-bottom: 50px;
+    }
+
+    .form-basic .form-row .title{
+        display: block;
+        text-align: left;
+        padding: 0 0 15px;
+    }
+
+    .form-basic select{
+        width: 240px;
+    }
+
+    .form-basic input[type=checkbox]{
+        margin-top:0;
+    }
+
+    .form-basic .form-radio-buttons > div{
+        margin: 0 0 10px;
+    }
+
+    .form-basic button{
+        margin: 0;
+    }
+
+}

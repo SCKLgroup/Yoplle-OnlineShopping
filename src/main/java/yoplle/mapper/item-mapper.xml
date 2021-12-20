@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yoplle">
+	<sql id="selectItem"> 
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+	</sql>
+	
+	<select id="getTotalItem" parameterType="String" resultType="int"> <!-- 상품 수  -->
+  		Select count(*) from item where ITEM_CATEGORY=#{value}
+  	</select>
+  	
+	<select id="selectItemList" parameterType="HashMap" resultType="yoplle.vo.ItemVO"> <!-- 상품 리스트 -->
+		SELECT * FROM
+		(SELECT
+			ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE,
+		<choose>
+			<when test = "sort == 'lowCost'.toString()">
+				ROW_NUMBER() OVER(ORDER BY ITEM_PRICE ASC) AS RNUM
+			</when>
+			<when test = "sort == 'highCost'.toString()">
+				ROW_NUMBER() OVER(ORDER BY ITEM_PRICE DESC) AS RNUM
+			</when>
+			<otherwise>
+				ROW_NUMBER() OVER(ORDER BY ITEM_DATE DESC) AS RNUM
+			</otherwise>
+		</choose>
+		FROM ITEM
+		WHERE ITEM_CATEGORY=#{category})
+        WHERE RNUM BETWEEN ${start} AND ${end}
+	</select>
+
+ 	<select id="selectInfoItem" parameterType="int" resultType="item"> <!-- 상품 상세 -->
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+		WHERE
+		ITEM_NO=#{itemno}
+	</select>
+	
+	<select id="selectsearchItemList" parameterType="String" resultType="item"> <!-- 상품 검색 -->
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+		WHERE
+		ITEM_CA_DE LIKE '%'||#{VALUE}||'%'
+	</select>
+	
+	<!-- 상세 페이지 슬라이드 -->
+	<select id="recipeMatch" parameterType="int" resultType="yoplle.vo.ShopDeRecipeVO"> 
+		SELECT DISTINCT RP.RPE_NO, RP.RPE_TITLE, RP.RPE_IMG, U.USER_NAME FROM RECIPE RP, USERINFO U,
+		(SELECT RI.RPE_NO FROM RECIPE_INGR RI, RECIPE R,
+	    (SELECT ITEM_CA_DE FROM ITEM WHERE ITEM_NO=#{no}) X WHERE RI.INGR_NAME=X.ITEM_CA_DE) X WHERE RP.RPE_NO=X.RPE_NO AND U.USER_NO=RP.USER_NO
+	</select>
+	
+	<!-- 상품 판매량 순 -->
+	<select id="selectItemVolume" parameterType="HashMap" resultType="yoplle.vo.ItemVO">
+		SELECT I.ITEM_NO, I.ITEM_NAME, I.ITEM_CATEGORY, I.ITEM_IMG, I.ITEM_PRICE, I.VOL, I.RNUM FROM
+		(SELECT I.ITEM_NO, I.ITEM_NAME, I.ITEM_CATEGORY, I.ITEM_IMG, I.ITEM_PRICE, TO_CHAR(I.ITEM_DATE,'YYYY/MM/DD'), B.VOL, ROW_NUMBER() OVER(ORDER BY VOL DESC NULLS LAST) AS RNUM FROM 
+		(SELECT * FROM ITEM I WHERE ITEM_CATEGORY=#{category})I LEFT OUTER JOIN 
+		(SELECT SUM(OR_DE_QUAN) VOL, ITEM_NO FROM ORDER_DE GROUP BY ITEM_NO ORDER BY VOL DESC) B ON I.ITEM_NO=B.ITEM_NO) I WHERE I.RNUM BETWEEN ${start} AND ${end}
+	</select>
+	
+	<!-- 11월 6일자 추가(관리자용 상품등록)-->
+	<select id="getItemSequence" resultType="java.lang.Integer">
+		SELECT
+		ITEM_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+
+	<insert id="insertItem" parameterType="yoplle.vo.ItemVO">
+		INSERT INTO
+		ITEM(ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,ITEM_DATE,ITEM_CA_DE)
+		VALUES(item_seq.nextval,1,#{item_name},#{item_category},#{item_de_content},#{item_img},#{item_price},#{item_origin},#{item_ea},#{item_stock},SYSDATE,#{item_ca_de})
+	</insert>
+	<!-- 관리자 페이지에서 수량 count -->
+	<select id="countItemAction" parameterType="HashMap" resultType="int">
+		<choose>
+			<when test='job neq "default".toString()'>
+ 		SELECT COUNT(*) FROM ITEM
+			WHERE ITEM_CATEGORY=#{job}
+			</when>
+ 		<otherwise>
+		SELECT COUNT(*) FROM ITEM
+		</otherwise>
+		</choose>
+	</select>
+	<!-- 관리자 페이지에서 아이템 삭제 -->
+	<delete id="deleteItemAction" parameterType="HashMap">
+		DELETE FROM ITEM WHERE ITEM_NO IN
+		<foreach collection="no" item="no" open="(" close=")" separator=",">
+		 	#{no}
+		</foreach>
+	</delete>
+	<!-- 관리자 페이지에서 카테고리별 상품 출력 -->
+	<select id="selectItemAdminCate" resultType="yoplle.vo.ItemVO" parameterType="HashMap">
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM WHERE ITEM_CATEGORY=#{job}
+	</select>
+	<!-- 관리자 페이지 초기 및 전체 카테고리 상품 출력 -->
+	<select id="allSelectItem" resultType="yoplle.vo.ItemVO">
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+	</select>
+	
+	<select id="selectItemCategory" parameterType="String" resultType="item"> 
+		SELECT
+		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
+		FROM ITEM
+		WHERE ITEM_CATEGORY= #{value}
+	</select>  
+	
+</mapper>

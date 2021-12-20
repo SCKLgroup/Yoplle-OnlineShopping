@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.container-jaeil-writer{
+	border: 1px solid #d8d8d8;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.detail-writer-btn{
+	display: flex;
+	justify-content: flex-end;
+}
+.detail-writer-btn button{
+	margin-left:10px;
+	background: #6bbbff;
+	border: none;
+}
