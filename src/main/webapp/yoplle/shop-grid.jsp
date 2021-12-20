@@ -64,8 +64,8 @@
 					<c:forEach var="i" items="${itemList}" varStatus="cnt">
                         <div class="col-lg-3 col-xs-6 col-xs-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg list-bg" data-setbg="${i.item_img }"  onclick="return false;" 
-                                	id="${i.item_no }" name="img-href">
+                                <div class="product__item__pic set-bg list-bg" data-setbg="${i.item_img }"
+                               		OnClick="location.href='shopInfo.do?no=${i.item_no}&job=iteminfo'" id="img-href">
                                     <ul class="product__item__pic__hover">
 	                                    <c:catch>
 											<c:choose>
@@ -74,7 +74,7 @@
 			                                        <li><a href="login.jsp" id="notice"><i class="fa fa-shopping-cart"></i></a></li>
 												</c:when>
 												<c:otherwise>
-			                                        <li><a  href="#" id="${i.item_no}" class="cartIn"><i class="fa fa-shopping-cart"></i></a></li>
+													<input type="text" id="inputNo" hidden="hidden" value="${i.item_no }">
 												</c:otherwise>
 											</c:choose>
 										</c:catch>
@@ -88,12 +88,12 @@
                         </div>
                        </c:forEach>
 
-                       	<form id="idCheckSet" method="post" action="cartIn.do">
+                       	<form id="idCheckSet" method="post" action="rightNow.do">
 							<input type="text" name="id" hidden="hidden" value="${id}">
-							<input type="text" name="itemno" id="itemno" hidden="hidden" value="">
-							<input type="text" name="userno" id="userno"  hidden="hidden" value="${no}">
+							<input type="text" name="no" id="no" hidden="hidden" value="">
+							<input type="text" name="job" id="job"  hidden="hidden" value="">
 						</form>
-                       						
+                       
                     </div>
                      <div class="row justify-content-center">
                     <div class="product__pagination listnum">
@@ -154,22 +154,6 @@ $(function(){
 			return false;
 		}
 	});
-
-	var cart=0;
-	$("a.cartIn").on('click',function() {
-		cart=1;
-		$("#itemno").val($(this).attr('id'));
-		$("form#idCheckSet").submit();
-		
-	});
-	
-	$("div[name='img-href']").on('click',function() {
-		if(cart==0){
-			var link = "shopInfo.do?no="+$(this).attr('id')+"&job=iteminfo";
-			location.href=link;
-		}
-	});
-
 
 	
 });

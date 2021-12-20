@@ -74,9 +74,7 @@
 										<div class="product__item__pic set-bg" data-setbg="${i.rpe_img}"
 											OnClick="location.href ='recipeInfo.do?no=${i.rpe_no}&job=recipeinfo'">
 											<ul class="product__item__pic__hover">
-												<li><a href="#">
-														<i class="fa fa-heart"></i>
-													</a></li>
+												
 											</ul>
 										</div>
 
@@ -86,9 +84,7 @@
 										<div class="product__item__pic set-bg" data-setbg="img/recipe/${i.rpe_img}"
 											OnClick="location.href ='recipeInfo.do?no=${i.rpe_no}&job=recipeinfo'">
 											<ul class="product__item__pic__hover">
-												<li><a href="#">
-														<i class="fa fa-heart"></i>
-													</a></li>
+												
 											</ul>
 										</div>
 
