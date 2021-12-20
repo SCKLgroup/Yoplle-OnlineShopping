@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>요리 플러스 레시피 | 요플레</title>
+    <title>요리 플러스 레시피 | 요플레</title> 
 <meta charset="UTF-8">
 <meta name="description" content="Ogani Template">
 <meta name="keywords" content="Ogani, unica, creative, html">
