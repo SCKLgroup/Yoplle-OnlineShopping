@@ -73,15 +73,18 @@ public class UserDAO extends SqlSessionDaoSupport {
 			this.getSqlSession().update("userModify", vo);
 	}
 	
-	public List<UserInfoVO> selectUser(HashMap<String, Object> map){ //회원 리스트 출력
+	// 회원 리스트 출력
+	public List<UserInfoVO> selectUser(HashMap<String, Object> map){ 
 		return this.getSqlSession().selectList("selectUser",map);
 	}
-	
-	public void deleteUser(int no){ //회원 삭제
-		this.getSqlSession().delete("deleteUser", no);
-	}
-	public int countUser() { //회원수 카운트
+	// 회원수 카운트
+	public int countUser() { 
 		return this.getSqlSession().selectOne("countUser");
+	}
+	
+	// 회원 삭제
+	public void deleteUser(int no){
+		this.getSqlSession().delete("deleteUser", no);
 	}
 
 }

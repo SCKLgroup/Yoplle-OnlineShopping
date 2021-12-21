@@ -17,8 +17,6 @@
 
 	<div class="main-content">
 
-		<!-- You only need this form and the form-basic.css -->
-
 		<form class="form-basic signup" method="post" action="signup.do">
 
 			<div class="form-title-row">
@@ -120,6 +118,7 @@
 	<jsp:include page="footer.jsp" />
 	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
 	<script type="text/javascript">
 		$(function() {
 			$("button#addrsearch").click(function(){ //다음 오픈api(주소) 열기
