@@ -22,31 +22,29 @@
 	<c:set var="img" value="${recipeInfoList.rpe_img}" />
 	<c:set var="imglist" value="${functions:split(img,'/')}" />
 	<jsp:include page="header.jsp" />
-	<!-- partial:index.partial.html -->
+
+	
 	<div id="recipe-card-container">
 		<div id="card-part">
-
 			<div id="card-title">${recipeInfoList.rpe_title}</div>
 			<div class="card-inform">
-				<span> 작성자<span class="card-inform-data">
-						${recipeInfoList.user_id} </span></span> <span class="hit"> 조회수<span
-					class="card-inform-data">${recipeInfoList.rpe_hit} </span></span>
+				<span> 작성자 <span class="card-inform-data"> ${recipeInfoList.user_id} </span></span> 
+				<span class="hit"> 조회수 <span class="card-inform-data">${recipeInfoList.rpe_hit} </span></span>
 			</div>
-
+			
 			<c:catch>
 				<c:choose>
 					<c:when test="${recipeInfoList.user_id eq id}">
 						<div style="text-align: right; padding: 10px">
-							<span style="padding-right: 20px"><a
-								href="modifyRecipe.do?no=${recipeInfoList.rpe_no}"
-								id="recipe_modify" style="font-size: 15px">수정</a></span> <span><a
-								href="deleteRecipe.do?no=${recipeInfoList.rpe_no}"
-								id="recipe_delete" style="font-size: 15px">삭제</a></span>
+							<span style="padding-right: 20px">
+								<a href="modifyRecipe.do?no=${recipeInfoList.rpe_no}" id="recipe_modify" style="font-size: 15px">수정</a></span> 
+							<span>
+								<a href="deleteRecipe.do?no=${recipeInfoList.rpe_no}" id="recipe_delete" style="font-size: 15px">삭제</a></span>
 						</div>
 					</c:when>
-
 				</c:choose>
 			</c:catch>
+			
 			<c:catch>
 				<c:choose>
 					<c:when test="${imglist[2] ne null }">
@@ -61,200 +59,179 @@
 					</c:otherwise>
 				</c:choose>
 			</c:catch>
-
+			
+			<!-- 해시태그  -->
 			<div class="contents">${recipeInfoList.rpe_content}</div>
-			<div class="hashtag">
-				<c:forEach var="i" items="${recipeHashList}" varStatus="cnt">
-				# ${i.RPE_HASH_TAG}
-			</c:forEach>
-			</div>
-		</div>
-
-		<div id="card-part">
-
-			<ul class="recipe-list meta">
-				<li class="recipe-item">
-					<div class="recipe-value">
-						<i class="far fa-user fa-2x"></i>
-					</div>
-					<div class="recipe-text">${recipeInfoList.rpe_quan}</div>
-				</li>
-				<li class="recipe-item">
-					<div class="recipe-value">
-						<i class="far fa-clock fa-2x"></i>
-					</div>
-					<div class="recipe-text">${recipeInfoList.rpe_time}분</div>
-				</li>
-				<li class="recipe-item">
-					<div class="recipe-value">
-						<i class="far fa-star fa-2x"></i>
-					</div>
-					<div class="recipe-text">${recipeInfoList.rpe_diff}</div>
-				</li>
-			</ul>
-
-
-			<div id="card-items">
-
-				<div class="ingredient">
-					<span class="card-item-title">재료</span> <span
-						class="card-item-title-second">Ingredients</span>
-					<ul class="checkmark">
-						<c:forEach var="i" items="${recipeIngrList}" varStatus="cnt">
-							<li>${i.INGR_NAME}${i.INGR_QUAN }</li>
-						</c:forEach>
-					</ul>
-				</div>
-
-				<div id="method">
-					<span class="card-item-title">요리 순서</span> <span
-						class="card-item-title-second">Recipe</span>
-					<div id="recipe">
-						<c:forEach var="i" items="${recipeDeList}" varStatus="cnt">
-							<div id="recipe-num">
-								<div id="recipe-step">${i.RPE_DE_CONTENT}
-									<c:catch>
-										<c:choose>
-											<c:when test="${i.RPE_DE_IMG ne null}">
-												<c:choose>
-													<c:when test="${imglist[2] ne null }">
-														<div id="recipe-img">
-															<img id="repimg" src="${i.RPE_DE_IMG}">
-														</div>
-													</c:when>
-
-													<c:otherwise>
-														<div id="recipe-img">
-															<img id="repimg" src="img/recipe/${i.RPE_DE_IMG}">
-														</div>
-
-													</c:otherwise>
-												</c:choose>
-											</c:when>
-											<c:otherwise>
-												<div id="recipe-img"></div>
-											</c:otherwise>
-										</c:choose>
-									</c:catch>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
+				<div class="hashtag">
+					<c:forEach var="i" items="${recipeHashList}" varStatus="cnt">
+						# ${i.RPE_HASH_TAG}
+					</c:forEach>
 				</div>
 			</div>
-
-		</div>
-
-		<c:if test="${not empty recipeItemList}">
 
 			<div id="card-part">
-				<span class="card-item-title">재료 사러가기</span> <span
-					class="card-item-title-second">Shopping</span>
-				<div class="row shop">
-					<div class="col-md-12">
-						<div class="carousel carousel-showmanymoveone slide"
-							id="carouselABC">
-							<div class="carousel-inner">
-								<c:forEach var="i" items="${recipeItemList}" varStatus="cnt">
-									<c:choose>
-										<c:when test="${cnt.index == 0}">
-											<div class="item active">
-												<a href="shopInfo.do?no=${i.item_no}&job=iteminfo">
-													<div class="col-xs-12 col-sm-6 col-md-3">
-														<img src="${i.item_img}" class="img-responsive item-img">
-														<div class="item-name">${i.item_name}</div>
-														<div class="item-price">${i.item_price}&nbsp;원</div>
-													</div>
-												</a>
-											</div>
-										</c:when>
-										<c:otherwise>
-											<div class="item">
-												<a href="shopInfo.do?no=${i.item_no}&job=iteminfo">
-													<div class="col-xs-12 col-sm-6 col-md-3">
-														<img src="${i.item_img}" class="img-responsive item-img">
-														<div class="item-name">${i.item_name}</div>
-														<div class="item-price">${i.item_price}&nbsp;원</div>
-													</div>
-												</a>
-											</div>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</div>
-							<a class="left carousel-control" href="#carouselABC"
-								data-slide="prev" id="slide-left-btn"><i
-								class="glyphicon glyphicon-chevron-left"></i></a> <a
-								class="right carousel-control" href="#carouselABC"
-								data-slide="next" id="slide-right-btn"><i
-								class="glyphicon glyphicon-chevron-right"></i></a>
+				<ul class="recipe-list meta">
+					<li class="recipe-item">
+						<div class="recipe-value"><i class="far fa-user fa-2x"></i></div>
+						<div class="recipe-text">${recipeInfoList.rpe_quan}</div>
+					</li>
+					<li class="recipe-item">
+						<div class="recipe-value"><i class="far fa-clock fa-2x"></i></div>
+						<div class="recipe-text">${recipeInfoList.rpe_time}분</div>
+					</li>
+					<li class="recipe-item">
+						<div class="recipe-value"><i class="far fa-star fa-2x"></i></div>
+						<div class="recipe-text">${recipeInfoList.rpe_diff}</div>
+					</li>
+				</ul>
+				
+				<div id="card-items">
+					<div class="ingredient">
+						<span class="card-item-title"> 재료 </span> 
+						<span class="card-item-title-second"> Ingredients </span>
+						<ul class="checkmark">
+							<c:forEach var="i" items="${recipeIngrList}" varStatus="cnt">
+								<li>${i.INGR_NAME}${i.INGR_QUAN }</li>
+							</c:forEach>
+						</ul>
+					</div>
+
+					<div id="method">
+						<span class="card-item-title">요리 순서</span> 
+						<span class="card-item-title-second">Recipe</span>
+						<div id="recipe">
+							<c:forEach var="i" items="${recipeDeList}" varStatus="cnt">
+								<div id="recipe-num">
+									<div id="recipe-step">${i.RPE_DE_CONTENT}
+										<c:catch>
+											<c:choose>
+												<c:when test="${i.RPE_DE_IMG ne null}">
+													<c:choose>
+														<c:when test="${imglist[2] ne null }">
+															<div id="recipe-img">
+																<img id="repimg" src="${i.RPE_DE_IMG}">
+															</div>
+														</c:when>
+														<c:otherwise>
+															<div id="recipe-img">
+																<img id="repimg" src="img/recipe/${i.RPE_DE_IMG}">
+															</div>
+														</c:otherwise>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+													<div id="recipe-img"></div>
+												</c:otherwise>
+											</c:choose>
+										</c:catch>
+									</div>
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 				</div>
 			</div>
-		</c:if>
-
-
-		<div class="comments">
-			<span class="like" id="like"> 
-				<span class="num" id="likenum">${recipeInfoList.rpe_like }</span>
-				<span class="card-item-title like"> <input type="text" name="no" id="no" hidden="hidden" value="${no}">
-				 <c:choose>
-						<c:when test="${likeCheck eq null}">
-							<i class="far fa-heart fa-lg"></i>
-						</c:when>
-						<c:otherwise>
-							<i class="fas fa-heart fa-lg" style="color: #FA5882"></i>
-						</c:otherwise>
-					</c:choose>
-				</span>
-			</span>
-			<div class="reply-list">
-				<div class="comment-wrap write">
-					<div class="comment-block write">
-					<c:choose>
-					<c:when test="${no eq null}">
-						<textarea class="replycontents" name="com_content" id="replyArea" cols="30" rows="3" placeholder="로그인이 필요합니다" disabled></textarea>
-					</c:when>
-					<c:otherwise>
-						<form action="#" id="replyForm" name="replyForm" method="post">
-						<input type="hidden" name="rpe_no" value="${recipeInfoList.rpe_no}">
-						<input type="hidden" name="user_no" value="${no}">
-						<input type="hidden" name="user_id" value="${id}">
-						<input type="hidden" name="com_job" value="new">
-							<textarea class="replycontents" name="com_content" id="replyArea" cols="30" rows="3" placeholder="댓글을 작성해주세요"></textarea>
-							<button type="button" id="replybtn" class="btn-css">확인</button>
-						</form>
-					</c:otherwise>
-				</c:choose>
+			
+			<c:if test="${not empty recipeItemList}">
+				<div id="card-part">
+					<span class="card-item-title">재료 사러가기</span> 
+					<span class="card-item-title-second">Shopping</span>
+					<div class="row shop">
+						<div class="col-md-12">
+							<div class="carousel carousel-showmanymoveone slide" id="carouselABC">
+								<div class="carousel-inner">
+									<c:forEach var="i" items="${recipeItemList}" varStatus="cnt">
+										<c:choose>
+											<c:when test="${cnt.index == 0}">
+												<div class="item active">
+													<div class="col-xs-12 col-sm-6 col-md-3" onclick="location.href='shopInfo.do?no=${i.item_no}&job=iteminfo'">
+														<img src="${i.item_img}" class="img-responsive item-img">
+														<div class="item-name">${i.item_name}</div>
+														<div class="item-price">${i.item_price}&nbsp;원</div>
+													</div>
+												</div>
+											</c:when>
+											<c:otherwise>
+												<div class="item">
+													<div class="col-xs-12 col-sm-6 col-md-3" onclick="location.href='shopInfo.do?no=${i.item_no}&job=iteminfo'">
+														<img src="${i.item_img}" class="img-responsive item-img">
+														<div class="item-name">${i.item_name}</div>
+														<div class="item-price">${i.item_price}&nbsp;원</div>
+													</div>
+												</div>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</div>
+								<a class="left carousel-control" href="#carouselABC" data-slide="prev" id="slide-left-btn">
+									<i class="glyphicon glyphicon-chevron-left"></i></a> 
+								<a	class="right carousel-control" href="#carouselABC" data-slide="next" id="slide-right-btn">
+									<i class="glyphicon glyphicon-chevron-right"></i></a>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div id="replyShow">
-				</div> 
+			</c:if>
+
+			<div class="comments">
+				<span class="like" id="like"> 
+					<span class="num" id="likenum">${recipeInfoList.rpe_like }</span>
+					<span class="card-item-title like"> 
+						<input type="text" name="no" id="no" hidden="hidden" value="${no}">
+						 <c:choose>
+							<c:when test="${likeCheck eq null}">
+								<i class="far fa-heart fa-lg"></i>
+							</c:when>
+							<c:otherwise>
+								<i class="fas fa-heart fa-lg" style="color: #FA5882"></i>
+							</c:otherwise>
+						</c:choose>
+					</span>
+				</span>
+				<div class="reply-list">
+					<div class="comment-wrap write">
+						<div class="comment-block write">
+							<c:choose>
+								<c:when test="${no eq null}">
+									<textarea class="replycontents" name="com_content" id="replyArea" cols="30" rows="3" placeholder="로그인이 필요합니다" disabled></textarea>
+								</c:when>
+								<c:otherwise>
+									<form action="#" id="replyForm" name="replyForm" method="post">
+										<input type="hidden" name="rpe_no" value="${recipeInfoList.rpe_no}">
+										<input type="hidden" name="user_no" value="${no}">
+										<input type="hidden" name="user_id" value="${id}">
+										<input type="hidden" name="com_job" value="new">
+										<textarea class="replycontents" name="com_content" id="replyArea" cols="30" rows="3" placeholder="댓글을 작성해주세요"></textarea>
+										<button type="button" id="replybtn" class="btn-css">확인</button>
+									</form>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+					<div id="replyShow"></div> 
 				</div>
 			</div>
 		</div>
-	</div>
+
 	<jsp:include page="footer.jsp" />
 
 	<!-- partial -->
 
-	<script
-		src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-	<script
-		src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
 	<script src="js/slidescript.js"></script>
-	<script type="text/javascript">
+
+<script type="text/javascript">
 	replyAjax('/web/recipeReplyList.do',{"rpe_no":${recipeInfoList.rpe_no}},'json');
 
-	 var no=$("input#no").val();
+	var no=$("input#no").val();
 	$("span#like").click(function(){
 		if($("input#no").val()==""){
 			alert('로그인이 필요합니다');
 			return false;
 		}else{
 			var temp="";
-			 $.ajax({
+			$.ajax({
 		          url:'/web/recipeLike.do',
 		          type:'post',
 		          data: { "userno":no,
@@ -262,9 +239,8 @@
 		          dataType:'json',              
 		          success:function(v){
 		        	  temp+= "<span class=\"num\" id=\"likenum\">"+v.recipeInfo.rpe_like+"</span>";
-		        	  if(v.action==0){
+		        	  if(v.check==0){
 		        		  temp+= "<span class=\"card-item-title like\"> <i class=\"fas fa-heart fa-lg\" style=\"color: #FA5882\"></i> </span>";
-		        		  
 		        	  }else{
 		        		  temp+= "<span class=\"card-item-title like\"> <i class=\"far fa-heart fa-lg\"></i> </span>";
 		        	  }
@@ -273,8 +249,7 @@
 		          error:function(e){
 		             alert('error'+e);
 		          }
-		       }); 
-
+		     }); 
 		}
 	});	
 	
@@ -295,7 +270,6 @@
 	         return false;
 	      }
 	   });
-	   
 	   
 	   $(function(){
 	 		$("button#replybtn").click(function(){
@@ -344,15 +318,11 @@
 	    			 { "no":replyno,
 	        	  	 "rpe_no":${recipeInfoList.rpe_no}},
 	    			  'json');
-	      } else { //취소
+	  	} else { //취소
 	         return false;
-	      }
+	   	}
    }
-	/* 	console.log(id);
-	if($("input#id").val()==""){ 
-		alert('로그인이 필요합니다');
-		return false;
-	}else{ */
+
 
 </script>
 

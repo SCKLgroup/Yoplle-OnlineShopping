@@ -32,7 +32,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		SELECT COUNT(*) FROM RECIPE
   	</select>
 
-	<select id="selectRecipeList" parameterType="HashMap" resultType="yoplle.vo.RecipeVO"> <!-- 레시피 리스트 -->
+	<!-- 레시피 리스트 -->
+	<select id="selectRecipeList" parameterType="HashMap" resultType="yoplle.vo.RecipeVO"> 
 		SELECT * FROM(
 			SELECT ROWNUM RNUM, LIST.* FROM(
 				SELECT RPE_NO, R.USER_NO, USER_ID, RPE_TITLE, RPE_CONTENT, RPE_IMG, RPE_CATEGORY, RPE_TIME, 
@@ -77,7 +78,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE RPE_NO=#{value} and  INGR_MAIN_CHECK =0
 	</select>
 	
-	<select id="selectRecipeItem" parameterType="java.util.HashMap" resultType="yoplle.vo.ItemVO"> <!-- 레시피에서 상품 추천 -->
+	<!-- 레시피에서 상품 추천 -->
+	<select id="selectRecipeItem" parameterType="java.util.HashMap" resultType="yoplle.vo.ItemVO"> 
 		SELECT
 		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
 		FROM ITEM 
@@ -87,7 +89,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</select>
 	
-	<update id="updateRecipeHit" parameterType="int"> <!-- 레시피 조회수 업데이트 -->
+	<!-- 레시피 조회수 업데이트 -->
+	<update id="updateRecipeHit" parameterType="int"> 
 		UPDATE RECIPE SET RPE_HIT=RPE_HIT+1
 		WHERE RPE_NO=#{no}
 	</update>
@@ -126,8 +129,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE
 		RPE_NO=#{value}
 	</delete>
+ 
+ 	<!-- 회원이 좋아요한 레시피 출력 -->
+	<select id="selectLikeList" parameterType="java.util.HashMap" resultType="Integer"> 
+		SELECT LIKE_NO FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
+	</select>
 	
-	
+	<!-- 좋아요한 레시피 추가 -->
 	<insert id="insertUserLikeList" parameterType="java.util.HashMap">
 		<selectKey keyProperty="like_no" resultType="int"
 			order="BEFORE">
@@ -137,10 +145,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(#{like_no},#{userNo},#{rpeNo})
 	</insert>
 	
-	<update id="updateRecipeLike" parameterType="java.util.HashMap"> <!-- 레시피 좋아요수 업데이트 -->
+	<!-- 좋아요한 레시피 삭제 -->
+	<delete id="deleteUserLikeList" parameterType="java.util.HashMap"> 
+		DELETE FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
+	</delete>
+	
+	<!-- 레시피 좋아요 수 업데이트 -->
+	<update id="updateRecipeLike" parameterType="java.util.HashMap"> 
 		UPDATE RECIPE SET 
 		<choose>
-			<when test="action eq 0">
+			<when test="check eq 0">
 				RPE_LIKE=RPE_LIKE+1
 			</when>
 			<otherwise>
@@ -149,14 +163,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</choose>
 		WHERE RPE_NO=#{rpeNo}
 	</update>
-	
-	<delete id="deleteUserLikeList" parameterType="java.util.HashMap"> <!-- 회원이 좋아요한 레시피 삭제 -->
-		DELETE FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
-	</delete>
- 
-	<select id="selectLikeList" parameterType="java.util.HashMap" resultType="Integer"> <!-- 회원이 좋아요한 레시피 출력 -->
-		SELECT LIKE_NO FROM USERLIKE WHERE USER_NO=#{userNo} AND RPE_NO=#{rpeNo}
-	</select>
 	
 	<update id="rpeModify" parameterType="yoplle.vo.RecipeVO">
 	  UPDATE RECIPE SET RPE_TITLE=#{rpe_title},RPE_CONTENT=#{rpe_content},RPE_CATEGORY=#{rpe_category}

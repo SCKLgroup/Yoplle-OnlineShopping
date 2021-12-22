@@ -60,7 +60,8 @@ public class RecipeDAO extends SqlSessionDaoSupport {
 		return this.getSqlSession().selectList("selectRecipeItem",map);
 	}
 	
-	public void updateRecipeHit(int no) { //레시피 조회수 
+	//레시피 조회수 업데이트
+	public void updateRecipeHit(int no) { 
 		this.getSqlSession().update("updateRecipeHit",no);
 	}
 	
@@ -68,7 +69,8 @@ public class RecipeDAO extends SqlSessionDaoSupport {
 		return this.getSqlSession().selectOne("getTotalRecipe");
 	}
 
-	public List<RecipeVO> selectRecipeList(HashMap<String, Object> map) { //레시피 리스트
+	//레시피 리스트
+	public List<RecipeVO> selectRecipeList(HashMap<String, Object> map) { 
 		return this.getSqlSession().selectList("selectRecipeList", map);
 	}
 
@@ -92,23 +94,28 @@ public class RecipeDAO extends SqlSessionDaoSupport {
 		this.getSqlSession().delete("recipeDelete", no);
 	}
 	
-
-	public void insertUserLikeList(HashMap<String, Object> map) { //레시피 재료 입력 
+	
+	// 좋아요한 레시피 유무 체크
+	public Integer selectLikeList(HashMap<String, Object> map) { 
+		return this.getSqlSession().selectOne("selectLikeList", map);
+	}
+	
+	// 좋아요한 레시피 추가
+	public void insertUserLikeList(HashMap<String, Object> map) { 
 		this.getSqlSession().insert("insertUserLikeList", map);
 	}
 	
-	public void updateRecipeLike(HashMap<String, Object> map) { //레시피 좋아요 업데이트
-		this.getSqlSession().update("updateRecipeLike",map);
-	}
-	
-	public void deleteUserLikeList(HashMap<String, Object> map) { //좋아요 리스트 업데이트
+	// 좋아요한 레시피 삭제
+	public void deleteUserLikeList(HashMap<String, Object> map) {
 		this.getSqlSession().delete("deleteUserLikeList",map);
 	}
 	
-	public Integer selectLikeList(HashMap<String, Object> map) { //좋아요한 레시피 유무 체크
-		return this.getSqlSession().selectOne("selectLikeList", map);
+	// 레시피 좋아요 수 업데이트
+	public void updateRecipeLike(HashMap<String, Object> map) { 
+		this.getSqlSession().update("updateRecipeLike",map);
 	}
-
+	
+	
 	public void rpeModify(RecipeVO vo,int rpeno) {
 		this.getSqlSession().update("rpeModify", vo);
 	}

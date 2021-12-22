@@ -36,5 +36,4 @@ public class PagingVO {
 		this.startPage=(currentBlock-1)*blockSize+1;
 		this.endPage=(currentBlock*blockSize)>totalPage?totalPage:currentBlock*blockSize;
 	}
-	
 }

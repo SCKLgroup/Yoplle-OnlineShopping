@@ -33,42 +33,48 @@ public class RecipeController {
 	@Autowired
 	private RecipeDAO dao;
 
-	@RequestMapping(value = "/yoplle/recipeList.do") // 레시피 리스트
+	// 레시피 리스트 출력
+	@RequestMapping(value = "/yoplle/recipeList.do") 
 	public String recipeList(Model model, @RequestParam(value = "sort", defaultValue = "lastest") String sort,
 			@RequestParam(value = "page", defaultValue = "1") int page) {
-		PagingVO vo = new PagingVO(page, dao.recipeCount());
-
 		HashMap<String, Object> map = new HashMap<String, Object>();
-
+		
+		// 페이징
+		PagingVO vo = new PagingVO(page, dao.recipeCount());
 		map.put("page", page);
 		map.put("totalPage", vo.getTotalPage());
 		map.put("start", vo.getStartList());
 		map.put("end", vo.getEndList());
 		map.put("startPage", vo.getStartPage());
 		map.put("endPage", vo.getEndPage());
+		
 		map.put("sort", sort);
-
+		
+		// DB 검색 시 정렬 기준으로 사용
 		sort = sort.equals("like") ? "rpe_like" : "rpe_date";
-		map.put("dbsort", sort);
+		map.put("dbsort", sort); 
 
 		model.addAttribute("recipeList", dao.selectRecipeList(map));
 		model.addAttribute("pageList", map);
 
 		return "yoplle/recipe-grid";
 	}
-
-	@GetMapping(value = "/yoplle/recipeInfo.do") // 레시피 상세
+	
+	// 레시피 상세 페이지
+	@RequestMapping(value = "/yoplle/recipeInfo.do") 
 	public String recipeInfoAction(int no, String job, Model model, HttpSession session) {
 		model.addAttribute("recipeInfoList", dao.selectInfoRecipe(no));
 		model.addAttribute("recipeHashList", dao.selectRecipeHash(no));
 		model.addAttribute("recipeIngrList", dao.selectRecipeIngr(no));
 		model.addAttribute("recipeDeList", dao.selectRecipeDe(no));
-		dao.updateRecipeHit(no);
+		
+		dao.updateRecipeHit(no); //조회수 업데이트
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		if (!dao.selectRecipeIngrMain(no).isEmpty()) {
-			map.put("searchItem", dao.selectRecipeIngrMain(no));
-			model.addAttribute("recipeItemList", dao.selectRecipeItem(map));
+		
+		if (!dao.selectRecipeIngrMain(no).isEmpty()) { //주재료가 존재할 경우
+			map.put("searchItem", dao.selectRecipeIngrMain(no)); //상품에서 검색할 주재료 리스트
+			model.addAttribute("recipeItemList", dao.selectRecipeItem(map)); //해당 레시피에 맞는 주재료 상품 리스트 검색 
 		}
 		map.put("rpeNo", no);
 
@@ -76,7 +82,7 @@ public class RecipeController {
 			map.put("userNo", session.getAttribute("no"));
 			model.addAttribute("likeCheck", dao.selectLikeList(map));
 		}
-
+		
 		if (job.equals("recipeinfo")) {
 			return "yoplle/recipe-detail";
 		} else {
@@ -84,11 +90,12 @@ public class RecipeController {
 		}
 	}
 
-	@RequestMapping(value = "recipeLike.do") // 레시피 좋아요 업데이트
+	// 레시피 좋아요 업데이트
+	@RequestMapping(value = "recipeLike.do") 
 	@ResponseBody
 	public HashMap<String, Object> updateRecipeLike(int userno, int rpeno) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		int action = 0;
+		int check = 0; 
 
 		map.put("userNo", userno);
 		map.put("rpeNo", rpeno);
@@ -96,11 +103,12 @@ public class RecipeController {
 
 		if (likeList == null) {
 			dao.insertUserLikeList(map);
-		} else {
-			action += 1;
+		} else { //기존에 좋아요를 한 레시피일 경우
+			check = 1;
 			dao.deleteUserLikeList(map);
 		}
-		map.put("action", action);
+		
+		map.put("check", check);
 		dao.updateRecipeLike(map);
 
 		map.put("recipeInfo", dao.selectInfoRecipe(rpeno));
