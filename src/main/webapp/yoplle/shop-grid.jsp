@@ -49,90 +49,67 @@
     <!-- Product Section Begin -->
     <section class="product spad">
         <div class="container">
-               <!--  <div class="col-lg-9 col-xs-7"> -->
-					<div class="filter__item">
-               <h3 class="product_title grid"><c:out value="${itemList['0'].item_category}"/></h3>
-						<div class="filter__option grid">
-							<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=lastest'">신상품순</span> 
-							<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=orderVolume'">판매량순</span>
-							<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=lowCost'">낮은 가격순</span>
-							<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=highCost'">높은 가격순</span>
-						</div>
-					</div>
-					<div class="row">
-					
-					<c:forEach var="i" items="${itemList}" varStatus="cnt">
-                        <div class="col-lg-3 col-xs-6 col-xs-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg list-bg" data-setbg="${i.item_img }"
-                               		OnClick="location.href='shopInfo.do?no=${i.item_no}&job=iteminfo'" id="img-href">
-                                    <ul class="product__item__pic__hover">
-	                                    <c:catch>
-											<c:choose>
-												<c:when test="${id eq null}">
-			                                        <li><a href="login.jsp" id="notice"><i class="fa fa-heart"></i></a></li>
-			                                        <li><a href="login.jsp" id="notice"><i class="fa fa-shopping-cart"></i></a></li>
-												</c:when>
-												<c:otherwise>
-													<input type="text" id="inputNo" hidden="hidden" value="${i.item_no }">
-												</c:otherwise>
-											</c:choose>
-										</c:catch>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="shopInfo.do?no=${i.item_no}&job=iteminfo">${i.item_name}</a></h6>
-                                   	<h5>${i.item_price}&nbsp;원</h5>
-                                </div>
+        	<!-- 정렬 -->
+			<div class="filter__item">
+        		<h3 class="product_title grid"><c:out value="${itemList['0'].item_category}"/></h3>
+				<div class="filter__option grid">
+					<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=lastest'">신상품순</span> 
+					<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=orderVolume'">판매량순</span>
+					<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=lowCost'">낮은 가격순</span>
+					<span OnClick="location.href='itemList.do?category=${pageList.category}&page=1&sort=highCost'">높은 가격순</span>
+				</div>
+			</div>
+			<!-- 상품 정보 출력 -->
+			<div class="row">
+				<c:forEach var="i" items="${itemList}" varStatus="cnt">
+                	<div class="col-lg-3 col-xs-6 col-xs-6">
+                    	<div class="product__item">
+                        	<div class="product__item__pic set-bg list-bg" data-setbg="${i.item_img }" 
+                        		OnClick="location.href='shopInfo.do?no=${i.item_no}&job=iteminfo'" id="img-href"></div>
+                            <div class="product__item__text">
+	                            <h6><a href="shopInfo.do?no=${i.item_no}&job=iteminfo">${i.item_name}</a></h6>
+	                           	<h5>${i.item_price}&nbsp;원</h5>
                             </div>
                         </div>
-                       </c:forEach>
-
-                       	<form id="idCheckSet" method="post" action="rightNow.do">
-							<input type="text" name="id" hidden="hidden" value="${id}">
-							<input type="text" name="no" id="no" hidden="hidden" value="">
-							<input type="text" name="job" id="job"  hidden="hidden" value="">
-						</form>
+                   	</div>
+                </c:forEach>
+            </div>
+           <!-- 페이징 -->
+            <div class="row justify-content-center">
+            	<div class="product__pagination listnum">
+                	<c:choose>
+						<c:when test="${pageList.startPage==1}">
+                      		<a href="itemList.do?category=${pageList.category}&page=${pageList.startPage}&sort=${pageList.sort}"><i class="fa fa-long-arrow-left"></i></a>
+						</c:when>
+						<c:otherwise>
+	                        <a href="itemList.do?category=${pageList.category}&page=${pageList.startPage-10}&sort=${pageList.sort}"><i class="fa fa-long-arrow-left"></i></a>
+						</c:otherwise>
+					</c:choose>
+                    
+                    <c:forEach varStatus="cnt" begin="${pageList.startPage}"  end="${pageList.endPage}">
+                    	<c:choose>
+							<c:when test="${cnt.index eq pageList.page }">
+                        		<a href="#" class="current-page">${cnt.index}</a>
+							</c:when>
+                        	<c:otherwise>
+								<a href="itemList.do?category=${pageList.category}&page=${cnt.index}&sort=${pageList.sort}">${cnt.index}</a>
+							</c:otherwise>
+						</c:choose>
+                   </c:forEach>
                        
-                    </div>
-                     <div class="row justify-content-center">
-                    <div class="product__pagination listnum">
-                     		 <c:choose>
-								<c:when test="${pageList.startPage==1}">
-                        			<a href="itemList.do?category=${pageList.category}&page=${pageList.startPage}&sort=${pageList.sort}"><i class="fa fa-long-arrow-left"></i></a>
-								</c:when>
-								 <c:otherwise>
-			                        <a href="itemList.do?category=${pageList.category}&page=${pageList.startPage-10}&sort=${pageList.sort}"><i class="fa fa-long-arrow-left"></i></a>
-								</c:otherwise>
-							</c:choose>
-						
-						
-							
-	                        <c:forEach varStatus="cnt" begin="${pageList.startPage}"  end="${pageList.endPage}">
-		                        <c:choose>
-								<c:when test="${cnt.index eq pageList.page }">
-		                        	<a href="#" class="current-page">${cnt.index}</a>
-								</c:when>
-		                        <c:otherwise>
-									<a href="itemList.do?category=${pageList.category}&page=${cnt.index}&sort=${pageList.sort}">${cnt.index}</a>
-								</c:otherwise>
-								</c:choose>
-	                        </c:forEach>
-	                        
-	                        <c:choose>
-								<c:when test="${pageList.endPage ne pageList.totalPage}">
-			                        <a href="itemList.do?category=${pageList.category}&page=${pageList.endPage+1}&sort=${pageList.sort}"><i class="fa fa-long-arrow-right"></i></a>
-								</c:when>
-								 <c:otherwise>
-			                        <a href="itemList.do?category=${pageList.category}&page=${pageList.endPage}&sort=${pageList.sort}"><i class="fa fa-long-arrow-right"></i></a>
-								</c:otherwise>
-							</c:choose>
-                   
-                    </div>
-                </div>
-          </div>
+                   <c:choose>
+						<c:when test="${pageList.endPage ne pageList.totalPage}">
+	                        <a href="itemList.do?category=${pageList.category}&page=${pageList.endPage+1}&sort=${pageList.sort}"><i class="fa fa-long-arrow-right"></i></a>
+						</c:when>
+						<c:otherwise>
+	                        <a href="itemList.do?category=${pageList.category}&page=${pageList.endPage}&sort=${pageList.sort}"><i class="fa fa-long-arrow-right"></i></a>
+						</c:otherwise>
+				   </c:choose>
+              	</div>
+          	</div>
+       	</div>
     </section>
-    <!-- Product Section End -->
+
 
 	<jsp:include page="footer.jsp" />
 
@@ -146,17 +123,6 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
 <script>
-$(function(){
-	$("a#notice").on('click',function() {
-		if (confirm("로그인이 필요한 페이지입니다. 로그인 하시겠습니까?") == true) { //확인
-			document.removefrm.submit();
-		} else { //취소
-			return false;
-		}
-	});
-
-	
-});
 
 </script>
 

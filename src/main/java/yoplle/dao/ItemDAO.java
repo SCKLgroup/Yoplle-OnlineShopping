@@ -48,9 +48,9 @@ public class ItemDAO extends SqlSessionDaoSupport {
 		return this.getSqlSession().selectList("recipeMatch", no);
 	}
 
+	// 상품 리스트 출력 (판매량순)
 	public List<ItemVO> selectItemVolume(HashMap<String, Object> map){
 		return this.getSqlSession().selectList("selectItemVolume", map);
-	
 	}
 
 	public Integer getItemSequence() { // 상품 시퀀스
