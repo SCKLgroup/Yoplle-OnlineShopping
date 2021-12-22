@@ -32,10 +32,11 @@ public class ItemController {
 	@Autowired
 	private ReviewDAO reviewdao;
 
-	//상품--------------------------------
-		@RequestMapping(value="/yoplle/itemList.do") //상품 리스트
+	// 상품 리스트 출력
+		@RequestMapping(value="/yoplle/itemList.do") 
 		public String itemList(Model model, String sort, int page,String category) {
-			switch (category) {
+			
+			switch (category) { //카테고리별로 출력하기 위해 저장
 			case "meat":
 				category="육류계란"; break;
 			case "vegetable":
@@ -47,29 +48,32 @@ public class ItemController {
 			case "sauce":
 				category="소스"; break;
 			}
-			PagingVO vo = new PagingVO(page,itemdao.itemCount(category));
 			
 			HashMap<String, Object> map =new HashMap<String, Object>();
 			
+			// 페이징
+			PagingVO vo = new PagingVO(page,itemdao.itemCount(category));
 			map.put("page", page);
 			map.put("totalPage", vo.getTotalPage());
 			map.put("start", vo.getStartList());
 			map.put("end", vo.getEndList());
 			map.put("startPage", vo.getStartPage());
 			map.put("endPage", vo.getEndPage());
-			map.put("sort",	sort);
-			map.put("category",	category);
 			
-			if(sort.equals("orderVolume")) {
+			map.put("sort",	sort); //정렬 기준
+			map.put("category",	category); //상품 카테고리
+			
+			if(sort.equals("orderVolume")) { //판매량순
 				model.addAttribute("itemList", itemdao.selectItemVolume(map));
 				model.addAttribute("pageList", map);
-			}else {
+			}else { //그외 정렬 기준
 				model.addAttribute("itemList", itemdao.selectItemList(map));
 				model.addAttribute("pageList", map);
 			}
 			
 			return "yoplle/shop-grid";
 		}
+		
 	@RequestMapping(value = "/yoplle/shopInfo.do") // 상품 페이지 출력
 	public String shopInfoAction(int no, String job, Model model, FaqListVO vo, ReviewVO rvo, String id, ShopDeRecipeVO sdr) {
 		model.addAttribute("faqList", reviewdao.selectFaqList(no)); // 아이템 넘버에 따라 해당 문의 출력

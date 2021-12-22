@@ -14,7 +14,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		Select count(*) from item where ITEM_CATEGORY=#{value}
   	</select>
   	
-	<select id="selectItemList" parameterType="HashMap" resultType="yoplle.vo.ItemVO"> <!-- 상품 리스트 -->
+  	<!-- 상품 리스트 -->
+	<select id="selectItemList" parameterType="HashMap" resultType="yoplle.vo.ItemVO">
 		SELECT * FROM
 		(SELECT
 			ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE,
