@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 상품 상세 -->
- 	<select id="selectInfoItem" parameterType="int" resultType="item">
+ 	<select id="selectInfoItem" parameterType="int" resultType="yoplle.vo.ItemVO">
 		SELECT
 		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
 		FROM ITEM
@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 상품 검색 -->
-	<select id="selectsearchItemList" parameterType="String" resultType="item"> 
+	<select id="selectsearchItemList" parameterType="String" resultType="yoplle.vo.ItemVO"> 
 		SELECT
 		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
 		FROM ITEM

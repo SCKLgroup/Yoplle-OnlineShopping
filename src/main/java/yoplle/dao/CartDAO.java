@@ -23,34 +23,30 @@ public class CartDAO extends SqlSessionDaoSupport {
 		this.setSqlSessionTemplate(st);
 	}
 	
-	public List<CartVO> selectCartAction(String id) { //장바구니 출력
+	// 장바구니 리스트
+	public List<CartVO> selectCartAction(String id) {
 		return this.getSqlSession().selectList("selectCart", id);
 	}
 	
-	public CartVO cartCheckAction(HashMap<String, Object> map) { //장바구니 동일 상품 체크
+	// 장바구니 동일 상품 체크
+	public CartVO cartCheckAction(HashMap<String, Object> map) {
 		return this.getSqlSession().selectOne("cartCheck", map);
 	}
 	
-	public void insertCartAction(HashMap<String, Object> map) { //장바구니 담기
+	// 장바구니 담기
+	public void insertCartAction(HashMap<String, Object> map) { 
 		this.getSqlSession().insert("insertCart", map);
 	}
 
-	public void updateCartQuan(HashMap<String, Object>map) { //장바구니 수량 업데이트
+	// 장바구니 수량 업데이트
+	public void updateCartQuan(HashMap<String, Object>map) {
 		this.getSqlSession().update("updateCartQuan", map);
 	}
-
-	public void selectDeleteCart(int no) { //장바구니 상품 삭제
+	
+	// 장바구니 상품 삭제
+	public void selectDeleteCart(int no) {
 		this.getSqlSession().delete("selectDeleteCart", no);
 	}
 	
-	
-	
-//	public int countCart(int no) {
-//		return this.getSqlSession().selectOne("countCart", no);
-//	}
-	
-//	public void updateCartAction(HashMap<String, Object> map) { //장바구니 상품 개수 업데이트
-//	this.getSqlSession().update("updateCart", map);
-//}
 	
 }
