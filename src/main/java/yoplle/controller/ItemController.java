@@ -94,7 +94,8 @@ public class ItemController {
 		}
 	}
 	
-	@RequestMapping(value="/yoplle/searchProduct.do") //상품 검색
+	// 상품 검색
+	@RequestMapping(value="/yoplle/searchProduct.do") 
 	public String searchProductAction(@RequestParam String search, Model model) {
 		model.addAttribute("searchItemList", itemdao.searchItemList(search));
 		return "yoplle/search-grid";

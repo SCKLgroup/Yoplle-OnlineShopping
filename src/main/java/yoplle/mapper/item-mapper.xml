@@ -34,8 +34,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE ITEM_CATEGORY=#{category})
         WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
-
- 	<select id="selectInfoItem" parameterType="int" resultType="item"> <!-- 상품 상세 -->
+	
+	<!-- 상품 상세 -->
+ 	<select id="selectInfoItem" parameterType="int" resultType="item">
 		SELECT
 		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
 		FROM ITEM
@@ -43,7 +44,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ITEM_NO=#{itemno}
 	</select>
 	
-	<select id="selectsearchItemList" parameterType="String" resultType="item"> <!-- 상품 검색 -->
+	<!-- 상품 검색 -->
+	<select id="selectsearchItemList" parameterType="String" resultType="item"> 
 		SELECT
 		ITEM_NO,EMP_NO,ITEM_NAME,ITEM_CATEGORY,ITEM_DE_CONTENT,ITEM_IMG,ITEM_PRICE,ITEM_ORIGIN,ITEM_EA,ITEM_STOCK,TO_CHAR(ITEM_DATE,'YYYY/MM/DD')ITEM_DATE
 		FROM ITEM

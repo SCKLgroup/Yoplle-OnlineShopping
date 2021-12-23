@@ -24,23 +24,28 @@ public class ItemDAO extends SqlSessionDaoSupport {
 		this.setSqlSessionTemplate(st);
 	}
 
-	public List<ItemVO> selectItemCategory(String category) { //상품 리스트
+	// 상품 리스트
+	public List<ItemVO> selectItemCategory(String category) { 
 		return this.getSqlSession().selectList("selectItemCategory",category);
 	}
 	
-	public ItemVO selectInfoItem(int no) { //상품 상세
+	// 상품 상세
+	public ItemVO selectInfoItem(int no) {
 		return this.getSqlSession().selectOne("selectInfoItem", no);
 	}
 
-	public Integer itemCount(String category) { //카테고리별 상품 수
+	// 카테고리별 상품 수
+	public Integer itemCount(String category) { 
 		return this.getSqlSession().selectOne("getTotalItem", category);
 	}
-
-	public List<ItemVO> selectItemList(HashMap<String, Object> map) { //상품 리스트
+	
+	// 상품 리스트
+	public List<ItemVO> selectItemList(HashMap<String, Object> map) { 
 		return this.getSqlSession().selectList("selectItemList", map);
 	}
 	
-	public List<ItemVO> searchItemList(String search) { //상품 검색
+	// 상품 검색
+	public List<ItemVO> searchItemList(String search) { 
 		return this.getSqlSession().selectList("selectsearchItemList",search);
 	}
 	
