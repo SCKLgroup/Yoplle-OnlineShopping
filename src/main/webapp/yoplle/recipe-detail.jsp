@@ -271,26 +271,27 @@
 	      }
 	   });
 	   
-	   $(function(){
-	 		$("button#replybtn").click(function(){
-	 			replyAjax('${pageContext.request.contextPath}/recipeReply.do',$("form#replyForm").serialize(),'json');
-	 	    });
-	 	});
-	   
-	   function replyAjax(url,data,dataType){
-		     $.ajax({
-		          url:url,
-		          type:'POST',
-		          data:data,
-		          dataType:dataType,              
-		          success:function(v){
-		             ajaxReplyList(v);
-		          },
-		          error:function(e){
-		             alert('error'+e);
-		          }
-		       });   
-		  }
+   // 댓글 작성 
+   $(function(){
+ 		$("button#replybtn").click(function(){
+ 			replyAjax('${pageContext.request.contextPath}/recipeReply.do',$("form#replyForm").serialize(),'json');
+ 	    });
+ 	});
+   
+   function replyAjax(url,data,dataType){
+	     $.ajax({
+	          url:url,
+	          type:'POST',
+	          data:data,
+	          dataType:dataType,              
+	          success:function(v){
+	             ajaxReplyList(v);
+	          },
+	          error:function(e){
+	             alert('error'+e);
+	          }
+	       });   
+	  }
   
    function ajaxReplyList(v){
       var temp="";
@@ -312,12 +313,11 @@
        $("textarea#replyArea").val('');
    }
    
+   // 댓글 삭제
    function replyDel(replyno){
 	   if (confirm("댓글을 삭제하시겠습니까?") == true) { //확인
 	    	  replyAjax('/web/deleteRecipeReply.do',
-	    			 { "no":replyno,
-	        	  	 "rpe_no":${recipeInfoList.rpe_no}},
-	    			  'json');
+	    			 { "no":replyno, "rpe_no":${recipeInfoList.rpe_no}}, 'json');
 	  	} else { //취소
 	         return false;
 	   	}

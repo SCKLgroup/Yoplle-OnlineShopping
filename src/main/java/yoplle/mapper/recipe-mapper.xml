@@ -179,11 +179,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 WHERE RPE_DE_NO=#{RPE_DE_NO}
 	</update>
 	
-
+	<!-- 댓글 개수 -->
+	<select id="countRecipeReply" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM RECIPE_COM WHERE RPE_NO=#{rpe_no}
+	</select>
+	
+	<!-- 댓글 리스트 -->
+	<select id="selectRecipeReply" parameterType="int" resultType="yoplle.vo.RecipeComVO">
+		SELECT COM_NO,RPE_NO, C.USER_NO, USER_ID,COM_CONTENT,COM_PNUM,COM_STEP,COM_LEV,COM_REF,COM_REPLY,COM_JOB,COM_DATE
+		FROM RECIPE_COM C, USERINFO U
+		WHERE C.USER_NO = U.USER_NO AND RPE_NO=#{rpe_no}
+		ORDER BY COM_REF DESC
+	</select>
+	
+	<!-- 댓글 순서 -->
 	<select id="getComRefSeq" resultType="Integer">
 		SELECT COM_REF_SEQ.NEXTVAL FROM DUAL
 	</select>
 	
+	<!-- 댓글 작성 -->
 	<insert id="inserRecipeReply" parameterType="yoplle.vo.RecipeComVO">
 		<selectKey keyProperty="com_no" resultType="int" order="BEFORE">
 			SELECT RECIPE_COM_SEQ.NEXTVAL FROM DUAL
@@ -192,17 +206,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(#{com_no},#{rpe_no},#{user_no},#{com_content},#{com_pnum},#{com_step},#{com_lev},#{com_ref},0,#{com_job},sysdate)
 	</insert>
 	
-	<select id="selectRecipeReply" parameterType="int" resultType="yoplle.vo.RecipeComVO">
-		SELECT COM_NO,RPE_NO, C.USER_NO, USER_ID,COM_CONTENT,COM_PNUM,COM_STEP,COM_LEV,COM_REF,COM_REPLY,COM_JOB,COM_DATE
-		FROM RECIPE_COM C, USERINFO U
-		WHERE C.USER_NO = U.USER_NO AND RPE_NO=#{rpe_no}
-		ORDER BY COM_REF DESC
-	</select>
-	
-	<select id="countRecipeReply" parameterType="int" resultType="int">
-		SELECT COUNT(*) FROM RECIPE_COM WHERE RPE_NO=#{rpe_no}
-	</select>
-	
+	<!-- 댓글 삭제 -->
 	<delete id="deleteRecipeReply" parameterType="int">
 		DELETE FROM RECIPE_COM WHERE COM_NO=#{no}
 	</delete>

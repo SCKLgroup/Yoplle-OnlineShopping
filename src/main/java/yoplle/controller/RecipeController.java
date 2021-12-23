@@ -288,23 +288,7 @@ public class RecipeController {
 		return "redirect:/yoplle/recipeList.do?page=1&sort=lastest";
 	}
 
-	@RequestMapping(value = "recipeReply.do")
-	@ResponseBody
-	public HashMap<String, Object> inserRecipeReply(RecipeComVO vo) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		if (vo.getCom_job().equals("new")) {
-			vo.setCom_pnum(0);
-			vo.setCom_lev(0);
-			vo.setCom_step(0);
-			vo.setCom_ref(dao.getComRefSeq());
-		}
-		dao.inserRecipeReply(vo);
-		map.put("count", dao.countRecipeReply(vo.getRpe_no()));
-		map.put("replyList", dao.selectRecipeReply(vo.getRpe_no()));
-
-		return map;
-	}
-
+	// 댓글 리스트 출력 
 	@RequestMapping(value = "recipeReplyList.do")
 	@ResponseBody
 	public HashMap<String, Object> recipeReplyList(int rpe_no) {
@@ -313,15 +297,35 @@ public class RecipeController {
 		map.put("replyList", dao.selectRecipeReply(rpe_no));
 		return map;
 	}
+	
+	// 댓글 작성
+	@RequestMapping(value = "recipeReply.do")
+	@ResponseBody
+	public HashMap<String, Object> inserRecipeReply(RecipeComVO vo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+//		if (vo.getCom_job().equals("new")) {
+//			vo.setCom_pnum(0);
+//			vo.setCom_lev(0);
+//			vo.setCom_step(0);
+//		}
+		vo.setCom_ref(dao.getComRefSeq()); //댓글 순서 저장
+		dao.inserRecipeReply(vo); //작성한 댓글 정보 DB에 저장
+		map.put("count", dao.countRecipeReply(vo.getRpe_no())); //댓글 개수
+		map.put("replyList", dao.selectRecipeReply(vo.getRpe_no())); //댓글 리스트 출럭
 
+		return map;
+	}
+
+	// 댓글 삭제 
 	@RequestMapping(value = "deleteRecipeReply.do")
 	@ResponseBody
 	public HashMap<String, Object> deleteRecipeReply(int rpe_no, int no) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-		dao.deleteRecipeReply(no);
-		map.put("count", dao.countRecipeReply(rpe_no));
-		map.put("replyList", dao.selectRecipeReply(rpe_no));
+		dao.deleteRecipeReply(no); //댓글 삭제 
+		map.put("count", dao.countRecipeReply(rpe_no)); //댓글 개수
+		map.put("replyList", dao.selectRecipeReply(rpe_no)); //댓글 리스트 출력
+		
 		return map;
 	}
 }

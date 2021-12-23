@@ -128,21 +128,31 @@ public class RecipeDAO extends SqlSessionDaoSupport {
 		this.getSqlSession().update("rpeDeModify", vo);
 	}
 	
-	public void inserRecipeReply(RecipeComVO vo){
-		this.getSqlSession().insert("inserRecipeReply",vo);
-	}
-	public Integer getComRefSeq() {
-		return this.getSqlSession().selectOne("getComRefSeq");
-	}
+	// 댓글 개수
+	public int countRecipeReply(int rpe_no) {
+		return this.getSqlSession().selectOne("countRecipeReply",rpe_no);
+	}	
+	
+	// 댓글 리스트
 	public List<RecipeComVO> selectRecipeReply(int rpe_no){
 		return this.getSqlSession().selectList("selectRecipeReply",rpe_no);
 	}
-	public int countRecipeReply(int rpe_no) {
-		return this.getSqlSession().selectOne("countRecipeReply",rpe_no);
+	
+	// 댓글 순서
+	public Integer getComRefSeq() {
+		return this.getSqlSession().selectOne("getComRefSeq");
 	}
+	
+	// 댓글 작성 
+	public void inserRecipeReply(RecipeComVO vo){
+		this.getSqlSession().insert("inserRecipeReply",vo);
+	}
+	
+	// 댓글 삭제 
 	public void deleteRecipeReply(int rpe_no) {
 		this.getSqlSession().delete("deleteRecipeReply",rpe_no);
 	}
+	
 	public List<RecipeVO> selectMypageList(int userNo) {
 			return this.getSqlSession().selectList("MypageList", userNo);
 	}
