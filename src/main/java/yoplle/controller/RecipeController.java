@@ -303,12 +303,7 @@ public class RecipeController {
 	@ResponseBody
 	public HashMap<String, Object> inserRecipeReply(RecipeComVO vo) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-//		if (vo.getCom_job().equals("new")) {
-//			vo.setCom_pnum(0);
-//			vo.setCom_lev(0);
-//			vo.setCom_step(0);
-//		}
-		vo.setCom_ref(dao.getComRefSeq()); //댓글 순서 저장
+
 		dao.inserRecipeReply(vo); //작성한 댓글 정보 DB에 저장
 		map.put("count", dao.countRecipeReply(vo.getRpe_no())); //댓글 개수
 		map.put("replyList", dao.selectRecipeReply(vo.getRpe_no())); //댓글 리스트 출럭
