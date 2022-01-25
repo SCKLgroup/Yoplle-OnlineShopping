@@ -172,7 +172,7 @@ public class UserController {
 	@RequestMapping(value = "userList.do")
 	@ResponseBody
 	public HashMap<String, Object> selectUser(@RequestParam(value = "job", defaultValue = "user_no") String job,
-			@RequestParam(value = "sort", defaultValue = "asc") String sort) { 
+			@RequestParam(value = "sort", defaultValue = "desc") String sort) { 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("job", job); // 정렬 기준 설정
 		map.put("sort", sort);

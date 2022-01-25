@@ -28,7 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM DUAL
 	</select>
 	
-	<select id="getTotalRecipe" resultType="int"> <!-- 레시피 수  -->
+	<!-- 레시피 수  -->
+	<select id="getTotalRecipe" resultType="int"> 
   		SELECT COUNT(*) FROM RECIPE
   	</select>
 
@@ -43,8 +44,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			    ORDER BY ${dbsort} DESC) LIST)
 		WHERE RNUM BETWEEN ${start} AND ${end}
 	</select>
-
-	<select id="selectInfoRecipe" parameterType="int" resultType="yoplle.vo.RecipeVO"> <!-- 레시피 상세 -->
+	
+	<!-- 레시피 상세 -->
+	<select id="selectInfoRecipe" parameterType="int" resultType="yoplle.vo.RecipeVO"> 
 		SELECT
 		RPE_NO, R.USER_NO, USER_ID, RPE_TITLE, RPE_CONTENT, RPE_IMG, RPE_CATEGORY, RPE_TIME, 
 			RPE_QUAN, RPE_DIFF, RPE_LIKE, TO_CHAR(RPE_DATE,'YYYY/MM/DD')RPE_DATE, RPE_HIT
@@ -53,26 +55,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND RPE_NO=#{USER_NO}
 	</select>
 	
-	<select id="selectRecipeHash" parameterType="int" resultType="yoplle.vo.RecipeHashVO"> <!-- 레시피 해시태그 -->
+	<!-- 레시피 해시태그 -->
+	<select id="selectRecipeHash" parameterType="int" resultType="yoplle.vo.RecipeHashVO"> 
 		SELECT RPE_HASH_NO, RPE_NO, RPE_HASH_TAG
 		FROM RECIPE_HASH
 		WHERE RPE_NO=#{value}
 	</select>
 	
-	<select id="selectRecipeIngr" parameterType="int" resultType="yoplle.vo.RecipeIngrVO"> <!-- 레시피 재료 -->
+	<!-- 레시피 재료 -->
+	<select id="selectRecipeIngr" parameterType="int" resultType="yoplle.vo.RecipeIngrVO">
 		SELECT INGR_NO, RPE_NO, INGR_NAME, INGR_MAIN_CHECK, INGR_QUAN
 		FROM RECIPE_INGR
 		WHERE RPE_NO=#{value}
 	</select>
 	
-	<select id="selectRecipeDe" parameterType="int" resultType="yoplle.vo.RecipeDeVO"> <!-- 레시피 과정  -->
+	<!-- 레시피 과정  -->
+	<select id="selectRecipeDe" parameterType="int" resultType="yoplle.vo.RecipeDeVO"> 
 		SELECT RPE_DE_NO, RPE_NO, RPE_DE_CONTENT, RPE_DE_IMG, RRE_DE_SE
 		FROM RECIPE_DE
 		WHERE RPE_NO=#{value}
 		ORDER BY RRE_DE_SE ASC
 	</select>
 	
-	<select id="selectRecipeIngrMain" parameterType="int" resultType="String"> <!-- 주재료 찾기 -->
+	<!-- 주재료 찾기 -->
+	<select id="selectRecipeIngrMain" parameterType="int" resultType="String"> 
 		SELECT INGR_NAME
 		FROM RECIPE_INGR
 		WHERE RPE_NO=#{value} and  INGR_MAIN_CHECK =0
@@ -124,7 +130,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(recipe_de_seq.nextval,#{rpe_no},#{RPE_DE_CONTENT},#{RPE_DE_IMG},recipe_de_se.nextval)
 	</insert>
 
-	<delete id="recipeDelete" parameterType="int"> <!-- 레시피 삭제 -->
+	<!-- 레시피 삭제 -->
+	<delete id="recipeDelete" parameterType="int"> 
 		DELETE FROM RECIPE
 		WHERE
 		RPE_NO=#{value}

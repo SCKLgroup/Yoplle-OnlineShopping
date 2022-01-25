@@ -16,11 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID=#{VALUE}
 	</select>
 
-	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> <!-- 아이디 중복체크 -->
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> 
 		SELECT COUNT(*) FROM USERINFO WHERE USER_ID=#{value}
 	</select>
 
-	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO"> <!-- 회원가입 -->
+ 	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO">
 		<selectKey keyProperty="user_no" resultType="int" order="BEFORE">
 			SELECT USERINFO_SEQ.NEXTVAL FROM DUAL
 		</selectKey>

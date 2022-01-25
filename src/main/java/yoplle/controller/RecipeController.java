@@ -78,7 +78,7 @@ public class RecipeController {
 		}
 		map.put("rpeNo", no);
 
-		if (session.getAttribute("no") != null) {
+		if (session.getAttribute("no") != null) { //회원 아이디 세션이 존재할 경우 
 			map.put("userNo", session.getAttribute("no"));
 			model.addAttribute("likeCheck", dao.selectLikeList(map));
 		}
