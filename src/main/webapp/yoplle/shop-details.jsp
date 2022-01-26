@@ -116,8 +116,7 @@
 		<!-- 추천 레시피 박스 -->
 		<div class="product-match-recipe">
 		<c:if test="${not empty recipeMatch}">
-		<div id=
-		"card-part">
+		<div id="card-part">
 	<span class="card-item-title">추천 레시피 살펴보기</span>
 	<span class="card-item-title-second">Recipe</span>
  <div class="row shop">

@@ -148,7 +148,8 @@
         $.getScript('js/main.js');
  	}
 
- 	$(document).on("click",'.pro-qty',function(){ //수정해야됨 
+ 	// 상품 개수 업데이트
+ 	$(document).on("click",'.pro-qty',function(){ 
 		var cart_no=$(this).attr("id");
 		$("input[name="+cart_no+"]").val(parseInt($("input[name="+cart_no+"]").val()));
 		var cart_quan = $("input[name="+cart_no+"]").val();

@@ -168,10 +168,11 @@ public class UserController {
 		return "redirect:/yoplle/mainPage.do";
 	}
 
+	// 회원 리스트 출력(관리자 페이지)
 	@RequestMapping(value = "userList.do")
 	@ResponseBody
 	public HashMap<String, Object> selectUser(@RequestParam(value = "job", defaultValue = "user_no") String job,
-			@RequestParam(value = "sort", defaultValue = "asc") String sort) { // 회원 리스트 출력(관리자 페이지)
+			@RequestParam(value = "sort", defaultValue = "desc") String sort) { 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("job", job); // 정렬 기준 설정
 		map.put("sort", sort);
@@ -182,9 +183,10 @@ public class UserController {
 		return map;
 	}
 
+	// 회원 삭제(관리자 페이지)
 	@RequestMapping(value = "userDelete.do")
 	@ResponseBody
-	public HashMap<String, Object> deleteUser(int no, String job, String sort) { // 회원 삭제(관리자 페이지)
+	public HashMap<String, Object> deleteUser(int no, String job, String sort) { 
 		dao.deleteUser(no); // 해당 유저 삭제
 
 		HashMap<String, Object> map = new HashMap<String, Object>();

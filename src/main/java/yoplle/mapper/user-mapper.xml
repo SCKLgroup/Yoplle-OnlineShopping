@@ -16,11 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID=#{VALUE}
 	</select>
 
-	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> <!-- 아이디 중복체크 -->
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="java.lang.String" resultType="Integer"> 
 		SELECT COUNT(*) FROM USERINFO WHERE USER_ID=#{value}
 	</select>
 
-	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO"> <!-- 회원가입 -->
+ 	<!-- 회원가입 -->
+	<insert id="insertUser" parameterType="yoplle.vo.UserInfoVO">
 		<selectKey keyProperty="user_no" resultType="int" order="BEFORE">
 			SELECT USERINFO_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
@@ -58,12 +60,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where user_no=#{user_no}
 	</update>
 
+
 	
-	<select id="countUser" resultType="int"> <!--  회원수 카운트 -->
-		SELECT COUNT(*) FROM USERINFO
-	</select>
-	
-	<select id="selectUser" parameterType="java.util.HashMap" resultType="yoplle.vo.UserInfoVO"> <!-- 회원 리스트 출력(관리자) -->
+	<!-- 회원 리스트 출력(관리자) -->
+	<select id="selectUser" parameterType="java.util.HashMap" resultType="yoplle.vo.UserInfoVO"> 
 		SELECT USER_NO, USER_ID, USER_PW, USER_PRO_IMG, USER_NAME, USER_TEL, USER_MAIL,
 			TO_CHAR(USER_DATE,'YYYY-MM-DD')USER_DATE, USER_BIRTH, USER_GENDER, USER_ADDRESS 
 		FROM USERINFO
@@ -107,7 +107,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 </choose>
 	</select>
 	
-	<delete id="deleteUser" parameterType="int"> <!--  회원 삭제(관리자) -->
+	<!--  회원수 카운트 -->
+	<select id="countUser" resultType="int"> 
+		SELECT COUNT(*) FROM USERINFO
+	</select>
+	
+	<!--  회원 삭제(관리자) -->
+	<delete id="deleteUser" parameterType="int"> 
 		DELETE FROM USERINFO
 		WHERE USER_NO=#{value}	
 	</delete>
