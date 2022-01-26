@@ -112,7 +112,7 @@ public class RecipeController {
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "files", required = false) List<MultipartFile> fileList,
 			MultipartHttpServletRequest request, int userNo) { // httpservlet
-		String location = "C:\\Users\\wjchu\\git\\yoplleProject\\src\\main\\webapp\\yoplle\\img\\recipe\\";
+		String location = "C:\\Users\\wjchu\\git\\yoplleProject\\src\\main\\webapp\\yoplle\\img\\recipe\\"; //저장될 로컬폴더 위치
 		FileOutputStream fos = null;
 		String fileName = file.getOriginalFilename(); // 업로드 된 파일의 고유 이름을 fileName에 저장
 
@@ -122,7 +122,7 @@ public class RecipeController {
 				fos.write(file.getBytes());
 				rvo.setRpe_img(fileName); // RecipeVO에 set rpe_img
 
-			} catch (Exception e) {
+			} catch (Exception e) { 
 				e.printStackTrace();
 			} finally {
 				try {

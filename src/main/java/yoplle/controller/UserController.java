@@ -153,7 +153,7 @@ public class UserController {
 
 	@RequestMapping(value = "/yoplle/mypage.do") //마이페이지
 	public String mypageAction(Model model, String id) {
-		model.addAttribute("userinfo", dao.userInfoSelect(id)); //아이디와 일치하는 유저의 정보를 
+		model.addAttribute("userinfo", dao.userInfoSelect(id)); //아이디와 일치하는 유저의 정보를 가져옴
 		return "/yoplle/personal-inform";
 	}
 
